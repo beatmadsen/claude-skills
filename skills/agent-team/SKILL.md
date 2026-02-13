@@ -8,6 +8,10 @@ allowed-tools: Bash Task TeamCreate SendMessage Read TaskCreate TaskUpdate TaskL
 
 Bootstrap a 4-agent mob programming team and orchestrate their work.
 
+## Step 0: Verify agent-chat is installed
+
+Run `which agent-chat`. If it is not found, tell the user it is required and offer to install it with `gem install agent-chat`. Stop and wait for confirmation before proceeding.
+
 ## Step 1: Generate a fresh room name
 
 Run `openssl rand -hex 2` to get a 4-character hex string. The room name is `mob-<hex>` (e.g. `mob-a3f7`). Store this as ROOM for all subsequent commands.
