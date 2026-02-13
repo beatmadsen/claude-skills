@@ -20,7 +20,11 @@ Run `openssl rand -hex 2` to get a 4-character hex string. The room name is `mob
 
 Use `TeamCreate` with team_name `mob`.
 
-## Step 3: Spawn agents
+## Step 3: Detect available agent types
+
+Check if custom agent types `testing-coach` and `craftsman` are available by looking for `.claude/agents/testing-coach.md` and `.claude/agents/craftsman.md` (in both `~/.claude/agents/` and the project's `.claude/agents/`). If either is not found, fall back to `general-purpose` for that role. The prompt templates work with any agent type — the specialized types just add extra coaching behavior.
+
+## Step 4: Spawn agents
 
 Spawn all 4 agents in parallel using the Task tool. Each agent MUST use:
 - `team_name: "mob"`
@@ -36,10 +40,10 @@ Read the prompt template for each agent and use it as the agent's `prompt` param
 |-------|--------------|-----------------|
 | dev-alice | `general-purpose` | [references/dev-alice.md](references/dev-alice.md) |
 | dev-bob | `general-purpose` | [references/dev-bob.md](references/dev-bob.md) |
-| testing-coach | `testing-coach` | [references/testing-coach.md](references/testing-coach.md) |
-| craftsman | `craftsman` | [references/craftsman.md](references/craftsman.md) |
+| testing-coach | `testing-coach` or `general-purpose` (see Step 3) | [references/testing-coach.md](references/testing-coach.md) |
+| craftsman | `craftsman` or `general-purpose` (see Step 3) | [references/craftsman.md](references/craftsman.md) |
 
-## Step 4: Post the task
+## Step 5: Post the task
 
 After all agents have been spawned, post the user's task to the mob room:
 
@@ -53,7 +57,7 @@ Then assign initial roles:
 echo "Roles: dev-alice is DRIVER, dev-bob is NAVIGATOR. Rotate after each sub-task." | agent-chat send --room {ROOM} --author orchestrator
 ```
 
-## Step 5: Orchestrator loop
+## Step 6: Orchestrator loop
 
 You are the orchestrator. Your job:
 
