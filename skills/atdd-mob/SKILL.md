@@ -1,12 +1,12 @@
 ---
-name: agent-team
-description: Spin up a mob programming team with 2 devs, a testing coach, and a craftsman communicating via agent-chat
+name: atdd-mob
+description: Spin up an ATDD mob programming team with testing coaches and a craftsman communicating via agent-chat
 allowed-tools: Bash Task TeamCreate SendMessage Read TaskCreate TaskUpdate TaskList TaskStop
 ---
 
 # Mob Programming Team
 
-Bootstrap a 4-agent mob programming team and orchestrate their work.
+Bootstrap a 3-agent mob programming team and orchestrate their work.
 
 ## Step 0: Verify agent-chat is installed
 
@@ -26,11 +26,11 @@ Check if custom agent types `testing-coach` and `craftsman` are available by loo
 
 ## Step 4: Spawn agents
 
-Spawn all 4 agents in parallel using the Task tool. Each agent MUST use:
+Spawn all 3 agents in parallel using the Task tool. Each agent MUST use:
 - `team_name: "mob"`
 - `mode: "bypassPermissions"`
 - `run_in_background: true`
-- `name`: the agent's name (e.g. `"dev-alice"`) — required for SendMessage routing
+- `name`: the agent's name (e.g. `"atdd-coach"`) — required for SendMessage routing
 
 Replace `{ROOM}` with the generated room name and `{CWD}` with the user's current working directory in each prompt.
 
@@ -38,9 +38,8 @@ Read the prompt template for each agent and use it as the agent's `prompt` param
 
 | Agent | subagent_type | Prompt template |
 |-------|--------------|-----------------|
-| dev-alice | `general-purpose` | [references/dev-alice.md](references/dev-alice.md) |
-| dev-bob | `general-purpose` | [references/dev-bob.md](references/dev-bob.md) |
-| testing-coach | `testing-coach` or `general-purpose` (see Step 3) | [references/testing-coach.md](references/testing-coach.md) |
+| atdd-coach | `testing-coach` or `general-purpose` (see Step 3) | [references/atdd-coach.md](references/atdd-coach.md) |
+| tdd-coach | `testing-coach` or `general-purpose` (see Step 3) | [references/tdd-coach.md](references/tdd-coach.md) |
 | craftsman | `craftsman` or `general-purpose` (see Step 3) | [references/craftsman.md](references/craftsman.md) |
 
 ## Step 5: Post the task
@@ -54,7 +53,7 @@ echo "TASK: <user's task description here>" | agent-chat send --room {ROOM} --au
 Then assign initial roles:
 
 ```
-echo "Roles: dev-alice is DRIVER, dev-bob is NAVIGATOR. Rotate after each sub-task." | agent-chat send --room {ROOM} --author orchestrator
+echo "Roles: atdd-coach is DRIVER, tdd-coach is NAVIGATOR. craftsman reviews after each GREEN. Rotate driver/navigator after each sub-task." | agent-chat send --room {ROOM} --author orchestrator
 ```
 
 ## Step 6: Orchestrator loop
@@ -79,3 +78,4 @@ You are the orchestrator. Your job:
 - **sleep 3-4** between polls is the sweet spot. Shorter burns turns too fast, longer feels unresponsive.
 - **Agents need repeated shutdown requests** — they tend to go idle rather than approve on first ask. Send multiple shutdown requests when wrapping up.
 - **Specialized agents add real value** — testing-coach and craftsman genuinely improve discipline over generic agents.
+- **All agents can drive** — with no dedicated devs, every agent can be driver or navigator. Rotate freely.
