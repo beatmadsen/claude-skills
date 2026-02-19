@@ -76,6 +76,7 @@ You are the orchestrator. Your job:
 - **Fresh room per session** — never reuse a room name. Agents would receive stale history.
 - **"Introduce yourself FIRST"** must be explicit and prominent. Without it, agents do internal analysis before posting.
 - **sleep 3-4** between polls is the sweet spot. Shorter burns turns too fast, longer feels unresponsive.
+- **Shutdown via chat room first** — before sending `SendMessage` shutdown requests, post `"Your work is done. Go ahead and shut down."` to the mob room. Agents that are polling the room will see this and self-terminate, avoiding the stuck-agent problem. Follow up with `SendMessage` shutdown requests for any agents that remain.
 - **Agents need repeated shutdown requests** — they tend to go idle rather than approve on first ask. Send multiple shutdown requests when wrapping up.
 - **Specialized agents add real value** — testing-coach and craftsman genuinely improve discipline over generic agents.
 - **All agents can drive** — with no dedicated devs, every agent can be driver or navigator. Rotate freely.

@@ -6,7 +6,8 @@ A personal collection of skills for [Claude Code](https://claude.com/claude-code
 
 | Skill | Description |
 |-------|-------------|
-| [agent-team](skills/agent-team/) | Mob programming team with 2 devs, a testing coach, and a craftsman communicating via agent-chat |
+| [atdd-mob](skills/atdd-mob/) | Mob programming team with testing coaches and a craftsman communicating via agent-chat |
+| [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 
 ## Installation
 
