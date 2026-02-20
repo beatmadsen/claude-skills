@@ -46,6 +46,16 @@ Using `--quarter` gives a focused view of recent churn. Using `--json` makes the
 
 If the result is empty or the tool errors, retry with `--year` for a wider window. If that also fails, try without a time modifier.
 
+### Bundler interference
+
+If `churn_vs_complexity` fails with a `LoadError` (e.g. `cannot load such file -- churn_vs_complexity`), Bundler in the project is restricting gem loading. Work around this by running the command from a temporary directory outside the project while still passing the REPO_ROOT as an argument:
+
+```
+cd /tmp && churn_vs_complexity --hotspots --<language> --quarter --json REPO_ROOT
+```
+
+This avoids Bundler's environment while still analysing the correct repository.
+
 ## Step 4: Present the results
 
 Parse the JSON output. Present a summary to the user:
