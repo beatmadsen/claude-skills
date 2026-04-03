@@ -93,6 +93,166 @@ my-ralph/
 Supporting files (approach docs, lessons, references) typically live
 at the project root, read via commands (`cat approach.md`).
 
+## Guardrails — Preventing Runaway Loops
+
+Ralph runs indefinitely by default. The agent **cannot signal ralph to
+stop** — even if the agent detects "nothing to do" and exits cleanly,
+ralph treats exit code 0 as success and spawns the next iteration.
+Without guardrails, a completed project will burn tokens forever.
+
+### Mandatory: always set `-n` (max iterations)
+
+Never run `ralph run <dir>` without `-n`. Estimate how many iterations
+the task should take, then add a buffer (e.g., 2×). There is no
+downside — you can always run again.
+
+```bash
+# Good
+ralph run bridge -n 20
+
+# Dangerous — runs until Ctrl+C or heat death
+ralph run bridge
+```
+
+When helping a user write a `ralph run` command, **always include `-n`**.
+If they don't specify a count, ask or suggest a reasonable default.
+
+### Recommended: always set `-t` (per-iteration timeout)
+
+Prevents a single stuck iteration from blocking the loop forever.
+Typical value: 300–600 seconds (5–10 min) depending on task complexity.
+
+```bash
+ralph run bridge -n 20 -t 300
+```
+
+### Recommended: use `-s` (stop on error)
+
+Stops the loop if the agent exits non-zero or times out. Use this
+unless the task is expected to have intermittent failures.
+
+```bash
+ralph run bridge -n 20 -t 300 -s
+```
+
+### Recommended: use `-d` (delay between iterations)
+
+Adds a cooldown between iterations. Even a short delay (5–10s) gives
+you time to notice and Ctrl+C a runaway loop, and prevents hammering
+the API.
+
+```bash
+ralph run bridge -n 20 -t 300 -s -d 5
+```
+
+### The "done" pattern is not a guardrail
+
+A common pattern is a `done_check` command + prompt instruction:
+
+```markdown
+{{ commands.done_check }}
+**If ALL_DONE, do nothing and exit.**
+```
+
+This is useful for **skipping work** in an iteration, but it does NOT
+stop the loop. Ralph will keep running the next iteration. The `-n`
+flag is the only hard stop.
+
+### Standard recommended invocation
+
+```bash
+ralph run <dir> -n <count> -t 300 -s -d 5
+```
+
+## Supervised Runs — Monitor, Evaluate, Extend
+
+Rather than guessing the right `-n` upfront, start conservative and
+use a supervision loop: run a small batch, check progress, extend if
+needed. This prevents both runaway burns (too many iterations) and
+premature stops (too few).
+
+### The pattern
+
+1. **Start small.** Launch ralph with a low `-n` (5–10) and `-l` for
+   logs.
+2. **Monitor.** Check progress at tapering intervals.
+3. **Evaluate.** Decide: extend, stop, or intervene.
+4. **Extend.** If more work remains, launch another batch.
+
+```bash
+# Initial batch — conservative
+ralph run <dir> -n 5 -t 300 -s -d 5 -l /tmp/ralph-logs
+
+# After review — extend if meaningful progress is being made
+ralph run <dir> -n 10 -t 300 -s -d 5 -l /tmp/ralph-logs
+```
+
+### What to monitor
+
+Check these signals to decide whether to extend or stop:
+
+| Signal | How to check | Meaning |
+|--------|-------------|---------|
+| **Recent commits** | `git log --oneline -10` | Are new commits appearing? What do they describe? |
+| **Diff size** | `git diff HEAD~1 --stat` | Is each iteration producing meaningful changes? |
+| **Iteration duration** | Log files or timestamps on commits | Very short (<30s) suggests no-op/done loop |
+| **Test health** | Run the test command from RALPH.md | Are tests green? Count increasing? |
+| **Done condition** | Run the done_check command | Has the task completed? |
+| **Progress file** | `cat ralph/progress.md` or equivalent | How many items checked off vs remaining? |
+| **Thrashing** | `git log --oneline -10` + `git diff HEAD~2 HEAD` | Same files bouncing back and forth? |
+| **Drift** | Read last few commit messages | Is the agent still on-task? |
+
+### Degenerate patterns to watch for
+
+- **No-op loop**: Iterations complete in <30s with no git diff.
+  The agent is hitting a done/skip condition but ralph keeps going.
+  → Stop immediately.
+- **Thrashing**: The same files change, revert, change again across
+  consecutive commits. The agent is fighting itself.
+  → Stop and fix the prompt or constraints before resuming.
+- **Regression**: Tests that were green go red. Commit count rises
+  but quality drops.
+  → Stop, revert to last green commit, adjust prompt.
+- **Drift**: Agent starts doing work outside the task scope (adding
+  docs, refactoring unrelated code, "improving" things).
+  → Stop, tighten the prompt, resume.
+- **Stall**: An iteration hangs near the timeout limit producing
+  little output. Agent may be stuck in a loop or waiting on input.
+  → The `-t` flag handles this, but watch for repeated stalls.
+
+### Monitoring frequency — taper as stability builds
+
+- **Iterations 1–3**: Check after each. This is where bootstrap
+  failures, bad prompts, and wrong assumptions surface.
+- **Iterations 4–10**: Check every 2–3 iterations. If commits look
+  healthy and tests are green, the loop is stable.
+- **After 10+ stable iterations**: Check every 5–10. At this point
+  you're mainly watching for completion or drift.
+
+If any degenerate pattern appears, reset to high-frequency monitoring
+after fixing the issue.
+
+### Using Claude Code to supervise
+
+You can use `/loop` in a separate Claude Code session to automate
+monitoring:
+
+```
+/loop 5m Check the ralph run in <project-dir>: look at git log,
+test status, and progress file. Report whether it's making
+meaningful progress, is stuck, or is done.
+```
+
+Taper by increasing the interval once the run looks stable.
+
+### When helping a user set up a ralph run
+
+1. Always suggest starting with a small `-n` (5–10).
+2. Suggest monitoring the first few iterations closely.
+3. After the batch completes, review together and decide on the next
+   batch size — or stop if done.
+4. Prefer multiple small batches over one large one.
+
 ## What Ralph Is NOT
 
 - Not a runtime event loop or REPL
