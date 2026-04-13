@@ -1,6 +1,6 @@
 ---
 name: tome-lookup
-description: "Search the agent-tome knowledge base for prior research. TRIGGER as a first step when asked a knowledge question, research question, or 'what is X' question — check the tome BEFORE answering from memory or doing web research. Also trigger when the user asks about prior findings or references."
+description: "Search the agent-tome knowledge base for prior research. TRIGGER as a first step when asked a knowledge question, research question, or 'what is X' question — check the tome BEFORE answering from memory or doing web research. Also trigger when the user asks about prior findings or references. TRIGGER when preparing for meetings, reviews, or briefings where domain context would help. Even when the user provides specific links or documents to review, check the tome first for related domain context that could accelerate synthesis."
 allowed-tools: Bash Read
 ---
 
@@ -14,6 +14,8 @@ You are checking the agent-tome knowledge base for existing knowledge before doi
 - When the user asks "what is X", "how does X work", "tell me about X", or similar knowledge questions
 - When the user asks "do we know anything about X" or references prior findings
 - When you need sources or references on a topic
+- When preparing for meetings, reviews, or briefings where domain context would help
+- Even when the user provides specific links or documents to review — prior domain context accelerates synthesis
 
 ## Workflow
 
