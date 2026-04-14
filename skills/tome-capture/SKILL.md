@@ -17,6 +17,10 @@ You are saving research findings, discoveries, or accumulated knowledge to the a
 - When the user says "save this", "remember this", "add this to the knowledge base"
 - **Not** for ephemeral task context, debugging notes, or information that only matters for the current conversation
 
+## CLI command: `agent-tome create` (not `capture`)
+
+The skill is named "tome-capture" but the CLI command is `agent-tome create`. There is no `agent-tome capture` command — it will error with "Unknown command: capture".
+
 ## JSON formatting
 
 Shell strings with newlines don't work directly in JSON. Use Ruby to generate valid JSON:
