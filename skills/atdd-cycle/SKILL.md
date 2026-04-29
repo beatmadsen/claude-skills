@@ -88,11 +88,36 @@ After completing the cycle, note any discoveries:
 - Each inner cycle is motivated by the acceptance test failure
 - If you don't know what unit test to write next, re-run the acceptance test — the error message is your guide
 
-### Pragmatic exceptions to inner-loop testing
-- Trivial copies of existing patterns AND covered by the outer test → OK to skip unit test
-- View template changes calling existing helpers → covered by acceptance test
-- Pure orchestration (call service, render result) → covered by acceptance test
-- Document WHY when skipping
+### When inner unit tests can be skipped (narrow, last-resort)
+
+Default: write the inner unit test. Skip only when **both** of the
+following hold for the new code:
+
+1. **No new behavior, only new shape.** The logic is identical to
+   code that already has unit-test coverage and differs only in
+   parameters, types, or names. The 12th near-literal copy of a
+   well-tested pattern qualifies; the 1st does not.
+2. **No decisions of its own.** No conditionals, no validation, no
+   error paths, no choice of which collaborator to call. A single
+   straight-line delegation.
+
+If either condition fails, write the test — even if the class "looks
+like" others. New domain types (a new command class, a new model
+with methods, a new value object) almost never qualify.
+
+When you do skip, write a one-sentence justification that names the
+specific existing test that already covers the behavior — not a
+generic "covered by the acceptance test."
+
+### Why the skip clause exists at all, and why it bites
+
+Pragmatism is real: ceremonial tests for one-line delegations are
+maintenance cost without payoff. But AI agents systematically
+over-apply pragmatic exceptions — vague license plus lower token
+cost equals path of least resistance. If you find yourself reaching
+for this clause more than occasionally, you are using it wrong.
+The inner cycle is where TDD's design feedback comes from; skipping
+it skips the point.
 
 ### Commit often while green
 - After each inner GREEN+REFACTOR cycle is a good commit point
