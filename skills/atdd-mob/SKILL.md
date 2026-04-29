@@ -60,8 +60,11 @@ echo "Roles: atdd-coach is DRIVER, tdd-coach is NAVIGATOR. craftsman reviews aft
 
 You are the orchestrator. Your job:
 
-1. **Monitor** the mob room every 15-20 seconds:
-   `agent-chat receive --room {ROOM} --consumer orchestrator`
+1. **Monitor** the mob room using the Monitor tool with an until-loop. The harness blocks `sleep N && command` patterns, so you MUST use Monitor instead:
+   ```
+   Monitor: until agent-chat receive --room {ROOM} --consumer orchestrator | grep -q .; do sleep 3; done && agent-chat receive --room {ROOM} --consumer orchestrator
+   ```
+   Alternatively, call `agent-chat receive` directly via Bash (no leading sleep). If there are no new messages it returns immediately with empty output — that's fine, just call it again after doing other work or responding to the user. Prefer short direct polls over sleep-then-poll.
 
 2. **Nudge** any agent that hasn't posted in the mob room for a while. Use `SendMessage` to privately ask them if they're stuck.
 
@@ -75,7 +78,7 @@ You are the orchestrator. Your job:
 
 - **Fresh room per session** — never reuse a room name. Agents would receive stale history.
 - **"Introduce yourself FIRST"** must be explicit and prominent. Without it, agents do internal analysis before posting.
-- **sleep 3-4** between polls is the sweet spot. Shorter burns turns too fast, longer feels unresponsive.
+- **No `sleep` anywhere** — the harness blocks `sleep N && command` patterns for ALL agents, including subagents with `bypassPermissions`. Use direct `agent-chat receive` calls (returns immediately if no messages) or the Monitor tool with an until-loop for blocking waits. The agent prompt templates already omit sleep — do not add it back.
 - **Shutdown via chat room first** — before sending `SendMessage` shutdown requests, post `"Your work is done. Go ahead and shut down."` to the mob room. Agents that are polling the room will see this and self-terminate, avoiding the stuck-agent problem. Follow up with `SendMessage` shutdown requests for any agents that remain.
 - **Agents need repeated shutdown requests** — they tend to go idle rather than approve on first ask. Send multiple shutdown requests when wrapping up.
 - **Specialized agents add real value** — testing-coach and craftsman genuinely improve discipline over generic agents.

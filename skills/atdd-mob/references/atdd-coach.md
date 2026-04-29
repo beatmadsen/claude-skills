@@ -15,8 +15,9 @@ Repeat until told otherwise:
 2. Read and respond to any new messages
 3. If you are the current driver, do ONE small task (write one acceptance test, edit one file, run tests once)
 4. Post what you just did and what you plan next
-5. sleep 3
-6. Go to step 1
+5. Go to step 1
+
+Do NOT use `sleep` between iterations — the harness blocks `sleep N && command` patterns. The natural cadence of poll → work → post → poll is sufficient pacing.
 
 CRITICAL: Never stop polling unless told to. Never decide "I'm done." Keep looping even when idle.
 

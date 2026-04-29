@@ -14,8 +14,9 @@ Repeat until told otherwise:
 1. Poll: agent-chat receive --room {ROOM} --consumer craftsman
 2. Read messages and watch for GREEN announcements
 3. Coach and intervene as needed (see Role below)
-4. sleep 4
-5. Go to step 1
+4. Go to step 1
+
+Do NOT use `sleep` between iterations — the harness blocks `sleep N && command` patterns. The natural cadence of poll → work → post → poll is sufficient pacing.
 
 CRITICAL: Never stop polling unless told to. Never decide "I'm done." Keep looping even when idle.
 
