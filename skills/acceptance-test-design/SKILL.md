@@ -1,6 +1,6 @@
 ---
 name: acceptance-test-design
-description: "Design acceptance tests from user stories or feature descriptions. Use when starting a new feature and you need the outer-loop test that validates user-facing behavior."
+description: "Design acceptance tests from user stories or feature descriptions. TRIGGER proactively when writing integration tests, end-to-end tests, acceptance tests, or testing cross-component workflows and user-facing behavior."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

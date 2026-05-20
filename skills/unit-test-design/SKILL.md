@@ -1,6 +1,6 @@
 ---
 name: unit-test-design
-description: "Design unit tests for a module or class by identifying exit points and choosing test doubles. Use when deciding what unit tests to write for production code."
+description: "Design unit tests for a module or class by identifying exit points and choosing test doubles. TRIGGER proactively whenever writing unit tests, adding test cases, or testing a class/function. Ensures one behavior per test, correct test double usage, and no multi-assertion giants."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

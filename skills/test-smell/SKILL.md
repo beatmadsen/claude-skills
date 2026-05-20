@@ -1,6 +1,6 @@
 ---
 name: test-smell
-description: "Diagnose test quality problems in a test file. Use when tests feel wrong — too long, fragile, hard to read, or you suspect they aren't testing what they claim."
+description: "Diagnose test quality problems in a test file. TRIGGER proactively when reviewing existing tests, refactoring test code, or when you notice tests with Thread.sleep, multiple assertions testing different behaviors, excessive setup, or logic in tests."
 allowed-tools: Read Grep Glob Bash
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: test-double-design
-description: "Design the right test double (stub, mock, fake, spy, dummy) for a dependency. Use when breaking a dependency for testing and unsure which type to use."
+description: "Design the right test double (stub, mock, fake, spy, dummy) for a dependency. TRIGGER proactively whenever mocking, stubbing, or faking a dependency in tests. Prevents mock overuse, ensures correct mock vs stub distinction, and limits mocks to external boundaries."
 allowed-tools: Read Grep Glob Edit Write
 ---
 

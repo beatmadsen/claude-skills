@@ -1,6 +1,6 @@
 ---
 name: tdd-red
-description: "Write a failing test for the next behavior (TDD RED phase). Use when starting a new TDD cycle to specify behavior before writing production code."
+description: "Write a failing test for the next behavior (TDD RED phase). TRIGGER when the user mentions TDD, test-driven, red-green-refactor, or asks to write a test before the implementation exists. Ensures one behavior per test, proper naming, and assertion-first design."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

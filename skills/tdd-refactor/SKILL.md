@@ -1,6 +1,6 @@
 ---
 name: tdd-refactor
-description: "Improve design while keeping tests green (TDD REFACTOR phase). Use after tdd-green to evaluate and clean up both production and test code."
+description: "Improve design while keeping tests green (TDD REFACTOR phase). TRIGGER after tdd-green when tests pass and code has duplication, poor names, or design smells."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

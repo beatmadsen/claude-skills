@@ -1,6 +1,6 @@
 ---
 name: legacy-test
-description: "Add tests to untested legacy code safely — characterization tests first, find seams, avoid coupling to bad design. Use when you need to change code that has no tests."
+description: "Add tests to untested legacy code safely — characterization tests first, find seams, avoid coupling to bad design. TRIGGER when adding tests to existing code that has no test coverage, or when asked to make code testable."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

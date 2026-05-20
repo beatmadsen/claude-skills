@@ -1,6 +1,6 @@
 ---
 name: test-strategy
-description: "Recommend a testing approach for a feature or component — what levels of tests, how many, and what to fake. Use when unsure where to start testing."
+description: "Recommend a testing approach for a feature or component — what levels of tests, how many, and what to fake. TRIGGER proactively before writing tests for any new component, feature, or behavior. Also use when asked to add tests, write tests, or create test coverage."
 allowed-tools: Read Grep Glob Bash
 ---
 

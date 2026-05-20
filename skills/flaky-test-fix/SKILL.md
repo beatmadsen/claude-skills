@@ -1,6 +1,6 @@
 ---
 name: flaky-test-fix
-description: "Diagnose and fix a flaky test — passes sometimes, fails other times. Use when a test is intermittently failing."
+description: "Diagnose and fix a flaky test — passes sometimes, fails other times. TRIGGER when a test is intermittently failing, uses Thread.sleep or timing-dependent assertions, or has shared mutable state between tests."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 

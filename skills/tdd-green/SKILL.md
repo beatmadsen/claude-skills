@@ -1,6 +1,6 @@
 ---
 name: tdd-green
-description: "Write minimal code to make the failing test pass (TDD GREEN phase). Use after tdd-red when you have exactly one failing test."
+description: "Write minimal code to make the failing test pass (TDD GREEN phase). TRIGGER after tdd-red when you have exactly one failing test. Ensures minimal implementation — no overdesign, no speculative code."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 
