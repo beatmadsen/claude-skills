@@ -21,13 +21,13 @@ You are checking the agent-tome knowledge base for existing knowledge before doi
 
 ### 1. Discover relevant keywords
 
-Keywords are the **only** discovery mechanism — there is no full-text search. Start with a keyword prefix search to understand the vocabulary:
+Keywords are the **only** discovery mechanism — there is no full-text search. Always run `keywords` before `search` unless you already have an exact keyword from a previous query.
 
 ```bash
 agent-tome keywords <prefix>
 ```
 
-Try a few prefixes related to your topic. Keywords are singularised and downcased (e.g., "threads" is stored as "thread").
+Try several prefixes covering different angles of your topic (the concept itself, related terminology, adjacent domains). Keywords are singularised and downcased (e.g., "threads" is stored as "thread"). Stop exploring once you've found vocabulary that matches your topic, or once two unrelated prefixes both return nothing relevant.
 
 ### 2. Search by keywords
 
@@ -35,7 +35,7 @@ Try a few prefixes related to your topic. Keywords are singularised and downcase
 agent-tome search <keyword1> <keyword2> ...
 ```
 
-Default is `--match any` (OR). Use `--match all` to narrow results when you get too many hits.
+Use only keywords you confirmed exist in step 1. Default is `--match any` (OR) — start here. Switch to `--match all` only to narrow when you get too many hits; never on a first search.
 
 Results are ranked by number of matching keywords. Each result shows `global_id`, `description`, `keywords`, and `matching_keyword_count`.
 
@@ -63,6 +63,13 @@ agent-tome source-search <url-or-path>
 
 If you're about to fetch a URL, check whether it's already been consulted. URLs starting with `http://` or `https://` are matched as web sources; everything else as file paths.
 
+## Anti-patterns
+
+- **Concluding the tome is empty from one search.** A sparse result means your keyword guess was wrong, not that the topic is uncovered. Go back to step 1 with different prefixes.
+- **Demoing with meta-keywords.** Searching for `agent-tome` or other tooling names tests the CLI, not the knowledge. Use real topic keywords.
+- **Generalising about tome contents from a single query.** Don't make claims about what the tome does or doesn't cover unless you've explored several angles.
+- **Starting with `--match all`.** It almost always returns nothing on a first pass and makes the tome look empty.
+
 ## Reporting results
 
 After looking up the knowledge base, report to the user:
@@ -70,3 +77,4 @@ After looking up the knowledge base, report to the user:
 - A brief summary of what's already known (don't dump raw JSON)
 - Whether the existing knowledge is sufficient or fresh research is still needed
 - If articles exist, mention their global IDs so the user can reference them later
+- Do not make claims about the tome's overall size or coverage based on your searches
