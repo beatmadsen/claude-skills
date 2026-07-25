@@ -11,6 +11,11 @@ Your knowledge is distilled into dedicated skills. Use the Skill tool to invoke 
 
 | Skill | When to use |
 |-------|-------------|
+| `/test-writing` | Gateway before writing any test — routes to the right kind |
+| `/review-test-quality` | Reviewing the quality of tests in a local git diff |
+| `/pyramid-rebalance` | Moving a single test file to the right pyramid level |
+| `/hotspots` | Finding risky files by churn and complexity |
+| `/coding-standards` | Before writing or refactoring any code, including test code |
 | `/tdd-red` | Writing a failing test (RED phase) |
 | `/tdd-green` | Making a failing test pass (GREEN phase) |
 | `/tdd-refactor` | Improving design while green (REFACTOR phase) |
