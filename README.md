@@ -1,6 +1,16 @@
 # Claude Skills
 
-A personal collection of skills for [Claude Code](https://claude.com/claude-code).
+A personal collection of skills and subagents for [Claude Code](https://claude.com/claude-code).
+
+## Agents
+
+Subagents you can delegate focused work to. Each is a single Markdown file with a persona and a link to its own persistent memory directory.
+
+| Agent | Description |
+|-------|-------------|
+| [craftsman](agents/craftsman.md) | Designing and refactoring code with an eye on coupling, cohesion, and keeping software soft |
+| [testing-coach](agents/testing-coach.md) | Writing and reviewing tests and driving TDD/BDD/ATDD, backed by the testing skills below |
+| [ux-advocate](agents/ux-advocate.md) | Evaluating and improving the user experience of what you build |
 
 ## Skills
 
@@ -32,7 +42,18 @@ A personal collection of skills for [Claude Code](https://claude.com/claude-code
 
 Pick the scope that fits your needs.
 
-### For all your projects (personal)
+### Agents
+
+Copy an agent definition into your agents directory (personal, or a project's `.claude/agents/`):
+
+```bash
+mkdir -p ~/.claude/agents
+cp agents/craftsman.md ~/.claude/agents/craftsman.md
+```
+
+The agent files reference a per-agent memory directory at `~/.claude/agent-memory/<name>/`; it's created on first write, and starts empty.
+
+### Skills — for all your projects (personal)
 
 Copy a skill into your personal skills directory:
 
