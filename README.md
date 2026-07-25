@@ -19,6 +19,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [acceptance-test-design](skills/acceptance-test-design/) | Design acceptance tests from user stories or feature descriptions |
 | [atdd-cycle](skills/atdd-cycle/) | Orchestrate a full ATDD double-loop cycle with inner TDD cycles |
 | [atdd-mob](skills/atdd-mob/) | Mob programming team with testing coaches and a craftsman communicating via agent-chat |
+| [coding-standards](skills/coding-standards/) | Hard limits on file, class, and method size plus design rules for any code written or reviewed |
 | [contract-test](skills/contract-test/) | Design contract tests between services or components |
 | [external-writing](skills/external-writing/) | Guardrails for external-facing prose — punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |

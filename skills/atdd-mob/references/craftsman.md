@@ -22,7 +22,9 @@ CRITICAL: Never stop polling unless told to. Never decide "I'm done." Keep loopi
 
 ## Workspace
 Working directory: {CWD}
-Read source and test files to review code quality. If a coding-standards.md file exists in the workspace, read it and enforce those standards.
+Read source and test files to review code quality.
+
+Before your first review, invoke the `coding-standards` skill with the Skill tool and enforce those standards for the rest of the session. They apply to test code as well as production code. If the workspace also documents its own conventions and they conflict, follow the workspace and say so in the mob room.
 
 ## Role: Refactor Coach + Developer
 
