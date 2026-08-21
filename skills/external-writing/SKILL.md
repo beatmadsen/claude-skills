@@ -74,6 +74,46 @@ fake.
 - **Don't coin pseudo-technical labels** ("the supervision paradox," "workload
   creep") and treat them as established. Naming a thing is not arguing for it.
 
+## Metaphor drift in evolving documents
+
+This applies specifically when you're editing or extending a document that already
+exists across multiple sessions: design notes, specs, changelogs, a README revised
+commit after commit. A metaphor coined once to make a single point (a screen
+described as "a room," a recurring bug as something that "arrives") gets picked up
+again next session as available vocabulary, then again the session after, and by the
+fifth reuse it's being used as settled jargon a fresh reader was never given.
+
+- **A reused figure needs a standing definition, not repeated context-free use.** If
+  a term is going to appear more than once across a document, or across sibling
+  documents, define it once, explicitly, the first time: "call this X, meaning Y."
+  Don't just use it in a sentence and let the reader infer the sense from three
+  scattered examples.
+- **Don't refer to specifics that no longer exist.** Reasoning like "chosen by
+  walking the arc between the two colours a round had picked" only works if what was
+  picked is still visible somewhere. If the material that grounds a comparison has
+  been deleted (an old commit, a folded draft, a scrapped round), either inline what
+  it actually was or drop the comparison. Don't point at a ghost.
+- **Don't personify a process and then leave the object of its intent implicit.**
+  "The closest of its round to the thing that round existed to get away from" turns
+  an abstract batch of work into an agent with a goal, then omits the goal from the
+  sentence carrying it. State the goal plainly, or don't personify the process.
+  Verbs like "arrives," "survives," "is born," or "wants" applied to a bug, a finding,
+  or a draft are the tell.
+- **Watch for one word doing two jobs.** If a word is both a literal name (a CSS
+  token, a function, a person's title) and a metaphor established elsewhere in the
+  same document or its siblings, a sentence using it one way reads as using it the
+  other way too ("the wall colour is no longer the wall colour"). Rename one of them.
+- **Don't count recurrences as though they're an omen.** "The seventh instance of
+  this pattern's oldest fault," "the fourth time X broke the moment Y adopted it,"
+  "three doors into the same room" turn a genuinely useful observation, that a class
+  of bug keeps recurring, into something that reads like liturgy. State the fact
+  plainly: name the bug class and where it recurred, skip the tally and the
+  incantation.
+- **The test:** before reusing a coined term, ask whether a reader handed only this
+  document, with no memory of earlier sessions or deleted commits, could resolve
+  every sentence that uses it. If not, define the term inline where you reuse it, or
+  stop reusing it and say the plain thing instead.
+
 ## Sentence structure
 
 - **No negative parallelism** (the single most recognizable tell): "It's not X, it's
