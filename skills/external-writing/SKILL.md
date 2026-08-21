@@ -37,12 +37,22 @@ fake.
 ## Word choice
 
 - **Drop the LLM-staple vocabulary:** delve, utilize, leverage (verb), robust,
-  streamline, harness, navigate (figurative), underscore, boast, foster, seamless.
-  Use plain synonyms.
+  streamline, harness, navigate (figurative), underscore, boast, foster, seamless,
+  pivotal, intricate, meticulous, comprehensive/nuanced (as filler adjectives, not
+  earned by content), align with, showcase/showcasing. Use plain synonyms.
 - **No grandiose decorative nouns:** tapestry, landscape, realm, paradigm, synergy,
   ecosystem, framework, where a concrete word would do.
 - **No significance-inflating adverbs:** quietly, deeply, fundamentally, remarkably,
   arguably, notably, tacked on to make ordinary statements feel weighty.
+- **No tacked-on significance claims.** A vague clause asserting importance without
+  saying why: "a testament to its enduring legacy," "underscoring its growing
+  influence," "highlighting its significance." If the significance is real, state the
+  specific fact that makes it so; if there's nothing more specific to say, cut the
+  clause.
+- **Name the source or cut the claim.** "Studies show," "experts say," "industry
+  reports indicate," "observers have noted," with no named, checkable source, is a
+  weasel-worded stand-in for evidence. Either cite what actually said it or drop the
+  sentence.
 - **Don't lean on stock engineering analogies.** Two tiers:
   - *Banned outright, even once.* A handful are so saturated in AI-written prose that
     a single use is itself the tell, no repetition required: **load-bearing**, **first-class
@@ -74,6 +84,13 @@ fake.
 - **No "From X to Y" range sweeps:** "From bustling cities to quiet villages."
 - **No participial pile-ups:** main clause plus a chain of trailing -ing phrases
   ("processing the data, revealing insights, enabling decisions, driving growth").
+- **No rule-of-three synonym triads:** "innovative, transformative, and
+  groundbreaking," three near-synonyms stacked for emphasis rather than because each
+  adds distinct content. One well-chosen word beats three that restate it.
+- **Don't default to formal transition words as sentence or paragraph openers.**
+  Moreover, furthermore, additionally, consequently, cycled reflexively, mark no real
+  logical relationship. Use one where the relationship is real and needs marking;
+  otherwise let the sentences sit next to each other, or use "and"/"but"/"so."
 
 ## Paragraph and composition
 
@@ -97,6 +114,10 @@ fake.
   a concrete example, or sentence structure, not from asserting candor. (This tell is
   amplified by the user's standing instruction to be very honest in-conversation;
   that instruction governs the working dialogue, not the prose.)
+- **No editorializing asides that flag their own importance:** "it's important to
+  note that," "it's worth noting that," "needless to say." These imply the
+  unflagged sentences are less important, and the reader can't tell if that's true.
+  State the thing directly; let its placement and content carry the weight.
 - **Don't hedge uniformly.** Match certainty to the actual strength of the evidence;
   don't present "on one hand / on the other" balance when it points one way.
 - **Avoid corporate flatness:** the neutral, emotionally detached documentation
