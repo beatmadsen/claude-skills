@@ -53,9 +53,11 @@ fake.
   reports indicate," "observers have noted," with no named, checkable source, is a
   weasel-worded stand-in for evidence. Either cite what actually said it or drop the
   sentence.
-- **Don't lean on stock engineering metaphors** (not analogies: each of these
-  directly equates two unrelated things, "X is Y," rather than comparing them with
-  "like" or "as"). Two tiers:
+- **Don't lean on stock engineering analogies.** Each of these maps a physical or
+  engineering concept onto an abstract one because the structural correspondence
+  explains something ("load-bearing": a wall critical to a building's integrity,
+  mapped onto whatever is critical to a system's or argument's integrity). They are
+  analogies, not metaphors: their job is explanation, not poetic transfer. Two tiers:
   - *Banned outright, even once.* A handful are so saturated in AI-written prose that
     a single use is itself the tell, no repetition required: **load-bearing**, **first-class
     citizen**, **source of truth** (as a flourish), **turtles all the way down**, **north
@@ -68,7 +70,7 @@ fake.
     contract, primitive, heavy lift). Each is acceptable used literally for the thing it
     names. The tell is gratuitous reuse (the same figure two or three times in a piece)
     or reaching for one where a plain word is exact ("surface area" where you mean
-    "scope" or "risk"). Prefer the literal word; spend the metaphor only when it earns
+    "scope" or "risk"). Prefer the literal word; spend the analogy only when it earns
     more than it costs. This applies in technical prose too, where these read as native
     and so accrete unnoticed.
 - **Don't avoid the copula.** Use is/are/has. Not "serves as a," "stands as,"
@@ -76,58 +78,63 @@ fake.
 - **Don't coin pseudo-technical labels** ("the supervision paradox," "workload
   creep") and treat them as established. Naming a thing is not arguing for it.
 
-## Metaphor drift in evolving documents
+## Analogy drift in evolving documents
 
-A metaphor, precisely: it directly equates two unrelated things ("X is Y," not "X is
-like Y") to transfer a conceptual or poetic meaning, and the literal statement is
-false. "Time is a thief." A comparison that says "like" or "as," or reasons by
-explicit structural parallel without claiming identity, is an analogy instead, a
-different device with a different failure mode; this section is about metaphor, which
-is what actually accumulates in an evolving document, because "X is Y" is
-grammatically cheaper to write than spelling a comparison out, and it's what reused
-design vocabulary tends to look like: "the wall," "the room," "a bug arrives through a
-door." Each of those asserts identity, not resemblance.
+Terminology first, because it's routinely botched: a **metaphor** is a literary
+device that directly equates two unrelated things to transfer a poetic or conceptual
+meaning, where the literal statement is false ("Time is a thief"; "All the world's a
+stage"; "'Hope' is the thing with feathers"). An **analogy** maps a structural
+correspondence between two domains in order to *explain*; its goal is clarity, not
+resonance, and it needs no "like" or "as" ("load-bearing" applied to a decision is an
+engineering analogy, not a metaphor). What accumulates in technical writing is almost
+always analogy: LLMs farm the physical and engineering world for correspondences to a
+project's concepts. A screen becomes "a room," dense content "a wall," a recurring
+bug something that "arrives through a door." Each mapping earns its keep the first
+time, when the correspondence is stated and genuinely explains.
 
-This applies specifically when you're editing or extending a document that already
-exists across multiple sessions: design notes, specs, changelogs, a README revised
-commit after commit. A metaphor coined once to make a single point gets picked up
-again next session as available vocabulary, then again the session after, until by
-the fifth reuse it's being used as settled jargon a fresh reader was never given.
+The failure sets in when the document evolves across sessions: design notes, specs,
+changelogs, a README revised commit after commit. An analogy coined once to make a
+single point gets picked up next session as available vocabulary, then extended (the
+room gets doors, the doors get watchers), until by the fifth reuse it's stretched far
+past the correspondence that justified it and reads as settled jargon a fresh reader
+was never given, and can barely be decoded by an initiated one.
 
-- **A reused metaphor needs a standing definition, not repeated context-free use.**
-  If a term is going to appear more than once across a document, or across sibling
-  documents, define it once, explicitly, the first time: "call this X, meaning Y."
-  Don't just use it in a sentence and let the reader infer the transferred meaning
-  from three scattered examples.
-- **Don't refer to specifics that no longer exist.** This isn't a figure of speech at
-  all, just a dangling reference: "chosen by walking the arc between the two colours a
+- **A reused analogy needs a standing definition, not repeated context-free use.**
+  If a coined term is going to appear more than once across a document, or across
+  sibling documents, state the mapping once, explicitly, the first time: "call this
+  X, meaning Y." Don't just use it in a sentence and let the reader reconstruct the
+  correspondence from three scattered examples.
+- **Extend an analogy only as far as the correspondence actually holds.** Every
+  elaboration ("three doors into the same room," "arriving through the one door it
+  was not watching") adds structure on the analogy's side that has no counterpart on
+  the real side. If you cannot say what the door literally is, the sentence has
+  stopped explaining and started decorating. Trim back to the part that maps.
+- **Don't refer to specifics that no longer exist.** Not a figure of speech at all,
+  just a dangling reference: "chosen by walking the arc between the two colours a
   round had picked" only works if what was picked is still visible somewhere. If the
   material that grounds a comparison has been deleted (an old commit, a folded draft,
   a scrapped round), either inline what it actually was or drop the comparison. Don't
   point at a ghost.
-- **A metaphor that personifies owes the reader its story's payoff.** "The closest of
-  its round to the thing that round existed to get away from" equates an abstract
-  batch of work with a character fleeing something, then omits what that something
-  is. If the metaphor gives an abstraction a goal or an action, state what the goal
-  or action actually is; don't leave it to be inferred from an earlier paragraph.
-  Verbs like "arrives," "survives," "is born," or "wants" applied to a bug, a finding,
-  or a draft are the tell.
+- **Personified processes must state the object of their intent.** "The closest of
+  its round to the thing that round existed to get away from" gives an abstract batch
+  of work a goal and then omits the goal from the sentence carrying it. Personifying
+  verbs, "arrives," "survives," "is born," "wants," applied to a bug, a finding, or a
+  draft are the tell; either name the thing plainly or drop the personification.
 - **Watch for one word doing two jobs.** If a word is both a literal name (a CSS
-  token, a function, a person's title) and part of a metaphor established elsewhere
+  token, a function, a person's title) and part of an analogy established elsewhere
   in the same document or its siblings, a sentence using it one way reads as using it
   the other way too ("the wall colour is no longer the wall colour," where "wall" is
-  a literal token name and also this document's metaphor for dense, hard-to-scan
+  a literal token name and also the document's analogy for dense, unscannable
   content). Rename one of them.
 - **Don't count recurrences as though they're an omen.** "The seventh instance of
-  this pattern's oldest fault," "the fourth time X broke the moment Y adopted it,"
-  "three doors into the same room" turn a genuinely useful observation, that a class
-  of bug keeps recurring, into something that reads like liturgy. Not a metaphor
-  problem, a rhetorical tic: state the fact plainly, name the bug class and where it
-  recurred, skip the tally and the incantation.
-- **The test:** before reusing a coined metaphor, ask whether a reader handed only
-  this document, with no memory of earlier sessions or deleted commits, could resolve
-  every sentence that uses it. If not, define the term inline where you reuse it, or
-  stop reusing it and say the plain thing instead.
+  this pattern's oldest fault," "the fourth time X broke the moment Y adopted it"
+  turn a genuinely useful observation, that a class of bug keeps recurring, into
+  something that reads like liturgy. State the fact plainly, name the bug class and
+  where it recurred, skip the tally and the incantation.
+- **The test:** before reusing a coined term, ask whether a reader handed only this
+  document, with no memory of earlier sessions or deleted commits, could resolve
+  every sentence that uses it. If not, restate the mapping inline where you reuse it,
+  or stop reusing it and say the plain thing instead.
 
 ## Sentence structure
 
@@ -156,7 +163,7 @@ the fifth reuse it's being used as settled jargon a fresh reader was never given
 - **No concede-and-pivot formula:** "Despite its virtues, X faces challenges. Despite
   these challenges, [upbeat close]."
 - **Don't pad.** If 800 words of substance became 4,000 by restating one thesis with
-  fresh metaphors, cut.
+  fresh imagery, cut.
 
 ## Tone and substance
 
