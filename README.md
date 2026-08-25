@@ -28,6 +28,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [legacy-test](skills/legacy-test/) | Add tests to untested legacy code safely using characterization tests |
 | [mock-audit](skills/mock-audit/) | Review test double usage for correctness |
 | [mutation-test-review](skills/mutation-test-review/) | Interpret mutation testing results and improve test quality |
+| [pentsection](skills/pentsection/) | Settle a matter of taste by building and rendering five candidates per round, keeping one or two |
 | [property-test](skills/property-test/) | Design property-based tests for functions or data transformations |
 | [pyramid-rebalance](skills/pyramid-rebalance/) | Move a single test file to the right level of the test pyramid |
 | [ralphify](skills/ralphify/) | Background knowledge about Ralphify, an autonomous AI coding loop tool |
