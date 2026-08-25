@@ -1,6 +1,6 @@
 # Claude Skills
 
-A personal collection of skills and subagents for [Claude Code](https://claude.com/claude-code).
+A personal collection of skills, subagents, and global instructions for [Claude Code](https://claude.com/claude-code).
 
 ## Agents
 
@@ -96,6 +96,16 @@ Pull to get updates:
 ```bash
 cd ~/claude-skills && git pull
 ```
+
+### Global instructions
+
+[global/CLAUDE.md](global/CLAUDE.md) is the user-level rulebook Claude Code loads in every project. To use it, symlink it into place:
+
+```bash
+ln -s ~/claude-skills/global/CLAUDE.md ~/.claude/CLAUDE.md
+```
+
+Edits made through either path land in the repo, so they can be reviewed and pulled like any other change.
 
 ## Prerequisites
 
