@@ -402,10 +402,11 @@ year's framework version is the cheap illustration of why.
 ## Writing for external audiences
 
 Before producing or editing any prose that will leave this conversation,
-invoke the `external-writing` skill and write against its guardrails. That
-covers articles, blog posts, documentation, READMEs, release notes, emails,
-social posts, PR titles, descriptions and review comments, commit messages,
-and anything else other people will read. It does not cover code, internal
-working notes, or replies to me in this conversation. When unsure whether a
-piece is external, invoke it. The specifics (punctuation rules, AI telltales
-to avoid) live in that skill, not here.
+invoke the `external-writing` skill and write against its guardrails. The
+skill's opening paragraph is the single authoritative statement of what
+counts as external; nothing else may restate the boundary. In brief:
+commit messages, PR text, and a repo's top-level README are in; code,
+replies to me, and repo-internal working prose (nested READMEs,
+status/technique notes) are out. When unsure whether a piece is external,
+invoke it. The specifics (punctuation rules, AI telltales to avoid) live
+in that skill, not here.

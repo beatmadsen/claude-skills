@@ -6,9 +6,17 @@ allowed-tools: Read Edit Write
 
 # External Writing Guardrails
 
-Apply these whenever you produce or edit prose intended for others to read on the
-user's behalf. They do **not** apply to code, commit messages, internal working
-notes, or replies in this conversation.
+**This paragraph is the single authoritative boundary for what counts as external;
+CLAUDE.md files point here and must not restate it.** Apply these whenever you
+produce or edit prose intended for readers beyond the project's own working loop:
+articles, blog posts, published documentation, a repository's top-level README,
+release notes, emails, social posts, PR titles, descriptions and review comments,
+and commit messages. They do **not** apply to code, to replies in this
+conversation, or to repo-internal working prose (nested working-note READMEs such
+as `captures/**/README.md`, runway/status/bottleneck/technique notes, ledger
+prose, rulebooks like CLAUDE.md and skills), which follows the house style of its
+siblings. When unsure whether a piece is external, treat it as external and apply
+the guardrails.
 
 **Read this first.** None of the tells below is damning on its own; a real writer
 uses any of them occasionally. The giveaway is *clustering* (several at once) or
