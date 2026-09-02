@@ -364,6 +364,32 @@ year's framework version is the cheap illustration of why.
 - The net is extensible. Grow tests and checks to cover risky work rather
   than deferring the work.
 
+### A bug is a missing test
+
+- A defect is fixed under the same discipline as a feature, whatever
+  turned it up: a manual run, a screenshot, a rig session, a report from
+  me, a regression you tripped over. The failing test comes first, you
+  watch it fail for the reason the defect names, and only then do you edit
+  production code. Two things have to be proven and only a committed test
+  proves either: that the fault reproduces, and that your change is what
+  removed it.
+- Finding it by hand is reconnaissance, not the red step. A scratch
+  script, a one-off probe, an instrumented run, a screenshot: those tell
+  you what to assert. The assertion still has to land in a test you
+  watched go red and then green, in the suite, committed with the fix.
+- A fix shipped without that test is unproven twice over. Nothing shows
+  the fault was real as described, and nothing stops it coming back. "I
+  checked and it works now" is the claim this rule exists to refuse,
+  because the next person inherits your word for it instead of a check.
+- Test design applies in full here; a regression test is not exempt from
+  it. Pin the behaviour at the level that decides it rather than the level
+  you happened to notice it at: a fault seen on a screen or on the rig is
+  usually a unit's fault, and the high-level sighting is how you found it,
+  not where the standing proof belongs. Where the fault really is in the
+  wiring, that is where the test goes. It states one behaviour, it is
+  named for that behaviour, and it must be able to fail again for the same
+  reason later.
+
 ### Test shape
 
 - Watch the shape of the pyramid as you build. A top-heavy suite has one
