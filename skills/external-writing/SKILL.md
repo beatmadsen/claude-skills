@@ -48,6 +48,13 @@ fake.
   streamline, harness, navigate (figurative), underscore, boast, foster, seamless,
   pivotal, intricate, meticulous, comprehensive/nuanced (as filler adjectives, not
   earned by content), align with, showcase/showcasing. Use plain synonyms.
+- **Never write that something matters.** "Matter", "matters", "mattered", "what
+  matters", "where it matters most": AI prose reaches for this verb constantly, to
+  assert importance it has not shown. Say what happens instead. "The difference
+  matters when you are tired" becomes "the difference bites you when you are tired",
+  or names the consequence outright. The noun ("subject matter", "a matter of taste")
+  is unaffected, and the verb is allowed only where no other word carries the sense,
+  which in practice is almost never.
 - **No grandiose decorative nouns:** tapestry, landscape, realm, paradigm, synergy,
   ecosystem, framework, where a concrete word would do.
 - **No significance-inflating adverbs:** quietly, deeply, fundamentally, remarkably,
