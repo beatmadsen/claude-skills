@@ -173,6 +173,14 @@ was never given, and can barely be decoded by an initiated one.
 
 - **Vary paragraph rhythm.** Avoid uniform topic-sentence / evidence / mini-summary
   blocks of near-identical length. A one-line paragraph or a long digression is good.
+- **Cut detail the reader has no use for.** AI prose over-explains more often than it
+  pads: at length, accurately, about things the audience never has to act on. Every
+  edge case of a rule one worked example settles, the internal mechanism behind a
+  feature people only call, the history of how the shape came about. Ask of each
+  sentence who is reading and what they do next. Someone using a tool needs what to
+  type and what comes back; the reasoning belongs in the commit, the design note or
+  the tests, and putting it in front of them buries what they came for. Exhaustiveness
+  is not thoroughness, and a reference section is no licence to say everything true.
 - **No signposted conclusions:** "In conclusion," "To sum up," "In summary." Let the
   ending land on its own.
 - **No concede-and-pivot formula:** "Despite its virtues, X faces challenges. Despite
