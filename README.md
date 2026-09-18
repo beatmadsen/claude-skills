@@ -25,6 +25,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 | [ideation-mob](skills/ideation-mob/) | Divergent brainstorming mob that generates and clusters ideas for a problem |
+| [intent-record](skills/intent-record/) | Record why a change was made in an [intent-record](https://github.com/beatmadsen/intent-record) store, linked to the commit and the ticket that asked for it |
 | [legacy-test](skills/legacy-test/) | Add tests to untested legacy code safely using characterization tests |
 | [mock-audit](skills/mock-audit/) | Review test double usage for correctness |
 | [mutation-test-review](skills/mutation-test-review/) | Interpret mutation testing results and improve test quality |
@@ -117,6 +118,8 @@ Some skills have external dependencies. Check the skill's `SKILL.md` for details
 **tome-capture** and **tome-lookup** require [`agent-tome`](https://github.com/beatmadsen/agent-tome) to be installed and on your `PATH`.
 
 **hotspots** requires [`churn_vs_complexity`](https://github.com/beatmadsen/churn_vs_complexity) to be installed and on your `PATH`.
+
+**intent-record** requires the [`intent-record`](https://github.com/beatmadsen/intent-record) gem (`gem install intent-record`).
 
 ## Usage
 
