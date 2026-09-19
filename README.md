@@ -119,7 +119,7 @@ Some skills have external dependencies. Check the skill's `SKILL.md` for details
 
 **hotspots** requires [`churn_vs_complexity`](https://github.com/beatmadsen/churn_vs_complexity) to be installed and on your `PATH`.
 
-**intent-record** requires the [`intent-record`](https://github.com/beatmadsen/intent-record) gem (`gem install intent-record`).
+**intent-record** requires the [`intent-record`](https://github.com/beatmadsen/intent-record) gem (`gem install intent-record`), 1.1.0 or later for `backfill`.
 
 ## Usage
 

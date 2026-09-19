@@ -1,6 +1,6 @@
 ---
 name: intent-record
-description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues...). TRIGGER immediately after every git commit you make, after amending or rebasing a commit that already has an intent, and when the user asks why a commit was made or what was built for a ticket."
+description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues...). TRIGGER immediately after every git commit you make, after amending or rebasing a commit that already has an intent, when the user asks why a commit was made or what was built for a ticket, and when adopting the tool on a repository whose history predates it."
 allowed-tools: Bash Read
 ---
 
@@ -13,6 +13,7 @@ You are recording *why* a change was made, so that a later agent or person readi
 - Right after `git commit` succeeds, before starting the next piece of work. One record per commit unless the commit is a pure mechanical step (formatting, version bump, generated files), which gets a one-line record.
 - After `git commit --amend`, a rebase or a squash: the hash changed, so `attach` the new hash to the existing record instead of writing a new one.
 - When the user asks "why was this done", "what did we build for ACME-42", or similar: use the reading commands below before answering from memory.
+- When the tool is new to a repository that already has history, or `lookup` answers nothing for commits older than the store: run `backfill` once, as described below.
 
 If `intent-record` is not installed (`command -v intent-record` fails), say so once in your summary and carry on. Do not install it unasked.
 
@@ -84,6 +85,31 @@ intent-record search retry backoff --match all     # summary, body, ticket URLs 
 intent-record show <intent_id>
 intent-record serve                                # web GUI on http://127.0.0.1:4791
 ```
+
+## Backfilling history
+
+`lookup` and `by-source` answer nothing for commits made before the store existed. `backfill` (intent-record 1.1.0 or later) reads the ticket keys already in the commit messages and writes the records `record` would have written at the time. Run it once when adopting on a repository with history, then once more for each further convention that history uses.
+
+It recovers the links, not the reasoning. Every record it writes opens with a fixed line saying the reasoning behind the change was not recorded. When you later work on a commit whose record carries that line and you learn why the change was made, `attach` the reasoning to that record rather than leaving the line standing.
+
+Look at a sample of subject lines before choosing a pattern, and build the payload from git:
+
+```bash
+git log --format='%H%x00%an%x00%B%x01' | ruby -rjson -e '
+  commits = $stdin.read.split("\x01").map(&:strip).reject(&:empty?).map do |entry|
+    hash, author, message = entry.split("\x00", 3)
+    { "commit" => hash, "author" => author, "message" => message.to_s.strip }
+  end
+  puts JSON.generate({ "commits" => commits })
+' > history.json
+
+intent-record backfill --system jira --pattern 'ACME-\d+' \
+  --uri-prefix https://acme.atlassian.net/browse/ --dry-run < history.json
+```
+
+Always dry run first. It reports the sources it would create and up to twenty commit subjects nothing matched, and that list is how you find the second convention the history uses. Show the user the counts and the unmatched subjects before writing, because a wrong pattern writes thousands of wrong links. Then drop `--dry-run`, and run again with a different `--system` and `--pattern` for each further convention. A commit already recorded gains the new references rather than being skipped, and repeating a pass writes nothing.
+
+Anchor a loose pattern. `(?<![A-Za-z])#(\d+)` finds `#42` without also taking the `77` from an Azure `AB#77`. Where a team puts the ticket key in the branch name and not the message, add each commit's branch as `ref` in the payload and it is scanned too. The default `--order` matches what `git log` prints, so only a `git log --reverse` needs `--order oldest-first`.
 
 ## Writing a good body
 
