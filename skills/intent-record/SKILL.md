@@ -1,6 +1,6 @@
 ---
 name: intent-record
-description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues...). TRIGGER immediately after every git commit you make, after amending or rebasing a commit that already has an intent, when the user asks why a commit was made or what was built for a ticket, and when adopting the tool on a repository whose history predates it."
+description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues...), and read it back before touching code. TRIGGER immediately after every git commit you make, after amending or rebasing a commit that already has an intent, before editing a file whose history you do not know (blame it first), when the user asks why a commit or a line exists or what was built for a ticket, and when adopting the tool on a repository whose history predates it."
 allowed-tools: Bash Read
 ---
 
@@ -10,9 +10,10 @@ You are recording *why* a change was made, so that a later agent or person readi
 
 ## When to trigger
 
+- Before editing a file or a region you do not know the history of: `blame` it first, as described below, and read the intents it returns. This is what the records are for.
 - Right after `git commit` succeeds, before starting the next piece of work. One record per commit unless the commit is a pure mechanical step (formatting, version bump, generated files), which gets a one-line record.
 - After `git commit --amend`, a rebase or a squash: the hash changed, so `attach` the new hash to the existing record instead of writing a new one.
-- When the user asks "why was this done", "what did we build for ACME-42", or similar: use the reading commands below before answering from memory.
+- When the user asks "why is this line here", "why was this done", "what did we build for ACME-42", or similar: use the reading commands below before answering from memory.
 - When the tool is new to a repository that already has history, or `lookup` answers nothing for commits older than the store: run `backfill` once, as described below.
 
 If `intent-record` is not installed (`command -v intent-record` fails), say so once in your summary and carry on. Do not install it unasked.
@@ -76,15 +77,31 @@ echo '{"commits": ["<new full hash>"]}' | intent-record attach <intent_id>
 
 The old hash stays attached, which is correct: it existed. Use `attach` also to add a ticket you learn about later.
 
+## Before touching unfamiliar code
+
+Ask why the lines are there before changing them (intent-record 1.2.0 or later):
+
+```bash
+git blame --porcelain -L 40,60 lib/fetch.rb | intent-record blame --format git-porcelain
+git blame --porcelain lib/fetch.rb | intent-record blame --format git-porcelain
+```
+
+The answer is one span per change, in file order, each with the intents recorded against that commit. Read the bodies of the spans you are about to edit: they say what was tried and rejected, and a change that reverses one of them without a reason is the mistake this exists to prevent. A span with an empty `intents` list has no record; that is a gap, not a licence. A span marked `uncommitted` is your own working copy.
+
+Any other version control system feeds the same command as JSON: `{"vcs": "perforce", "lines": [{"line": 40, "external_id": "12345"}]}`.
+
 ## Reading
 
 ```bash
 intent-record lookup <hash or unique prefix>       # everything recorded against a commit
 intent-record by-source ACME-42 --contains         # every intent and commit for a ticket
 intent-record search retry backoff --match all     # summary, body, ticket URLs and titles
+intent-record search summary:retry                 # one field only: summary, body, uri or title
 intent-record show <intent_id>
 intent-record serve                                # web GUI on http://127.0.0.1:4791
 ```
+
+Search answers best match first, and each result carries a `snippet`, the part of the body the terms landed in, so read the top few rather than the whole list. A plain word also finds the other forms of itself (`retry` finds `retried`); a term with punctuation is matched as the literal you typed, which is why a ticket key works.
 
 ## Backfilling history
 
