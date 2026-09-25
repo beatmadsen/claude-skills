@@ -40,12 +40,26 @@ Before starting a run, check the code under test and its tests:
    exhausted must instead fail the test on the first extra call. The looping
    mutant is then killed in milliseconds instead of filling memory. Same
    for any fake that records calls: cap it, or fail on overrun.
-2. **Every wait on a child process has a deadline**, and a test that ends
-   early kills its children, including ones in their own session.
-3. **Start small and watch.** Run one file with one job first, with a
+2. **Production loops that end only when a callee makes progress are
+   bounded.** A loop like `while let Some((item, used)) = next(rest) { rest
+   = &rest[used..] }` runs forever if a mutant makes `next` return `used =
+   0`, and fills memory if it also pushes an item each turn. No test fake
+   can reach that. Bound it by the input's size (at most one turn per byte
+   or per element): correct input always ends sooner, and the mutant stops.
+3. **Every wait on a child process has a deadline**, and a test that ends
+   early kills its children, including ones in their own session or
+   process group. Kill every child of the test process (found by asking
+   `ps`, since a mutant may stop the code reporting them) on a hang *and* on
+   an error, and once one wait has hung, fail the rest at once: the tool's
+   timeout often covers all of a mutant's tests together, so each test
+   hanging in turn gets cut off mid-wait and orphans its child.
+4. **Start small and watch.** Run one file with one job first, with a
    watchdog that kills the run above a memory or process-count threshold,
    before the full parallel run. Do not leave a parallel run unattended in
-   the background alongside other heavy work.
+   the background alongside other heavy work. After a run, look for
+   orphans: processes whose parent is PID 1 running what the tests start
+   (`pgrep -f` also matches your own shell's command line, so filter on
+   the parent instead).
 
 If a run already took a machine down, find the loop, not the tool setting:
 force the suspect mutant by hand in a scratch copy, run its tests under a
