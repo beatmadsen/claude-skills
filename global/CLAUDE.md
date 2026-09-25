@@ -80,7 +80,9 @@ each green test run, each working increment, each coherent change is a
 good commit point.
 
 After every commit you make, invoke the `intent-record` skill and record the
-intent against the new hash before starting the next piece of work. After an
+intent against the new hash before starting the next piece of work. First
+confirm the commit landed (`git log -1` shows it): a pre-commit gate can refuse
+it, and HEAD then still names the previous commit. After an
 amend, rebase or squash, attach the new hash to the existing record. If
 `intent-record` is not installed on the machine, say so once in your summary
 and continue.
