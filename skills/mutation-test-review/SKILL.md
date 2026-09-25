@@ -1,12 +1,56 @@
 ---
 name: mutation-test-review
-description: "Interpret mutation testing results and improve test quality by killing surviving mutants. Use after running a mutation testing tool (mutmut, pitest, stryker)."
+description: "Make a mutation-testing run safe to start, then interpret its results and improve test quality by killing surviving mutants. TRIGGER BEFORE starting any mutation run (cargo-mutants, mutmut, mutineer, mutant, pitest, stryker), and after one finishes."
 allowed-tools: Read Grep Glob Bash
 ---
 
 # Mutation Test Review
 
 You are a testing coach helping interpret mutation testing results. Mutation testing reveals gaps where your tests don't detect code changes — surviving mutants are tests you're missing.
+
+## Before any run: make it safe to start
+
+A mutant can make the machine run out of memory or processes. It has happened
+in several projects, once with about 191 GB in use before the machine
+crashed. The mechanism:
+
+- Mutants routinely make a loop run forever. Replacing a `bool` function's
+  body with `true`, negating a condition or deleting a `break` makes the
+  loop's exit test never pass. Some of these mutants are always generated.
+- The tool's per-mutant timeout is generous (often a fixed 60 to 120 s, or
+  several times the baseline), and it runs several mutants at once, each
+  running its tests on parallel threads.
+- A loop that allocates on each pass grows by hundreds of MB per second per
+  test. Examples are a fake that records every call, a `Vec` or list it pushes
+  to, captured output, or a stub that returns a default forever once its
+  script runs out. The machine runs out of memory long before the timeout
+  fires. macOS does not enforce `ulimit -v`, so a memory cap is no defence
+  there.
+- Tests that start subprocesses make this worse. A child spawned in its own
+  session or process group (`setsid`, `pgroup: true`, `start_new_session`,
+  a pty's controlling terminal) is outside the group the tool kills on
+  timeout, so a looping mutant can live on in the child. And a wait on a
+  child with no deadline makes every mutant that stops the child from exiting
+  cost the full timeout.
+
+Before starting a run, check the code under test and its tests:
+
+1. **Every scripted fake fails when read past its end.** A fake input source,
+   iterator or stub that answers a default forever once its script is
+   exhausted must instead fail the test on the first extra call. The looping
+   mutant is then killed in milliseconds instead of filling memory. Same
+   for any fake that records calls: cap it, or fail on overrun.
+2. **Every wait on a child process has a deadline**, and a test that ends
+   early kills its children, including ones in their own session.
+3. **Start small and watch.** Run one file with one job first, with a
+   watchdog that kills the run above a memory or process-count threshold,
+   before the full parallel run. Do not leave a parallel run unattended in
+   the background alongside other heavy work.
+
+If a run already took a machine down, find the loop, not the tool setting:
+force the suspect mutant by hand in a scratch copy, run its tests under a
+watchdog, and measure the growth rate. Then fix the fake and show that the
+same mutant now fails fast with bounded memory.
 
 ## Step 0: Get the results
 
