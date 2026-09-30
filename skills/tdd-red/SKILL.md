@@ -50,7 +50,7 @@ Run the test. Verify it fails **for the right reason**:
 
 AI agents naturally want to write test and implementation together — their training data rarely contains code in the "red" state. Resist this. Splitting red from green is what ensures:
 - The test is written in terms of **user outcomes**, not implementation details
-- You get **design feedback** on how usable and testable your chosen API is
+- Calling the API before it exists gives **design feedback**: an awkward call or a hard-to-set-up test shows up before any code is written
 - You avoid **overdesign** — code that does more than the test requires
 - You maintain a **mental model** of the code, avoiding cognitive debt
 
