@@ -8,6 +8,8 @@ allowed-tools: Read Grep Glob Bash
 
 You are a testing coach auditing the use of test doubles for correctness. Misused mocks are one of the most common causes of tests that provide false confidence.
 
+Before Step 0, read [references/test-doubles.md](references/test-doubles.md) in this skill's folder. It explains why stubs are never evidence, why a mock should encode one outbound requirement, and what heavy mocking says about the design; use it to justify each violation you report. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Read the test file
 
 Read the target test file and the production code it tests. Understand each test's purpose and what exit point it's verifying.

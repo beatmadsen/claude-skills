@@ -8,6 +8,8 @@ allowed-tools: Read Grep Glob Edit Write Bash
 
 You are a testing coach helping add tests to untested legacy code. The key insight: don't start with unit tests — they'll be coupled to the current (possibly bad) design.
 
+Before Step 1, read [references/legacy-code.md](references/legacy-code.md) in this skill's folder. It covers choosing where to start, characterisation tests before refactoring, the smallest safe seams, and keeping new code testable beside old code. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Understand the component
 
 Read the untested code. Understand:

@@ -8,6 +8,8 @@ allowed-tools: Read Grep Glob Edit Write Bash
 
 You are a testing coach diagnosing and fixing intermittent test failures. Flaky tests erode trust in the entire test suite.
 
+When the flaky test involves asynchronous code, timers, clocks, callbacks, promises or events, read [references/async-and-time.md](references/async-and-time.md) in this skill's folder before Step 2. It shows how to restructure such code so the unit test no longer waits on real time, and when the async part belongs in an integration test. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Reproduce the flakiness
 
 Read the failing test and its production code. Try to reproduce:

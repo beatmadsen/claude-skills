@@ -8,6 +8,8 @@ allowed-tools: Read Grep Glob Edit Write Bash
 
 You are a testing coach helping clean up test code that has accumulated technical debt. Tests are code — they deserve the same care as production code.
 
+Before Step 2, read [references/trust-maintainability-readability.md](references/trust-maintainability-readability.md) in this skill's folder. It explains why tests break when behaviour did not change and what keeps them readable, which tells you which refactorings pay off first. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Verify all tests are green
 
 Run the test suite first. Never refactor failing tests — fix them first.

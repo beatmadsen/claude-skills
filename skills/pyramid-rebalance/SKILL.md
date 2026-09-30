@@ -77,6 +77,8 @@ Read these `SKILL.md` files in order:
 
 These live at `~/.claude/skills/<name>/SKILL.md`. Read them, don't quote them — apply their guidance to the actual file.
 
+Also read [references/strategy.md](references/strategy.md) in this skill's folder. It explains what each level is good and bad at and why each check should have one home level, which is the argument you make in Step 5. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 5: Decide the right level per behavior
 
 Each test asserts one or more behaviors. Classify each:
@@ -134,7 +136,7 @@ Hand back:
 ## Self-check before responding
 
 - [ ] Did I read both the test file and the production code it covers?
-- [ ] Did I load `test-strategy` and `test-smell`?
+- [ ] Did I load `test-strategy` and `test-smell`, and read `references/strategy.md`?
 - [ ] Did I load `unit-test-design` or `acceptance-test-design` as relevant?
 - [ ] Did I classify each behavior, not the file as a whole?
 - [ ] For an end-to-end test: did I list the chain, cover each adjacent pair with an integration test, make them overlap on a shared artefact, and delete the end-to-end test?

@@ -74,6 +74,8 @@ For each changed test file:
 2. Read the production code under test (the corresponding non-test file) so you can judge whether the test exercises the right behaviour at the right level.
 3. Apply the loaded skills' diagnostics. Be specific — cite line numbers and quote test names.
 
+Before judging the files, read [references/trust-maintainability-readability.md](references/trust-maintainability-readability.md) in this skill's folder. Use it to rank findings by what they cost in trust, maintainability and readability, and to check that every exit point of the changed behaviour is verified, side effects included. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 5: Produce the review
 
 Output **freeform prose**, not a fixed-template report. Tailor the structure to what you actually found. Some reviews will have one major issue worth a paragraph; others will have a list of small smells. Don't pad with empty sections.
@@ -98,6 +100,7 @@ What to avoid:
 - [ ] Did I read the production code each test covers?
 - [ ] Did I load `test-smell` at minimum?
 - [ ] Did I load `mock-audit` if there are mocks?
+- [ ] Did I read `references/trust-maintainability-readability.md` and rank findings with it?
 - [ ] Are my critiques tied to specific test names / line numbers?
 - [ ] Did I lead with a verdict, not preamble?
 - [ ] Did I acknowledge what's good, not only what's wrong?

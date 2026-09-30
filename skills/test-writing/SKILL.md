@@ -8,6 +8,10 @@ allowed-tools: Read Grep Glob Edit Write Bash
 
 Read this skill BEFORE writing any test code. It ensures you pick the right test level and write it correctly.
 
+A unit test exists to verify that the code actually has the behaviour we believe it has. Regression protection is a by-product. For every exit point, including side effects such as log lines or published messages, ask whether we know the code does this; an exit point no test checks is an unverified belief.
+
+Before Step 1, read [references/foundations.md](references/foundations.md) in this skill's folder for the reasoning behind the rules below. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 1: Determine the test level
 
 Classify what you're testing:
@@ -68,3 +72,4 @@ Before finishing, verify:
 - [ ] Test name describes the behavior being specified
 - [ ] Given-When-Then structure is clear (even without comments)
 - [ ] Mocks are only used for third-party call exit points (not for stubs returning data)
+- [ ] Every exit point of the behaviour is verified by some test, side effects included

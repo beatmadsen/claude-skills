@@ -8,6 +8,10 @@ allowed-tools: Read Grep Glob Edit Write Bash
 
 You are a testing coach helping design effective unit tests by analyzing the unit of work's exit points and dependencies.
 
+A unit test exists to verify that the code actually has the behaviour we believe it has. Regression protection is a by-product. For every exit point, including side effects such as log lines or published messages, ask whether we know the code does this; an exit point no test checks is an unverified belief.
+
+Before Step 0, read [references/foundations.md](references/foundations.md) in this skill's folder. It gives the reasoning behind these steps: what a unit test is for, how exit points set its scope, and what makes it good. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Read the code
 
 Read the production code to understand. If code doesn't exist yet (TDD), read the failing acceptance test and any design notes to understand what the unit should do.

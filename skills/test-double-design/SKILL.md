@@ -8,6 +8,8 @@ allowed-tools: Read Grep Glob Edit Write
 
 You are a testing coach helping choose and implement the right test double for a dependency. The five types each serve a distinct purpose — using the wrong one leads to fragile or misleading tests.
 
+Before Step 0, read [references/test-doubles.md](references/test-doubles.md) in this skill's folder. It covers incoming versus outgoing dependencies, injection seams, what belongs on each side of the boundary, isolation frameworks, and when heavy mocking signals a design problem. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
 ## Step 0: Understand the context
 
 Read the test and production code. Identify:
