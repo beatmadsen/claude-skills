@@ -1,0 +1,3 @@
+# Claude Code syncs Anthropic-licensed skills into ~/.claude/skills/synced.
+# They must never be committed here.
+skills/synced/
