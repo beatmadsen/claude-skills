@@ -1,6 +1,6 @@
 ---
 name: review-test-quality
-description: "Gateway skill for reviewing the quality of existing tests in a git diff and suggesting improvements. Read this BEFORE answering any request to evaluate, review, audit, or critique test quality. TRIGGER phrases include: 'how good are these tests', 'review my tests', 'are these tests good', 'can the tests be improved', 'evaluate test quality', 'review test quality', 'audit my tests', 'check my tests', 'are my tests well written'. Scope: tests in the current local git diff against a base branch. For PR-scoped review use pr-review-tests instead. For writing new tests use test-writing instead."
+description: "Gateway skill for reviewing the quality of existing tests in a git diff and suggesting improvements. Read this BEFORE answering any request to evaluate, review, audit, or critique test quality. TRIGGER phrases include: 'how good are these tests', 'review my tests', 'are these tests good', 'can the tests be improved', 'evaluate test quality', 'review test quality', 'audit my tests', 'check my tests', 'are my tests well written'. Scope: tests in a local git diff against a base branch, including a pull request checked out locally for review. For writing new tests use test-writing instead."
 allowed-tools: Read Grep Glob Bash
 ---
 
@@ -10,12 +10,10 @@ Read this skill BEFORE producing any test-quality review. It coordinates dispatc
 
 ## When to use
 
-Use when the user asks for an opinion on the quality of *existing* tests in their local git diff — typically before a PR exists, while iterating on a branch.
+Use when the user asks for an opinion on the quality of *existing* tests in a local git diff: a branch they are iterating on, or someone else's pull request checked out locally (for example into a worktree) for review.
 
 Do **not** use when:
 - The user is writing new tests → use `test-writing`
-- The tests are in an open PR and the question is about coverage gaps or duplicates → use `pr-review-tests`
-- The user wants a PR-wide review briefing → use `pr-review-prep`
 
 ## Step 1: Determine the diff scope
 
@@ -92,7 +90,7 @@ What to avoid:
 - Restating the diff back to the user.
 - Generic test-smell taxonomy lectures — apply the skills, don't quote them.
 - Long preamble before the verdict.
-- Pretending coverage analysis (gaps/duplicates against existing tests) is in scope. That's `pr-review-tests`. If a coverage gap is glaringly obvious, mention it briefly and note that `pr-review-tests` is the right tool for a thorough gap analysis.
+- Pretending coverage analysis (gaps/duplicates against existing tests) is in scope. If a coverage gap is glaringly obvious, mention it briefly and say that a thorough gap analysis is a separate exercise.
 
 ## Step 6: Self-check before responding
 
