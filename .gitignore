@@ -3,3 +3,6 @@
 skills/synced/
 
 .DS_Store
+
+# Organisation-specific notes that skills read when present.
+skills/*/local.md

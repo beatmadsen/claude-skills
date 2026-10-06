@@ -30,6 +30,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [mock-audit](skills/mock-audit/) | Review test double usage for correctness |
 | [mutation-test-review](skills/mutation-test-review/) | Interpret mutation testing results and improve test quality |
 | [pentsection](skills/pentsection/) | Settle a matter of taste by building and rendering five candidates per round, keeping one or two |
+| [pr-review](skills/pr-review/) | Review a colleague's pull request: context from tickets, soundness, structure, claims, mutation-tested coverage, then approved inline comments |
 | [property-test](skills/property-test/) | Design property-based tests for functions or data transformations |
 | [pyramid-rebalance](skills/pyramid-rebalance/) | Move a single test file to the right level of the test pyramid |
 | [ralphify](skills/ralphify/) | Background knowledge about Ralphify, an autonomous AI coding loop tool |
