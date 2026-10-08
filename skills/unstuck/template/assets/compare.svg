@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs><linearGradient id="wash" x2="1" y2="1"><stop stop-color="#22352b"/><stop offset="1" stop-color="#14201b"/></linearGradient></defs>
+  <rect width="640" height="360" fill="url(#wash)"/>
+  <path d="M320 35V300" stroke="#667a63" stroke-dasharray="3 8"/>
+  <g transform="translate(50 60)">
+    <rect width="245" height="221" rx="8" fill="#1c2923" stroke="#64826c"/>
+    <path d="M0 30H245" stroke="#3d5545"/>
+    <text x="15" y="20" font-family="monospace" font-size="10" fill="#a8c8b2">A / CURRENT</text>
+    <rect x="18" y="50" width="209" height="75" rx="4" fill="#3c5943"/>
+    <path d="M32 71H155M32 88H196M32 104H174" stroke="#8ba68b" stroke-width="5"/>
+    <rect x="18" y="141" width="95" height="55" rx="4" fill="#2d4134"/>
+    <rect x="130" y="141" width="97" height="55" rx="4" fill="#2d4134"/>
+  </g>
+  <g transform="translate(345 60)">
+    <rect width="245" height="221" rx="8" fill="#d8d7bd" stroke="#e7c17c"/>
+    <path d="M0 30H245" stroke="#a5ae91"/>
+    <text x="15" y="20" font-family="monospace" font-size="10" fill="#354b3a">B / PROPOSED</text>
+    <rect x="18" y="50" width="209" height="75" rx="4" fill="#b4bea0"/>
+    <path d="M32 71H155M32 88H196M32 104H174" stroke="#657e5f" stroke-width="5"/>
+    <rect x="18" y="141" width="95" height="55" rx="4" fill="#bac1a5"/>
+    <rect x="130" y="141" width="97" height="55" rx="4" fill="#bac1a5"/>
+  </g>
+  <text x="320" y="322" text-anchor="middle" font-family="monospace" font-size="11" fill="#adc1ad">SAME CONTENT / ONE VISIBLE DIFFERENCE</text>
+</svg>

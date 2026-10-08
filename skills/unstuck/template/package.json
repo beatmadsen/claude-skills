@@ -1,0 +1,12 @@
+{
+  "name": "unstuck-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 7791 --bind 127.0.0.1",
+    "test": "node --test tests/unit/*.test.js && playwright test --config tests/browser/config.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

@@ -46,6 +46,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [tome-capture](skills/tome-capture/) | Save research findings to an [agent-tome](https://github.com/beatmadsen/agent-tome) knowledge base |
 | [tome-lookup](skills/tome-lookup/) | Search an [agent-tome](https://github.com/beatmadsen/agent-tome) knowledge base before researching a topic |
 | [unit-test-design](skills/unit-test-design/) | Design unit tests by identifying exit points and choosing test doubles |
+| [unstuck](skills/unstuck/) | Put a project setback in perspective and queue three concrete experiments in a visual wiki, ready for your go-ahead |
 
 ## Installation
 

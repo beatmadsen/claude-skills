@@ -1,0 +1,89 @@
+{
+  "example": true,
+  "project": "A personal project",
+  "title": "Make it feel like yours.",
+  "route": "Keep the working product. Test one visual choice before redesigning anything else.",
+  "approval": "Awaiting your go-ahead",
+  "approvalScope": "No experiments authorised. Say begin in your agent conversation when you are ready.",
+  "goal": "A small, useful app you enjoy opening and feel proud to share.",
+  "obstacle": "The latest polish pass looks competent, but the result does not feel like the product you wanted.",
+  "preserved": ["The existing interactions", "The content and underlying data", "The ability to compare against the current version"],
+  "assumptions": ["This is an illustrative scenario, not an inspection of your project.", "The dissatisfaction can be narrowed to a visible choice; the first experiment tests that assumption."],
+  "alternatives": ["Keep the existing design and replace only the visual treatment.", "Reduce the product to the one screen that preserves its original appeal."],
+  "evidence": [{"label": "Illustration source: a proposed comparison", "href": "assets/compare.svg"}],
+  "next": ["U1", "U2", "U3"],
+  "tasks": [
+    {
+      "id": "U1",
+      "title": "Find the visual mismatch",
+      "owner": "Agent",
+      "state": "Awaiting go-ahead",
+      "try": "Inspect one representative screen beside the experience you wanted.",
+      "learn": "Which visible choice is making the whole product feel wrong?",
+      "unlock": "A precise question for a small design comparison.",
+      "dependsOn": [],
+      "image": {"src": "assets/inspect.svg", "alt": "A screen with one region isolated for closer inspection.", "label": "Concept / isolate the question"},
+      "details": [
+        {"label": "Deliverable", "text": "One annotated screenshot, with a single comparison question."},
+        {"label": "Evidence to collect", "text": "The current screen, the intended reference, and the user's reaction to the marked difference."},
+        {"label": "Stop when", "text": "One visual question is specific enough to build alternatives for. Do not start polishing."},
+        {"label": "Undo", "text": "Only an annotation is created. Product files stay untouched."}
+      ],
+      "outcomes": [
+        {"label": "If supported", "text": "Use the isolated question to scope U2."},
+        {"label": "If refuted", "text": "Check whether the disappointing part is the workflow rather than its appearance."},
+        {"label": "If inconclusive", "text": "Request a reaction to the annotated screen before proposing another experiment."}
+      ],
+      "result": "No experiment has run.",
+      "evidence": []
+    },
+    {
+      "id": "U2",
+      "title": "Compare one design choice",
+      "owner": "Agent, then you",
+      "state": "Awaiting go-ahead",
+      "try": "Build a small comparison on the same screen, content and behaviour.",
+      "learn": "Which direction actually feels better when you can see it?",
+      "unlock": "A chosen direction, grounded in your reaction.",
+      "dependsOn": ["U1"],
+      "image": {"src": "assets/compare.svg", "alt": "Two equally sized screen treatments using the same content.", "label": "Concept / compare fairly"},
+      "details": [
+        {"label": "Deliverable", "text": "A rendered comparison with equally finished candidates."},
+        {"label": "Evidence to collect", "text": "Your pick and what made it appealing. The agent does not choose for you."},
+        {"label": "Stop when", "text": "The candidates can answer U1's question. Wait for your judgment before U3."},
+        {"label": "Undo", "text": "Keep the candidates in an isolated prototype; the current product remains the control."}
+      ],
+      "outcomes": [
+        {"label": "If supported", "text": "Take your chosen direction into U3."},
+        {"label": "If refuted", "text": "Record what all candidates missed and revise the question."},
+        {"label": "If inconclusive", "text": "Identify the difference the comparison failed to isolate."}
+      ],
+      "result": "No experiment has run.",
+      "evidence": []
+    },
+    {
+      "id": "U3",
+      "title": "Try it on a second screen",
+      "owner": "Agent, then you",
+      "state": "Awaiting go-ahead",
+      "try": "Apply the chosen direction to a different representative screen.",
+      "learn": "Does the improvement hold beyond the first carefully chosen example?",
+      "unlock": "Evidence for a focused change, or a clear reason to change course.",
+      "dependsOn": ["U2"],
+      "image": {"src": "assets/extend.svg", "alt": "A selected visual treatment connected to a second screen.", "label": "Concept / test the reach"},
+      "details": [
+        {"label": "Deliverable", "text": "A second-screen prototype beside the first candidate."},
+        {"label": "Evidence to collect", "text": "The user's judgment on the new screen and checks of its existing behaviour."},
+        {"label": "Stop when", "text": "The direction has been tested on the second screen. Broader rollout is a separate proposal."},
+        {"label": "Undo", "text": "Discard the isolated prototype without removing the comparison evidence."}
+      ],
+      "outcomes": [
+        {"label": "If supported", "text": "Propose a focused implementation batch for approval."},
+        {"label": "If refuted", "text": "Keep the first-screen finding and narrow where this direction applies."},
+        {"label": "If inconclusive", "text": "Name the missing observation; avoid a broad redesign on weak evidence."}
+      ],
+      "result": "No experiment has run.",
+      "evidence": []
+    }
+  ]
+}
