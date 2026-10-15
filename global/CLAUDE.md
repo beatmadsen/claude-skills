@@ -79,6 +79,12 @@ branch. Commit early and often at stable states without asking —
 each green test run, each working increment, each coherent change is a
 good commit point.
 
+If a change cannot land whole, **branch by abstraction**, never by a git
+branch: put a seam in the trunk, land the new path behind it (unused or
+switched off) in green commits, switch over, then delete the old path.
+This holds for subagents too: work done in a worktree is integrated into
+the trunk as soon as its gates pass, not left on its branch.
+
 After every commit you make, invoke the `intent-record` skill and record the
 intent against the new hash before starting the next piece of work. First
 confirm the commit landed (`git log -1` shows it): a pre-commit gate can refuse
