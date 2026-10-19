@@ -24,7 +24,7 @@ jq -n --arg body "$body" '{body:$body, commit_id:"<sha>", path:"<path>", start_l
 
 For a single line, drop `start_line` and `start_side`.
 
-Standalone comments notify the author immediately and set no review state. If Erik asks for a single notification instead, collect the approved drafts and submit them together through `POST repos/<owner>/<repo>/pulls/<n>/reviews` with `event: "COMMENT"` and a `comments` array.
+Standalone comments notify the author immediately and set no review state. If the user asks for a single notification instead, collect the approved drafts and submit them together through `POST repos/<owner>/<repo>/pulls/<n>/reviews` with `event: "COMMENT"` and a `comments` array.
 
 ## Edit a posted comment
 

@@ -1,16 +1,16 @@
 # Comment voice
 
-Audience: the author, plus a junior engineer with limited domain knowledge reading over their shoulder. Erik understands each issue fully, and the comment should carry that understanding, concisely.
+Audience: the author, plus a junior engineer with limited domain knowledge reading over their shoulder. The user understands each issue fully, and the comment should carry that understanding, concisely.
 
 ## Content
 
 - Say what the code does now, what follows from it, and who is affected. Name the files, functions and fields.
-- Include the reasoning Erik has (why it's a trap, where the data flows), not just the conclusion.
+- Include the reasoning the user has (why it's a trap, where the data flows), not just the conclusion.
 - Suggestions come with code sketches. Sketches reuse the author's fixtures, helpers and names so they drop straight in. Call invented names placeholders.
 - Acknowledge what the change makes possible, naming the concrete thing. No generic praise.
 - One concern per comment, anchored on the production line where the behaviour lives.
 - Coverage comments stay about coverage. Design suggestions get their own comments.
-- Argue from concrete benefits. Don't cite Erik's personal limits (4 instance variables, 7-line methods) to the author.
+- Argue from concrete benefits. Don't cite the user's personal limits (4 instance variables, 7-line methods) to the author.
 
 ## Certainty
 
@@ -25,11 +25,11 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 |---|---|---|
 | "Happy to be told if this is covered somewhere I didn't look." | Doubt we've already disproved reads as "prove me wrong" | End on the fact |
 | "I may have missed a test somewhere else." | Same | Drop it |
-| "Happy to talk it through." Offers to pair. | Erik gives best-effort feedback, not invitations to a discussion | End on the point |
-| "Optional", "non-blocking", "nit" | Everything Erik raises is optional unless he explicitly asks for a change | Just make the point |
+| "Happy to talk it through." Offers to pair. | The user gives best-effort feedback, not invitations to a discussion | End on the point |
+| "Optional", "non-blocking", "nit" | Everything the user raises is optional unless they explicitly asks for a change | Just make the point |
 | "On `main`, X covered this." "The old code did this better." | Defends the code being replaced, which the change may have had good reason to break away from | Describe what the new code makes possible |
 | "This doesn't seem to have a test" (after verifying) | False hedge | "This has no test" |
-| Log key or log message changes | Erik doesn't couple code to log text | Don't raise them |
+| Log key or log message changes | The user doesn't couple code to log text | Don't raise them |
 
 ## Structural suggestions
 
