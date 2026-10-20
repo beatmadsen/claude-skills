@@ -48,6 +48,11 @@ fake.
   streamline, harness, navigate (figurative), underscore, boast, foster, seamless,
   pivotal, intricate, meticulous, comprehensive/nuanced (as filler adjectives, not
   earned by content), align with, showcase/showcasing. Use plain synonyms.
+- **No business jargon:** "ask" as a noun ("the ask"), learnings, deliverable,
+  action as a verb, bandwidth, circle back, touch base, going forward,
+  low-hanging fruit, move the needle, take it offline, key takeaway, level-set,
+  impact as a verb. Name the actual thing: "the request", "what I'm suggesting",
+  "what we found".
 - **Never write that something matters.** "Matter", "matters", "mattered", "what
   matters", "where it matters most": AI prose reaches for this verb constantly, to
   assert importance it has not shown. Say what happens instead. "The difference
