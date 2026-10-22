@@ -1,6 +1,6 @@
 ---
 name: coding-standards
-description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
+description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, where decisions live, total functions, naming, type placement in layered architectures, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -35,6 +35,26 @@ current formatting happens to use.
 - No more than 2 levels of inheritance in any class hierarchy.
 - Object methods should assume non-null inputs and never return null. Only data structures should work with null.
 - Construction should have no side effects; a constructor only sets instance variables. Put any side effects in a separate method called after construction, so an object can be built without being used immediately. A static factory method may do the construction and the side effects together, but the constructor itself stays side-effect-free.
+
+## Decisions and contracts
+
+- Keep each decision in one place. A caller must not inspect an input to choose which of several parallel functions to call, and a callee must not rely on its caller having made that check. When a stage handles several kinds of input, model them as one sealed type (or the language's closest equivalent) and branch once, inside the stage.
+- Make functions total over the inputs their callers legitimately pass. A function that throws for, or rejects, a value one of its callers may validly give it is a partial function guarded by that caller. Widen its input type to model every case instead, so the compiler checks that each case is handled. Rejecting input that is invalid for every caller, such as malformed data or an unsupported type, is still fine.
+
+## Naming
+
+- A noun class name says what an instance is. Do not name a component that does work after the thing it handles or produces: an object that makes purchases is not a purchase.
+- Qualify a name enough to tell it apart from other code in the codebase that does the same kind of work, and no further. If several paths purchase, the name says which one this is.
+- Name event and message types for what happened, and the components that handle them for how they treat it: an activation type, handled by a component that processes it as a purchase. A nested type is already qualified by its enclosing type, so it needs less qualification than a top-level one.
+
+## Layered architectures
+
+These matter most in an intentionally layered architecture, such as Onion, Hexagonal (ports and adapters), or Clean, where the domain sits at the centre and must not depend on the layers around it. Elsewhere they are still good guidance on where a type belongs.
+
+- A type belongs to the layer whose concern it expresses. A type that carries data from an adapter into orchestration belongs to the application layer, not the domain, even when it holds only domain types.
+- Domain types never implement interfaces from an outer layer. When an application abstraction must cover a domain type, wrap the domain type once in an application layer type; never mirror the domain hierarchy subtype by subtype.
+- A type used by only one layer lives in that layer, even when it is built from domain types.
+- Do not let a language rule decide which layer a type lives in. If a construct would force a type into the wrong layer, such as a sealed type requiring its implementations to share its package, change the design instead of moving the type.
 
 ## JavaScript
 

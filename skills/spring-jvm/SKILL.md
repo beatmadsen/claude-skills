@@ -29,6 +29,11 @@ invent a rule; ask, or follow what the codebase already does.
   what it actually is.
 - The same suspicion applies to Manager, Helper, Util, Handler, and Processor. These are
   names for "code that does things", which is all code.
+- The suspicion is a prompt to look for a better name, not a ban. A suffix can be the
+  honest name when it is the vocabulary of the design or domain itself: Processor for the
+  component that handles each event type in an event processing (ETL style) pipeline, or
+  Handler for the targets of a message dispatcher. Use it then, but only for the
+  components that play that role, and stay open to a name that says more.
 - Facade, Coordinator, and Orchestrator are legitimate patterns and frequent dumping
   grounds. If one of them is growing without a clear responsibility, it is the former
   turning into the latter.
