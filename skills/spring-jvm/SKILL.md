@@ -46,8 +46,14 @@ invent a rule; ask, or follow what the codebase already does.
 ## Object lifecycle and injection
 
 - Not everything is or should be a singleton, even when it needs injection of Spring
-  managed state. Prefer objects you instantiate yourself, passing collaborators in.
-  Promote to a Spring managed bean later, when the lifecycle clearly calls for it.
+  managed state. Prefer plain objects that Spring does not manage in any way: a Spring
+  managed class (or an object it created) instantiates them, passing collaborators in,
+  and they do not outlive their creator. Promote to a Spring managed bean later, when the
+  lifecycle clearly calls for it.
+- Registering an object through a `@Bean` method is still Spring managing it as a
+  singleton. It is not a lighter alternative to `@Component`, and moving registration
+  into configuration classes does not keep Spring at the edges. When something should be
+  a bean, declare it the way the codebase already does.
 - The clearest signal for promotion is that the object owns an expensive or external
   resource: a connection pool, an HTTP client, a cache. Convenience is not a signal.
 - Constructor injection only, with final fields, and no `@Autowired` on the constructor.
