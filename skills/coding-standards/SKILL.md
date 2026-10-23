@@ -1,6 +1,6 @@
 ---
 name: coding-standards
-description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, value types, I/O shape, where decisions live, total functions, result types, exceptions, naming, type and package placement in layered architectures, dead code and staged migrations, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
+description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, value types, I/O shape, where decisions live, total functions, result types, exceptions, naming, speculative generalisation, type and package placement in layered architectures, containing existing violations, dead code and staged migrations, flaky tests, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -38,6 +38,8 @@ current formatting happens to use.
 - Construction should have no side effects; a constructor only sets instance variables. Put any side effects in a separate method called after construction, so an object can be built without being used immediately. A static factory method may do the construction and the side effects together, but the constructor itself stays side-effect-free.
 - Give values that share a type but differ in role their own value types. When a method takes, or a class holds, two values of the same type that could be swapped (two ids of the same kind, two lists of the same element type), wrap at least one in a value class named for its role, so swapping them fails to compile.
 - Move behaviour to the type whose data it uses. A method that reads several fields of one object and little else belongs on that object.
+- Introduce a supertype only when some logic handles the general concept. Sibling types that no code treats alike need no common parent.
+- Declare behaviour on a type you own as a member. Use an extension function only for a type you cannot change, or for behaviour that belongs to an outer layer than the type.
 
 ## Data flow and I/O
 
@@ -61,6 +63,8 @@ current formatting happens to use.
 - Qualify a name enough to tell it apart from other code in the codebase that does the same kind of work, and no further. If several paths purchase, the name says which one this is.
 - Name event and message types for what happened, and the components that handle them for how they treat it: an activation type, handled by a component that processes it as a purchase. A nested type is already qualified by its enclosing type, so it needs less qualification than a top-level one.
 - Name statuses, outcomes and reasons after what happened in the domain, not after the mechanism that detected it: `REPLACED_BY_SUCCESSOR`, not `NO_PROCESSOR`. One name per outcome; split a name that covers two.
+- Name sibling types for what sets each apart. A bare name beside a qualified one (`Activation` beside `SuccessorActivation`) reads as the general case. If it is not the general case, qualify it too (`StandaloneActivation`).
+- Name a check for exactly what it tests. Do not use a word that implies more than the check verifies: a check that matches records whatever their status is `containsAnyFor`, not `holdAnyFor`. Use the language's standard vocabulary for standard operations, such as Kotlin's `contains`, `any` and `none` on collections.
 - A predicate reads as a true domain sentence at the call site. Choose the word order that is both correct and readable: `event.isTerminationForUpgradeOrDowngrade`, not `event.isUpgradeOrDowngradeTermination`.
 
 ## Layered architectures
@@ -74,6 +78,8 @@ These matter most in an intentionally layered architecture, such as Onion, Hexag
 - Before introducing a type, check whether the domain already models the concept. A new type must add something: a case the existing type lacks, or data it cannot hold. A wrapper that renames each existing subtype adds nothing and is the mirror forbidden above.
 - Transport types stop at the adapter. Wire types (protobuf, DTOs, framework messages) are mapped to domain types before orchestration begins, and no inner package imports them. Enforce this with an architecture test.
 - A type two feature packages share lives in the package that owns its concept, not in whichever feature introduced it, so features do not depend on each other.
+- Inner layers are not named after transport. No domain or application package or type is named for how data travels (`grpc`, `kafka`, `http`). Name it for what the inner layer needs.
+- Define a port in the layer that needs it, expressed in that layer's vocabulary. A port only orchestration uses belongs to the application layer; a port domain services use belongs to the domain.
 
 ## JavaScript
 
@@ -96,7 +102,9 @@ These standards are the user's, not their team's. In PR descriptions, review com
 - **New code**: meet the limits as you write it, not in a cleanup pass afterwards.
 - **Code you are already changing, and code you walk into**: bring it into compliance now, while you have the context, because fixing it later means rebuilding that context. This is the default everywhere, and holds without exception in a repository where the user is the only developer.
 - **Team repositories with peer review**: the size of a change is a real cost, because large changes are hard to get reviewed and integrated. Fix small violations in place, and put a larger fix in its own commit or small PR next to the work, rather than growing it.
-- **Dead code**: delete it instead of fixing it, with its tests, in the change that makes it dead or the first change that notices.
-- **Declared staged migrations**: the one exception to fixing what you walk into and to deleting dead code. Such migrations are rare, and the exception applies only when one is declared: the user says so, or the repository's `AGENTS.md`, the ticket, or the code's own migration comments name the legacy path and its planned removal. Never infer one from old-looking code, duplicated classes, or names like "legacy"; without a declaration, the rules above apply in full. Within a declared migration that keeps the legacy path until a final removal step, leave the legacy code alone, even where it is unreachable. Change it only as far as the build needs to keep compiling, such as an import of a type that moved. Do not refactor it, fix its violations, or delete it early: the deletion belongs to the planned final step.
+- **Existing violations you may not fix now**: when the fix is out of scope, because the user says so or because it is too large even for its own commit or small PR next to the work, contain the violation and never extend it. New code adds nothing to such a package or type. Where new code needs what it offers, put a port owned by the new code in front of it. Freeze the violation with an architecture test so it cannot grow.
+- **Dead code**: delete it instead of fixing it, with its tests, in the change that makes it dead or the first change that notices. A test that no build runs is dead code.
+- **Flaky tests**: zero tolerance. A test whose result depends on order, timing or another test is fixed in the change that finds it (in its own commit when the fix is large), even when the cause lies elsewhere. Never retry, skip or quarantine it.
+- **Declared staged migrations**: the one exception to deleting dead code, and one of two exceptions to fixing what you walk into (the other is a violation you may not fix now). Such migrations are rare, and the exception applies only when one is declared: the user says so, or the repository's `AGENTS.md`, the ticket, or the code's own migration comments name the legacy path and its planned removal. Never infer one from old-looking code, duplicated classes, or names like "legacy"; without a declaration, the rules above apply in full. Within a declared migration that keeps the legacy path until a final removal step, leave the legacy code alone, even where it is unreachable. Change it only as far as the build needs to keep compiling, such as an import of a type that moved. Do not refactor it, fix its violations, or delete it early: the deletion belongs to the planned final step.
 - **When a limit looks impossible**: say which limit, on which construct, and why, instead of quietly exceeding it. A limit you cannot meet is usually the design telling you something, and that is worth surfacing rather than absorbing.
 - **In review**: cite the specific standard and the count that breaks it (for example "class has 6 instance variables, limit is 4"), not a general impression that something is too big.
