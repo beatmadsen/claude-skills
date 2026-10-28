@@ -48,6 +48,11 @@ fake.
   streamline, harness, navigate (figurative), underscore, boast, foster, seamless,
   pivotal, intricate, meticulous, comprehensive/nuanced (as filler adjectives, not
   earned by content), align with, showcase/showcasing. Use plain synonyms.
+- **Don't call a pattern, algorithm or data structure a "shape".** "The same
+  shape as pause", "the I/O shape", "a struct of this shape" are vague stand-ins.
+  Name the thing: "the same approach", "the same pattern", "the same sequence of
+  steps", "the same structure", or describe what it does ("dispatch every group,
+  then wait on one deadline").
 - **No business jargon:** "ask" as a noun ("the ask"), learnings, deliverable,
   action as a verb, bandwidth, circle back, touch base, going forward,
   low-hanging fruit, move the needle, take it offline, key takeaway, level-set,
