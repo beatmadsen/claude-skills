@@ -1,6 +1,6 @@
 ---
 name: coding-standards
-description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, value types, I/O shape, where decisions live, total functions, result types, exceptions, naming, speculative generalisation, type and package placement in layered architectures, containing existing violations, dead code and staged migrations, flaky tests, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
+description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, value types, procedure holder classes, derived and narrowed parameters, collection types, computed properties, I/O shape, deciding apart from acting, where decisions live, total functions, result types, exceptions, naming, speculative generalisation, type and package placement in layered architectures, containing existing violations, dead code and staged migrations, flaky tests, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -40,6 +40,11 @@ current formatting happens to use.
 - Move behaviour to the type whose data it uses. A method that reads several fields of one object and little else belongs on that object.
 - Introduce a supertype only when some logic handles the general concept. Sibling types that no code treats alike need no common parent.
 - Declare behaviour on a type you own as a member. Use an extension function only for a type you cannot change, or for behaviour that belongs to an outer layer than the type.
+- No class whose only purpose is to give a procedure a home. The tell is a class named after its only method, or a wrapper around a repository that adds side effects. Extract the natural abstractions from the combined computation instead, and put each part on the data it uses.
+- A parameter that can be derived from another parameter is a smell. Pass the source and derive the rest inside, or find the abstraction the split is hiding.
+- Narrow each parameter to what the method uses: pass the id, not the object that holds it.
+- Pick collection types for their meaning and use them consistently. If the operations are set algebra (difference, intersection, membership), use sets throughout, and convert to lists only at the boundary of APIs that require them. Keep a list where order matters, or where an API requires one and no set operation happens.
+- In languages with computed properties, prefer a computed property to a function when the value reads as a property of the object, like the area of a square: computing it has no side effects, does not throw, is relatively cheap, and gives the same result while the object's state is unchanged. Otherwise use a function. This follows the heuristics of the Kotlin coding conventions on functions and properties.
 
 ## Data flow and I/O
 
@@ -49,6 +54,7 @@ current formatting happens to use.
 
 ## Decisions and contracts
 
+- Decide first, then act, in separate code. Code that works out what should happen (reading, interpreting, enriching and judging the input) runs before the code that makes it happen (writes, messages, calls to other systems), and stays apart from it. The acting code receives finished decisions and carries them out. It may short circuit, skipping an action whose precondition does not hold, but it never gathers more information or makes a decision of its own. Keeping the deciding code free of side effects lets it be tested without doubles.
 - Keep each decision in one place. A caller must not inspect an input to choose which of several parallel functions to call, and a callee must not rely on its caller having made that check. When a stage handles several kinds of input, model them as one sealed type (or the language's closest equivalent) and branch once, inside the stage.
 - Make functions total over the inputs their callers legitimately pass. A function that throws for, or rejects, a value one of its callers may validly give it is a partial function guarded by that caller. Widen its input type to model every case instead, so the compiler checks that each case is handled. Rejecting input that is invalid for every caller, such as malformed data or an unsupported type, is still fine.
   - During an incremental migration, a branch may reject a case no caller produces yet, if a test pins the rejection and the branch is replaced when that case's handling arrives. Never add a mirror type or a domain grouping to avoid it.
@@ -60,12 +66,19 @@ current formatting happens to use.
 ## Naming
 
 - A noun class name says what an instance is. Do not name a component that does work after the thing it handles or produces: an object that makes purchases is not a purchase.
+- A type name is a singular noun, so it passes the "is-a" test: an instance is a `PurchaseProcessor`, not a `Purchases`. Never name a type in the plural, even when it holds several things. Name the whole they form or the role it plays (`FulfillmentLedger`, `MembershipChange`, `ProductCatalogue`), not its contents. This holds for every named type, including Kotlin `object`s, value classes and test fixtures.
 - Qualify a name enough to tell it apart from other code in the codebase that does the same kind of work, and no further. If several paths purchase, the name says which one this is.
 - Name event and message types for what happened, and the components that handle them for how they treat it: an activation type, handled by a component that processes it as a purchase. A nested type is already qualified by its enclosing type, so it needs less qualification than a top-level one.
 - Name statuses, outcomes and reasons after what happened in the domain, not after the mechanism that detected it: `REPLACED_BY_SUCCESSOR`, not `NO_PROCESSOR`. One name per outcome; split a name that covers two.
 - Name sibling types for what sets each apart. A bare name beside a qualified one (`Activation` beside `SuccessorActivation`) reads as the general case. If it is not the general case, qualify it too (`StandaloneActivation`).
 - Name a check for exactly what it tests. Do not use a word that implies more than the check verifies: a check that matches records whatever their status is `containsAnyFor`, not `holdAnyFor`. Use the language's standard vocabulary for standard operations, such as Kotlin's `contains`, `any` and `none` on collections.
 - A predicate reads as a true domain sentence at the call site. Choose the word order that is both correct and readable: `event.isTerminationForUpgradeOrDowngrade`, not `event.isUpgradeOrDowngradeTermination`.
+- A verb names the effect the call actually has. Do not soften it: a component that saves records and sends messages to another system does not `notify`.
+- Name a component for its stage in the flow. Place it in the chain first (interpreting and enriching the input, judging what must change, carrying the change out) and name it for that stage. Give paired stages matching words, such as a `Planner` that infers and an `Executor` that executes.
+- Do not reuse a word the domain already uses for something else. Where "plan" means price plan, a `BundleSwitchPlan` reads as the price plan of a switch.
+- Name a relationship for what it is in the domain, with the term the domain's own fields use. Products whose field is `fulfillerPartnerId` are selected with `fulfilledBy(partnerId)`: `of` is vague, and `belongingTo` claims an ownership that does not exist.
+- Use the standard term for a role, not one borrowed to mirror an unrelated class. A port that publishes is a `Publisher`, even when a neighbouring class is an `Announcer`.
+- One name, one meaning. Do not give operations that mean different things the same name, least of all as overloads whose parameter types coincide, where a mix up compiles. Moving a record and saving the moved record are `carryOver` and `saveAndPublish`, not two `carryOver`s.
 
 ## Layered architectures
 
@@ -77,6 +90,7 @@ These matter most in an intentionally layered architecture, such as Onion, Hexag
 - Do not let a language rule decide which layer a type lives in. If a construct would force a type into the wrong layer, such as a sealed type requiring its implementations to share its package, change the design instead of moving the type.
 - Before introducing a type, check whether the domain already models the concept. A new type must add something: a case the existing type lacks, or data it cannot hold. A wrapper that renames each existing subtype adds nothing and is the mirror forbidden above.
 - Transport types stop at the adapter. Wire types (protobuf, DTOs, framework messages) are mapped to domain types before orchestration begins, and no inner package imports them. Enforce this with an architecture test.
+- Inner layers depend on no adapter. An application service does not call a Kafka producer, an HTTP client or any other adapter directly; it calls a port its own layer defines, which the adapter implements.
 - A type two feature packages share lives in the package that owns its concept, not in whichever feature introduced it, so features do not depend on each other.
 - Inner layers are not named after transport. No domain or application package or type is named for how data travels (`grpc`, `kafka`, `http`). Name it for what the inner layer needs.
 - Define a port in the layer that needs it, expressed in that layer's vocabulary. A port only orchestration uses belongs to the application layer; a port domain services use belongs to the domain.
