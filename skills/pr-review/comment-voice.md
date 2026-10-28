@@ -30,6 +30,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 | "On `main`, X covered this." "The old code did this better." | Defends the code being replaced, which the change may have had good reason to break away from | Describe what the new code makes possible |
 | "This doesn't seem to have a test" (after verifying) | False hedge | "This has no test" |
 | Log key or log message changes | The user doesn't couple code to log text | Don't raise them |
+| "Thanks", "thank you for fixing this" | The user doesn't commission the work, so thanking the author for it isn't theirs to do | State what the code does now and move to the point |
 
 ## Structural suggestions
 
