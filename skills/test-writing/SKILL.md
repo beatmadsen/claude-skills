@@ -1,6 +1,6 @@
 ---
 name: test-writing
-description: "Gateway skill for writing any test. TRIGGER proactively whenever you are about to write, create, or add a test — unit test, integration test, acceptance test, or any test code. Ensures the right kind of test is written well. Read this BEFORE writing test code."
+description: "Gateway skill for writing any test. TRIGGER proactively whenever you are about to write, create, or add a test — unit test, integration test, acceptance test, or any test code, and whenever you add or change a fixture, migration or config value a test reads. Ensures the right kind of test is written well. Read this BEFORE writing test code."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 
@@ -26,6 +26,13 @@ Classify what you're testing:
 | Thin wrapper (trivial delegation) | Likely doesn't need its own test | Skip or cover at higher level |
 
 If unsure, read the `test-strategy` skill for a full analysis.
+
+### Placement rules
+
+- Classify a test by what it exercises, not by the directory or suffix it carries. A "unit test" that stands up a full application context is mislabelled.
+- Watch the shape of the pyramid as you build. A top-heavy suite has one of two causes and both are defects: the edge cases are missing, or they are pinned at too high a layer. Neither is fixed by adding more tests at the top.
+- A duplicated decision belongs to its owner. When a high-level test re-asserts what a collaborator already decides, delete it there and pin it at the collaborator.
+- Needing a database to test something is usually a missing seam. Inject the repository interface rather than reaching for a real one.
 
 ## Step 2: Hard rules (never violate)
 
@@ -53,6 +60,11 @@ If unsure, read the `test-strategy` skill for a full analysis.
 - Pattern: `should [expected outcome] when [condition]`
 - Name the rule, not the example
 
+### New inputs are proven, not assumed
+A green test proves the decisions matched. It says nothing about whether the input it consumed was the right one, and a wrong value that flips no assertion is invisible to every check you own. When you add or change an input a test reads (a fixture, a migration, a config property), the green is worth nothing until you have separately shown two things:
+- That the input is actually loaded: remove it and watch something go red. If nothing changes, nothing was reading it.
+- That it is the right one, identified by a value that could not match by coincidence.
+
 ## Step 3: Write the test
 
 After determining the level and reviewing the rules above, read the appropriate skill:
@@ -73,3 +85,5 @@ Before finishing, verify:
 - [ ] Given-When-Then structure is clear (even without comments)
 - [ ] Mocks are only used for third-party call exit points (not for stubs returning data)
 - [ ] Every exit point of the behaviour is verified by some test, side effects included
+- [ ] Each test sits at the level that decides the behaviour, and no higher test re-asserts it
+- [ ] Every new or changed fixture, migration or config input was shown to be loaded and to be the right one

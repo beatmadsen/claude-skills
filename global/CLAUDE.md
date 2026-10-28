@@ -9,31 +9,15 @@ Avoid jargon. Never use business jargon, in conversation or in anything written 
 
 This file is a rulebook, not a status tracker. It carries durable guidance
 only: rules, posture, practices, pointers. It carries no project management
-and no status, because status is stale the moment it is written and is
-then read into every session, in every repository, forever after.
+and no status. Before adding a line to it, invoke the `document-hygiene`
+skill, which says what belongs here and where everything else goes.
 
 These rules govern how you work and the prose you generate, not only the
 code you write. Each one is a guardrail against a specific way work goes
 wrong. Nothing here is decorative.
 
-| Never put here | It belongs in |
-|---|---|
-| what is done, underway, or next; sprint state | the issue tracker (Jira, Linear, GitHub Issues) |
-| what a session found or fixed; counts of bugs | git history, where `git log` is the record of what happened |
-| test counts, coverage figures | the command that produces them |
-| a decision and the reasoning behind it | an ADR, if the repo keeps one |
-| how to answer an alert, deploy, or roll back | that repo's runbooks |
-| how a behaviour works and how that is proven | its test |
-
-Before adding a line, ask whether it will still be true and useful in six
-months, to someone who does not know what happened today. A rule, a
-practice, an invariant, a pointer, yes. A finding, a count, a date, a "that
-is fixed now", no. 
-
-A repository's own `AGENTS.md` or `CLAUDE.md`, if it has one, follows the same discipline
-for facts specific to that repository (its stack, its architecture, its
-invariants) and may add rules that apply only there. This file holds what
-applies everywhere. Neither should restate the other.
+A repository's own `AGENTS.md` or `CLAUDE.md` holds what is specific to that
+repository. This file holds what applies everywhere.
 
 ### Terms
 
@@ -281,34 +265,14 @@ year's framework version is the cheap illustration of why.
 - Fix the measurement before trusting the number. A test that never ran,
   or that hardcoded its input, measured nothing.
 
-### Reproduce before you fix, and again after
+### Failures and defects
 
-- A reported failure is fixed only when you have seen it happen and then
-  seen it gone, under the reporter's own conditions. A divergence from
-  spec, a plausible mechanism, or a real bug found nearby is a finding,
-  not the failure you were asked about — fix it, but do not let it close
-  the report.
-- A reproduction built from your hypothesis proves the mechanism *can*
-  happen, not that it *did*. Capture the real system's own account first
-  (a log, one instrumented run) and let it pick the hypothesis. The
-  variable that matters is often the starting state, and fixtures default
-  to the comfortable one.
-- A fix that does not change the failure rate refutes its diagnosis. Do
-  not stack a second patch on the same theory; instrument the mechanism
-  directly instead.
-
-### Rejecting non-explanations
-
-- Never reach for "flaky", "timing", "a race", "cold cache" as a cause.
-  That is the cosmic radiation class of explanation, and it is a
-  recognisable shape rather than an answer.
-- A cause that contradicts a known capability is self-refuting. Discard
-  it.
-- A reproducible failure is findable, so find it rather than narrating it
-  away.
-- A plausible story is where the search starts, not where it ends.
-- Concluding from what you do not know is the tell. When you catch
-  yourself, design the measurement instead.
+Before explaining, diagnosing or fixing any failure, invoke the `defect-fix`
+skill. Its core holds even where the skill is not loaded: see the failure
+happen under the reporter's conditions, then see it gone; never accept
+"flaky", "timing", "a race" or "cold cache" as a cause; and pin the defect
+in a test you watched go red for the defect's reason before you edit
+production code.
 
 ### Distrust of the green
 
@@ -328,25 +292,15 @@ year's framework version is the cheap illustration of why.
 - See every new test fail first, for the right reason. This is not
   ceremony, it is the only evidence the test is wired to the behaviour. A
   test written after the code is a test you have never seen bite.
-- A gate must run what it guards, and you must have seen it bite: caused
-  the guarded failure on purpose once and watched the gate report it. A
-  gate is itself a measurement, and an unverified one is worse than none
-  because it licenses belief. Trace the signal from failure to verdict. Is
-  the exit code read? Is the exception caught and downgraded upstream? Any
-  `|| true`, any bare `catch`, any discarded status between a failure and
-  the verdict is where a red goes to die quietly.
+- A gate must run what it guards, and you must have seen it bite. An
+  unverified gate is worse than none because it licenses belief. Before
+  creating, changing or relying on one, invoke the `gate-design` skill.
 - A green suite is not evidence the service works. The suite exercises
   only what the tests reach. After a substantial change, run the
   application against a real or local stack and watch it behave.
-- A green test is not evidence a new input is correct. A test proves the
-  decisions matched. It says nothing about whether the input it consumed
-  was the right one, and a wrong value that flips no assertion is
-  invisible to every check you own. So when you add or change an input a
-  test reads (a fixture, a migration, a config property), the green is
-  worth nothing until you have separately shown two things: that the input
-  is actually loaded (remove it and watch something go red; if nothing
-  changes, nothing was reading it), and that it is the right one,
-  identified by a value that could not match by coincidence.
+- A green test is not evidence a new input is correct. When you add or
+  change a fixture, migration or config value a test reads, show that it
+  is loaded and that it is the right one; `test-writing` has the method.
 - A confirmation is a measurement too, and it counts only if it could
   have failed. A rule decoded from source and then "confirmed" against an
   observation is confirmed only when that observation could have
@@ -376,61 +330,19 @@ year's framework version is the cheap illustration of why.
 - The net is extensible. Grow tests and checks to cover risky work rather
   than deferring the work.
 
-### A bug is a missing test
+### Writing tests
 
-- A defect is fixed under the same discipline as a feature, whatever
-  turned it up: a manual run, a screenshot, a rig session, a report from
-  me, a regression you tripped over. The failing test comes first, you
-  watch it fail for the reason the defect names, and only then do you edit
-  production code. Two things have to be proven and only a committed test
-  proves either: that the fault reproduces, and that your change is what
-  removed it.
-- Finding it by hand is reconnaissance, not the red step. A scratch
-  script, a one-off probe, an instrumented run, a screenshot: those tell
-  you what to assert. The assertion still has to land in a test you
-  watched go red and then green, in the suite, committed with the fix.
-- A fix shipped without that test is unproven twice over. Nothing shows
-  the fault was real as described, and nothing stops it coming back. "I
-  checked and it works now" is the claim this rule exists to refuse,
-  because the next person inherits your word for it instead of a check.
-- Test design applies in full here; a regression test is not exempt from
-  it. Pin the behaviour at the level that decides it rather than the level
-  you happened to notice it at: a fault seen on a screen or on the rig is
-  usually a unit's fault, and the high-level sighting is how you found it,
-  not where the standing proof belongs. Where the fault really is in the
-  wiring, that is where the test goes. It states one behaviour, it is
-  named for that behaviour, and it must be able to fail again for the same
-  reason later.
-
-### Test shape
-
-- Watch the shape of the pyramid as you build. A top-heavy suite has one
-  of two causes and both are defects: the edge cases are missing, or they
-  are pinned at too high a layer. Neither is fixed by adding more tests at
-  the top.
-- Classify a test by what it exercises, not by the directory or suffix it
-  carries. A "unit test" that stands up a full application context is
-  mislabelled.
-- A duplicated decision belongs to its owner. When a high-level test
-  re-asserts what a collaborator already decides, delete it there and pin
-  it at the collaborator.
-- Needing a database to test something is usually a missing seam. Inject
-  the repository interface rather than reaching for a real one.
-- One behaviour per test, and the test name states the behaviour.
+Before writing, placing or moving a test, invoke the `test-writing` skill.
+One behaviour per test, named for that behaviour, pinned at the level that
+decides it. A defect's test follows `defect-fix` (see "Failures and
+defects").
 
 ## Documentation hygiene
 
-- A document is a rulebook, a reference, a plan, or a status tracker,
-  never two. Status decays and guidance does not, and mixing them makes
-  the guidance untrustworthy while burying the status where nobody looks.
-  State what a document is in its first lines, and honour that.
-- Consolidate as you go. Fold working notes into a permanent home, retire
-  superseded documents, delete duplicates. Verify before deleting anything
-  you did not write, and on real doubt surface it rather than remove it.
-  Cleanup is part of done, not a separate task, so it happens even in the
-  last minutes. It never preempts an open failure, though: a lane that
-  goes red near the end of a session is fixed first and tidied
-  afterwards.
+Before creating, editing or deleting any document in a repository, invoke
+the `document-hygiene` skill. A document has one purpose, and
+consolidating working notes is part of done: it happens even in the last
+minutes, after any open failure is fixed.
 
 ## Read before you act
 

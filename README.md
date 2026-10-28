@@ -21,8 +21,11 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [atdd-mob](skills/atdd-mob/) | Mob programming team with testing coaches and a craftsman communicating via agent-chat |
 | [coding-standards](skills/coding-standards/) | Hard limits on file, class, and method size plus design rules for any code written or reviewed |
 | [contract-test](skills/contract-test/) | Design contract tests between services or components |
+| [defect-fix](skills/defect-fix/) | Reproduce a failure, find its real mechanism, pin it in a failing test, then fix it |
+| [document-hygiene](skills/document-hygiene/) | Keep rulebooks and working documents single-purpose, durable and consolidated |
 | [external-writing](skills/external-writing/) | Guardrails for external-facing prose — punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
+| [gate-design](skills/gate-design/) | Build CI jobs, hooks and lint rules that run what they guard and have been seen to bite |
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 | [ideation-mob](skills/ideation-mob/) | Divergent brainstorming mob that generates and clusters ideas for a problem |
 | [intent-record](skills/intent-record/) | Record why a change was made in an [intent-record](https://github.com/beatmadsen/intent-record) store, linked to the commit and the ticket that asked for it |
@@ -35,6 +38,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [pyramid-rebalance](skills/pyramid-rebalance/) | Move a single test file to the right level of the test pyramid |
 | [ralphify](skills/ralphify/) | Background knowledge about Ralphify, an autonomous AI coding loop tool |
 | [review-test-quality](skills/review-test-quality/) | Review the quality of tests in a git diff and suggest improvements |
+| [spring-jvm](skills/spring-jvm/) | Preferences and lessons for Spring on the JVM, from injection and configuration to testing |
 | [tdd-green](skills/tdd-green/) | Write minimal code to make a failing test pass (TDD GREEN phase) |
 | [tdd-red](skills/tdd-red/) | Write a failing test for the next behavior (TDD RED phase) |
 | [tdd-refactor](skills/tdd-refactor/) | Improve design while keeping tests green (TDD REFACTOR phase) |
