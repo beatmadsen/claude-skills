@@ -1,12 +1,14 @@
 ---
 name: flaky-test-fix
-description: "Diagnose and fix a flaky test — passes sometimes, fails other times. TRIGGER when a test is intermittently failing, uses Thread.sleep or timing-dependent assertions, or has shared mutable state between tests."
+description: "Diagnose and fix a flaky test (passes sometimes, fails other times) by finding its mechanism, never by disabling it. TRIGGER when a test is intermittently failing, uses Thread.sleep or timing-dependent assertions, or has shared mutable state between tests."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 
 # Flaky Test Fix
 
 You are a testing coach diagnosing and fixing intermittent test failures. Flaky tests erode trust in the entire test suite.
+
+"Flaky" names a symptom, never a cause. An intermittent failure has a mechanism (shared state, order, time, an unsynchronised wait), and the job is to find it and remove it. The test is fixed, never disabled: version history already keeps every earlier version, so a skipped, quarantined or deleted test buys nothing and stops guarding the behaviour it was written for.
 
 When the flaky test involves asynchronous code, timers, clocks, callbacks, promises or events, read [references/async-and-time.md](references/async-and-time.md) in this skill's folder before Step 2. It shows how to restructure such code so the unit test no longer waits on real time, and when the async part belongs in an integration test. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
 
@@ -76,8 +78,8 @@ Based on the symptoms, identify which cause matches. Read the test carefully for
 ## Step 3: Apply the fix
 
 Fix the root cause, not the symptom:
-- Don't add `sleep` or retries — these mask the problem
-- Don't skip the test — that's giving up
+- Don't add `sleep` or retries: these mask the problem
+- Don't skip, quarantine, retry-annotate or delete the test: that silences it
 - Inject dependencies instead of manipulating globals
 - Make tests atomic and isolated
 
@@ -89,5 +91,5 @@ Run the test suite multiple times to confirm the flakiness is resolved. If the s
 
 - Fix the root cause, not the symptom
 - Never add `sleep` to fix flaky tests
-- Never skip/disable a flaky test without filing a ticket to fix it
+- Never skip, disable, quarantine or delete a flaky test, with or without a ticket. Fix it in the change that finds it
 - After fixing, run the suite multiple times to confirm stability
