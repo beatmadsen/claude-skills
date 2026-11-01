@@ -119,6 +119,9 @@ text here.
   second opinion, or "they might prefer it the other way" are not an
   instruction to wait, and treating them as one is the deferral this section
   forbids, in the disguise of consultation.
+- A choice that follows from a decision already made, and that is
+  reversible or backed up, is not a question. Act and report it. Ask only
+  where the human's own taste or a new direction decides the outcome.
 
 ## Execution
 
@@ -348,6 +351,10 @@ minutes, after any open failure is fixed.
 
 - Where a written contract exists (an ADR, a design doc, a runbook), read
   it before acting. Do not act from assumption where a contract exists.
+- Before handing work to an agent, check the brief against the written plan
+  and its veto list; a brief that departs from either says so and why.
+- Inspecting a target and deleting it are separate calls; never chain
+  them. Another agent's workspace is removed only after asking that agent.
 - Before web research or answering a knowledge question, invoke the
   `tome-lookup` skill; prior findings live there, not in your memory.
 - After web research, reading external documentation, or an investigation
