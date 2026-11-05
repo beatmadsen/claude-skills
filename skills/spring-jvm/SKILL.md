@@ -59,9 +59,11 @@ invent a rule; ask, or follow what the codebase already does.
   pool, an HTTP client, a cache), it needs a container feature such as a proxied
   `@Transactional`, an aspect or `@ConfigurationProperties`, it is an adapter
   implementing a port, or several components inject it. Convenience is not a case, and
-  neither is swapping it for a mock in tests: test through it instead. An object used in
-  one place, by a method that is not on a hot path, is a plain object its caller
-  creates.
+  neither is swapping it for a mock in tests. Its creator's tests then run through the
+  real object and are more coupled to it; that is a price worth paying when the creator
+  orchestrates, because mocking the business logic it calls would only verify that the
+  logic is called. An object used in one place, by a method that is not on a hot path,
+  is a plain object its caller creates.
 - Constructor injection only, with final fields, and no `@Autowired` on the constructor.
 - Field and setter injection are out.
 - Do not resolve a circular dependency with self-injection, `ObjectProvider`, or `@Lazy`.
