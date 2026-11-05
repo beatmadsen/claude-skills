@@ -1,6 +1,6 @@
 ---
 name: kotlin-coding-standards
-description: "The user's Kotlin-specific coding standards, layered on top of coding-standards: how the general limits are counted in Kotlin (constructor properties, init blocks, companion factories), extension functions versus members, what an extension may touch, logging extensions, preconditions instead of !!, computed properties, value classes, sealed types and exhaustive when, object declarations, Kotlin collection vocabulary, MockK strictness, and Kotlin with Spring. TRIGGER proactively before writing, refactoring, or reviewing Kotlin code (.kt, .kts), always together with coding-standards, never instead of it. Applies to test code as well as production code."
+description: "The user's Kotlin-specific coding standards, layered on top of coding-standards: how the general limits are counted in Kotlin (constructor properties, init blocks, companion factories), extension functions versus members, what an extension may touch, logging extensions, scope functions, preconditions instead of !!, computed properties, value classes, sealed types and exhaustive when, object declarations, Kotlin collection vocabulary, MockK strictness, and Kotlin with Spring. TRIGGER proactively before writing, refactoring, or reviewing Kotlin code (.kt, .kts), always together with coding-standards, never instead of it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -42,6 +42,12 @@ this file too.
   it records, such as `log.subscriptionsInConsentScope(subscriptions)`: the `log`
   receiver supplies the verb. The extension chooses the level and builds the message, so
   the calling method shows logging as one step.
+- Choose a scope function by intent. `also` is for an incidental side effect on a value
+  passing through, an "and by the way, log it" such as `.also { log.found(it) }`, and is
+  lighter than naming the value, logging it and returning it. When the side effect is
+  central to the algorithm, make it a statement of its own on a named value instead.
+  `apply` is only for configuring its receiver, and `let` for transforming a value or
+  handling a nullable. A trailing `also` is a chained call, so it counts as its own line.
 - Prefer a computed property (a `val` with a getter) to a function when the value reads
   as a property of the object, like the area of a square: computing it has no side
   effects, does not throw, is relatively cheap, and gives the same result while the
