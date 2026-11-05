@@ -54,8 +54,14 @@ invent a rule; ask, or follow what the codebase already does.
   singleton. It is not a lighter alternative to `@Component`, and moving registration
   into configuration classes does not keep Spring at the edges. When something should be
   a bean, declare it the way the codebase already does.
-- The clearest signal for promotion is that the object owns an expensive or external
-  resource: a connection pool, an HTTP client, a cache. Convenience is not a signal.
+- The burden of proof is on the bean. Make something a bean only when there is a case
+  for the container wiring it: it owns an expensive or external resource (a connection
+  pool, an HTTP client, a cache), it needs a container feature such as a proxied
+  `@Transactional`, an aspect or `@ConfigurationProperties`, it is an adapter
+  implementing a port, or several components inject it. Convenience is not a case, and
+  neither is swapping it for a mock in tests: test through it instead. An object used in
+  one place, by a method that is not on a hot path, is a plain object its caller
+  creates.
 - Constructor injection only, with final fields, and no `@Autowired` on the constructor.
 - Field and setter injection are out.
 - Do not resolve a circular dependency with self-injection, `ObjectProvider`, or `@Lazy`.

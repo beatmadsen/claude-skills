@@ -1,6 +1,6 @@
 ---
 name: kotlin-coding-standards
-description: "The user's Kotlin-specific coding standards, layered on top of coding-standards: how the general limits are counted in Kotlin (constructor properties, init blocks, companion factories), extension functions versus members, computed properties, value classes, sealed types and exhaustive when, object declarations, Kotlin collection vocabulary, MockK strictness, and Kotlin with Spring. TRIGGER proactively before writing, refactoring, or reviewing Kotlin code (.kt, .kts), always together with coding-standards, never instead of it. Applies to test code as well as production code."
+description: "The user's Kotlin-specific coding standards, layered on top of coding-standards: how the general limits are counted in Kotlin (constructor properties, init blocks, companion factories), extension functions versus members, what an extension may touch, logging extensions, preconditions instead of !!, computed properties, value classes, sealed types and exhaustive when, object declarations, Kotlin collection vocabulary, MockK strictness, and Kotlin with Spring. TRIGGER proactively before writing, refactoring, or reviewing Kotlin code (.kt, .kts), always together with coding-standards, never instead of it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -19,7 +19,8 @@ this file too.
 
 - Every property declared in the primary constructor with `val` or `var` is an instance
   variable, and counts towards the limit of 4 the same as a property declared in the
-  class body. A plain constructor parameter that is not stored does not count.
+  class body. A plain constructor parameter that is not stored does not count, and nor
+  does a body property initialised only from the other properties: it is derived.
 - An `init` block is part of construction, so it carries no side effects. A factory in
   the `companion object` is Kotlin's static factory method: it may construct and run the
   side effects together, while the constructor and its `init` blocks only set state.
@@ -31,6 +32,16 @@ this file too.
 
 - Declare behaviour on a type you own as a member. Use an extension function only for a
   type you cannot change, or for behaviour that belongs to an outer layer than the type.
+- A reader predicts an extension's side effects from its receiver, so an extension
+  declared inside a class reaches no collaborator but its receiver. A
+  `List<Subscription>` extension that calls the class's repository, or a `KLogger`
+  extension that does more than log, has side effects nobody expects at the call site.
+  Reading the enclosing class's own values is fine. Once the function needs the class's
+  collaborators, make it a plain member that takes the value as a parameter.
+- Move a multi-line log statement into a private `KLogger` extension named for the event
+  it records, such as `log.subscriptionsInConsentScope(subscriptions)`: the `log`
+  receiver supplies the verb. The extension chooses the level and builds the message, so
+  the calling method shows logging as one step.
 - Prefer a computed property (a `val` with a getter) to a function when the value reads
   as a property of the object, like the area of a square: computing it has no side
   effects, does not throw, is relatively cheap, and gives the same result while the
@@ -47,6 +58,10 @@ this file too.
 
 - Object methods take and return non-nullable types. Nullable types (`T?`) belong to data
   structures, matching the general rule that only data structures work with null.
+- No `!!` on a precondition. Use `requireNotNull(value) { "..." }` for an argument or
+  constructor input and `checkNotNull` for state, with a message naming the value, so a
+  broken precondition fails as `coding-standards` asks rather than as a bare
+  `NullPointerException`.
 
 ## Sealed types and outcomes
 

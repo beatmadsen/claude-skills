@@ -1,6 +1,6 @@
 ---
 name: coding-standards
-description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on comments, null handling, parameter side effects, constructor side effects, value types, procedure holder classes, derived and narrowed parameters, collection types, computed properties, I/O shape, deciding apart from acting, where decisions live, total functions, result types, exceptions, naming, speculative generalisation, type and package placement in layered architectures, containing existing violations, dead code and staged migrations, flaky tests, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
+description: "The user's coding standards: hard limits on file length, class and method size, argument counts, nesting depth, inheritance depth, plus rules on splitting classes along dependency clusters, lambda bodies, comments, null handling, parameter side effects, constructor side effects, value types, procedure holder classes, derived and narrowed parameters, collection types, computed properties, I/O shape, deciding apart from acting, where decisions live, total functions, result types, exceptions, naming, speculative generalisation, type and package placement in layered architectures, containing existing violations, dead code and staged migrations, flaky tests, and JavaScript file and package layout. TRIGGER proactively before writing, refactoring, or reviewing code in any language, and whenever instructed by CLAUDE.md or an agent definition to invoke it. Applies to test code as well as production code."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -27,7 +27,8 @@ current formatting happens to use.
 
 ## Object-oriented design
 
-- No class should have more than 4 instance variables. More is a sign the class is doing too much and should be split into several classes; it also makes the class harder to understand and test. Don't work around this by turning the instance variables into method parameters.
+- No class should have more than 4 non-derived instance variables. More is a sign the class is doing too much and should be split into several classes; it also makes the class harder to understand and test. Don't work around this by turning the instance variables into method parameters. A value computed only from the class's other state does not count, whether it is stored eagerly or computed on read, and neither does a logger.
+- Split a class along its dependency clusters. When some of its methods use only a subset of its dependencies, extract them into a class that holds just that subset.
 - No method should have more than 4 arguments.
 - Don't side-effect on parameters. Only side-effect on the instance variables of the class you are in.
 - Method bodies should not exceed 7 effective lines, excluding blank lines and comments. The limit is a proxy for the single responsibility principle: a method that needs more is doing more than one thing, and the fix is to extract well-named smaller methods or objects. Count the body as it reads with clarifying formatting, so dense formatting cannot bring a method under the limit:
@@ -35,6 +36,7 @@ current formatting happens to use.
   - A call whose result is used counts as its own line, assigned to a named variable. Nesting calls as arguments, chaining them, or calling them inside a condition to save lines is cheating, not compliance.
   - Exception: a side-effect-free boolean check on a value already in hand may sit directly in a condition, such as `isEmpty()`, `contains(x)`, an equality or comparison, or a boolean property. Naming it would only repeat the expression. A boolean that comes from asking a collaborator, such as `service.canHandle(input)` or a lookup, still gets its own named line, because it is a step the reader needs to see.
   - One statement per line. Several statements joined on one line count as several lines.
+- A lambda passed to a collection operation is one expression. When it needs several steps, extract them into a named function and pass that, so the pipeline reads as a list of named steps.
 - No more than 2 levels of nesting in any method.
 - No more than 2 levels of inheritance in any class hierarchy.
 - Object methods should assume non-null inputs and never return null. Only data structures should work with null.
