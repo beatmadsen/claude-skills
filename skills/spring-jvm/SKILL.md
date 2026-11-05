@@ -61,7 +61,7 @@ invent a rule; ask, or follow what the codebase already does.
 - Do not resolve a circular dependency with self-injection, `ObjectProvider`, or `@Lazy`.
   A cycle is the design telling you two things want to be one thing, or that a third
   thing is missing. Fix that instead.
-- Lombok is fine for boilerplate.
+- In Java, Lombok is fine for boilerplate. Kotlin code follows `kotlin-coding-standards`.
 
 ## Working with the framework
 
@@ -130,7 +130,7 @@ invent a rule; ask, or follow what the codebase already does.
 - Existing applications: use the observability mechanism the framework intends for the
   version in use, rather than mixing paradigms.
 
-## Kotlin and JVM specifics
+## Concurrency model
 
 - Prefer blocking MVC with virtual threads over WebFlux unless there is a demonstrated
   need for reactive.

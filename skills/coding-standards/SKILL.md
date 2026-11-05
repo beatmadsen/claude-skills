@@ -11,6 +11,9 @@ production code. They exist to keep software soft: easy to change. The forces th
 protect are coupling, cohesion, readability, and simplicity, on the maxim that in most
 matters pertaining to software, smaller is usually better.
 
+For Kotlin code, also invoke `kotlin-coding-standards`. It adds the Kotlin-specific rules
+and says how the rules below land in Kotlin constructs; it never relaxes them.
+
 The limits are counted, not estimated. If you are unsure whether a method exceeds 7
 lines or a class exceeds 4 instance variables, count them. Method length is counted in
 effective lines, as defined under object-oriented design below, not in the lines the
@@ -36,15 +39,14 @@ current formatting happens to use.
 - No more than 2 levels of inheritance in any class hierarchy.
 - Object methods should assume non-null inputs and never return null. Only data structures should work with null.
 - Construction should have no side effects; a constructor only sets instance variables. Put any side effects in a separate method called after construction, so an object can be built without being used immediately. A static factory method may do the construction and the side effects together, but the constructor itself stays side-effect-free.
-- Give values that share a type but differ in role their own value types. When a method takes, or a class holds, two values of the same type that could be swapped (two ids of the same kind, two lists of the same element type), wrap at least one in a value class named for its role, so swapping them fails to compile.
+- Give values that share a type but differ in role their own value types. When a method takes, or a class holds, two values of the same type that could be swapped (two ids of the same kind, two lists of the same element type), wrap at least one in a value type named for its role, so swapping them fails to compile.
 - Move behaviour to the type whose data it uses. A method that reads several fields of one object and little else belongs on that object.
 - Introduce a supertype only when some logic handles the general concept. Sibling types that no code treats alike need no common parent.
-- Declare behaviour on a type you own as a member. Use an extension function only for a type you cannot change, or for behaviour that belongs to an outer layer than the type.
 - No class whose only purpose is to give a procedure a home. The tell is a class named after its only method, or a wrapper around a repository that adds side effects. Extract the natural abstractions from the combined computation instead, and put each part on the data it uses.
 - A parameter that can be derived from another parameter is a smell. Pass the source and derive the rest inside, or find the abstraction the split is hiding.
 - Narrow each parameter to what the method uses: pass the id, not the object that holds it.
 - Pick collection types for their meaning and use them consistently. If the operations are set algebra (difference, intersection, membership), use sets throughout, and convert to lists only at the boundary of APIs that require them. Keep a list where order matters, or where an API requires one and no set operation happens.
-- In languages with computed properties, prefer a computed property to a function when the value reads as a property of the object, like the area of a square: computing it has no side effects, does not throw, is relatively cheap, and gives the same result while the object's state is unchanged. Otherwise use a function. This follows the heuristics of the Kotlin coding conventions on functions and properties.
+- In languages with computed properties, prefer a computed property to a function when the value reads as a property of the object, like the area of a square: computing it has no side effects, does not throw, is relatively cheap, and gives the same result while the object's state is unchanged. Otherwise use a function.
 
 ## Data flow and I/O
 
@@ -66,12 +68,12 @@ current formatting happens to use.
 ## Naming
 
 - A noun class name says what an instance is. Do not name a component that does work after the thing it handles or produces: an object that makes purchases is not a purchase.
-- A type name is a singular noun, so it passes the "is-a" test: an instance is a `PurchaseProcessor`, not a `Purchases`. Never name a type in the plural, even when it holds several things. Name the whole they form or the role it plays (`FulfillmentLedger`, `MembershipChange`, `ProductCatalogue`), not its contents. This holds for every named type, including Kotlin `object`s, value classes and test fixtures.
+- A type name is a singular noun, so it passes the "is-a" test: an instance is a `PurchaseProcessor`, not a `Purchases`. Never name a type in the plural, even when it holds several things. Name the whole they form or the role it plays (`FulfillmentLedger`, `MembershipChange`, `ProductCatalogue`), not its contents. This holds for every named type, including singletons, value types and test fixtures.
 - Qualify a name enough to tell it apart from other code in the codebase that does the same kind of work, and no further. If several paths purchase, the name says which one this is.
 - Name event and message types for what happened, and the components that handle them for how they treat it: an activation type, handled by a component that processes it as a purchase. A nested type is already qualified by its enclosing type, so it needs less qualification than a top-level one.
 - Name statuses, outcomes and reasons after what happened in the domain, not after the mechanism that detected it: `REPLACED_BY_SUCCESSOR`, not `NO_PROCESSOR`. One name per outcome; split a name that covers two.
 - Name sibling types for what sets each apart. A bare name beside a qualified one (`Activation` beside `SuccessorActivation`) reads as the general case. If it is not the general case, qualify it too (`StandaloneActivation`).
-- Name a check for exactly what it tests. Do not use a word that implies more than the check verifies: a check that matches records whatever their status is `containsAnyFor`, not `holdAnyFor`. Use the language's standard vocabulary for standard operations, such as Kotlin's `contains`, `any` and `none` on collections.
+- Name a check for exactly what it tests. Do not use a word that implies more than the check verifies: a check that matches records whatever their status is `containsAnyFor`, not `holdAnyFor`. Use the language's standard vocabulary for standard operations, such as the names its collection library gives membership and quantifier checks.
 - A predicate reads as a true domain sentence at the call site. Choose the word order that is both correct and readable: `event.isTerminationForUpgradeOrDowngrade`, not `event.isUpgradeOrDowngradeTermination`.
 - A verb names the effect the call actually has. Do not soften it: a component that saves records and sends messages to another system does not `notify`.
 - Name a component for its stage in the flow. Place it in the chain first (interpreting and enriching the input, judging what must change, carrying the change out) and name it for that stage. Give paired stages matching words, such as a `Planner` that infers and an `Executor` that executes.

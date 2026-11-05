@@ -47,7 +47,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 - A test either asserts on a returned value or verifies an interaction, never both. Stubbing inputs is fine in either kind.
 - Don't verify calls to queries (readers, lookups, checks that return a value). Assert on the output instead.
 - Expected values are literal, never built with the production factory under test.
-- Prefer strict mocks. Fully relaxed mocks hide missing stubs; relaxing only `Unit`-returning calls on metrics-style collaborators is fine.
+- Prefer strict mocks, because fully relaxed mocks hide missing stubs. For MockK, `kotlin-coding-standards` says which relaxation is fine.
 - Shared fixtures go in class-level values; scenario-specific stubs go inside each test.
 
 ## Example of a finished comment
