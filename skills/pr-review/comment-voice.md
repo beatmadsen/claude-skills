@@ -11,6 +11,9 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 - One concern per comment, anchored on the production line where the behaviour lives.
 - Coverage comments stay about coverage. Design suggestions get their own comments.
 - Argue from concrete benefits. Don't cite the user's personal limits (4 instance variables, 7-line methods) to the author.
+- Open a comment longer than a few paragraphs with two or three sentences stating the point and the suggestion. The rest explains.
+- Cite only what the author can open: their code, the ticket, documents, library source. Describe local experiments by what was run and what was observed. When the author's code is cited next to a local experiment, mark it as theirs ("your `FooTest`").
+- When a comment raises a risk that depends on unknowns, make three things unmistakable: what we found, whether it's a problem and what that depends on, and what should be done. Use headings only when that comment needs them; default to flowing prose.
 
 ## Certainty
 
@@ -18,6 +21,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 - Hedge only on what we don't know: intent ("may well be intentional"), the effect on a consumer we haven't checked, future plans. Say what wasn't checked: "That's my guess, but I haven't checked the consumer."
 - Unsourced claims about plans become questions to the author.
 - Softeners that tell the author how to respond are fine: "If order is irrelevant, feel free to resolve this", "this is a question more than a request".
+- When raising a defect, say what the code does and why it was easy to miss (a library that hides it, a fake that fails the way you'd expect). Never frame it as the author's error. The gentler tone comes from that context, never from hedging: a verified fact stays stated as fact.
 
 ## Phrases to avoid
 
@@ -35,6 +39,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 ## Structural suggestions
 
 - Open with the observation about the code, not with framing about the suggestion.
+- For a layering or design suggestion, include a small Mermaid diagram of the layers in that use case, with "calls" and "implements" arrows so the direction of dependency is visible. Follow it with high-level pseudo code in reading order: port, use case, adapters.
 - Tie the suggestion to what the change is trying to achieve, as established in the context step.
 - Show the sketch in the order a reader meets it: the new type, then the code that produces it, then the code that consumes it.
 - Say what changes for the tests, since that is usually the concrete payoff.

@@ -33,9 +33,9 @@ Mutation runs can take a long time, so test coverage comes last. The user reads 
 
 2. **Functional soundness.** Does the code look like it works as intended, or are there obvious or subtle bugs? Read whole files, not hunks. Follow inputs and outputs to their callers and consumers, including anything persisted or published, and look at edge cases, error paths and concurrency. Where the change says it leaves something untouched, check that as well. Map the blast radius: for each significant change to a public interface or shared contract (API, message or event, persisted schema, shared library type), find who depends on it outside the PR, in this repo and in other repos across the organisation. Skip this for internal edits. Consult `spring-jvm` for JVM and Spring semantics, and `contract-test` when the change crosses a boundary between services.
 
-3. **Structure.** Can the code be structured differently to make it easier to change over time, while still doing what we want it to do? Measure with `coding-standards` (plus `kotlin-coding-standards` for Kotlin) and `spring-jvm`, citing counts, and look beyond the counts at responsibilities, coupling, cohesion and naming. Keep the five improvements with the largest payoff, drop matters of taste, prefer suggestions that work with the direction of the change, and work out a concrete sketch for each. Note where suggestions depend on each other.
+3. **Structure.** Can the code be structured differently to make it easier to change over time, while still doing what we want it to do? Judge layering against principle (`coding-standards`, Layered architectures), not against where the repo already puts things; existing placement is not evidence that it's right. Measure with `coding-standards` (plus `kotlin-coding-standards` for Kotlin) and `spring-jvm`, citing counts, and look beyond the counts at responsibilities, coupling, cohesion and naming. Keep the five improvements with the largest payoff, drop matters of taste, prefer suggestions that work with the direction of the change, and work out a concrete sketch for each. Note where suggestions depend on each other.
 
-4. **Claims against sources.** Where code comments, the PR description or commit messages explain a constraint or a decision, is the claim substantiated? Check it against tickets, documents, the code itself, or the documentation of the library or service involved. Apply the same bar to what we intend to say: an unsourced statement about intent or plans becomes a question.
+4. **Claims against sources.** Where code comments, the PR description or commit messages explain a constraint or a decision, is the claim substantiated? Check it against tickets, documents, the code itself, or the documentation of the library or service involved. Apply the same bar to what we intend to say: an unsourced statement about intent or plans becomes a question. Before hedging on something checkable in the session, such as a library's behaviour or what a config value does, read the source of the pinned version and run a probe; hedge only on what can't be checked here.
 
 5. **Report to the user.** The user reviews a lot of work, so the report should make reviewing this PR quick. Leave out anything that doesn't change what they'd do. In this order:
    - Ticket background, in no more than ten sentences: what the ticket asks for, why it was created, and the broader initiative it fits into (its epic and anything above it, such as a parent initiative or a linked design or decision record), with links. Say where the trail ran out.
@@ -56,14 +56,14 @@ Mutation runs can take a long time, so test coverage comes last. The user reads 
 
 ## Phase 2: Comments
 
-Raise categories in this order, each as its own round with the user: bugs and unsubstantiated claims, then test coverage, then structure.
+Raise categories in this order, each as its own round with the user: design changes that would move or remove code, then bugs and unsubstantiated claims, then test coverage, then remaining structure. Once a design change is raised, drop comments on code it would remove or reshape, and tell the user what was held for the author's next iteration.
 
 1. Before the first draft, read `external-writing` (PR comments are external writing) and [comment-voice.md](comment-voice.md).
 2. For each category, propose the plan first: which comments, on which lines, saying what.
-3. Draft one comment at a time. Show the exact text that would be posted, the target file and lines, and short notes on choices the user may want to change.
+3. Draft one comment at a time. Show the exact text that would be posted, the target file and lines, and short notes on choices the user may want to change. Show the draft as blockquoted Markdown, not inside a code fence, so prose wraps without sideways scrolling, and keep code lines in sketches short.
 4. Post only after explicit approval of that comment ("post it", "go ahead", "good to go"). Approving one comment never approves the next.
 5. Post and edit following [posting.md](posting.md), verifying the head SHA and the target line content first.
-6. When the user adds a rule mid-review, apply it to the remaining drafts and check the comments already posted for the same problem. Propose edits; apply them on approval.
+6. When the user adds a rule mid-review, apply it to the remaining drafts and check the comments already posted for the same problem. Propose edits; apply them on approval. Steering about voice or certainty applies to every later draft; steering about one comment's structure (headings, sections) applies to that comment only, unless the user says otherwise.
 
 After the last comment, list everything posted with links, say what was deliberately not raised, and remind the user that their review state stays blank until they submit a review himself.
 
