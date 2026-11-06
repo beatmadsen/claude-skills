@@ -97,7 +97,10 @@ These matter most in an intentionally layered architecture, such as Onion, Hexag
 - Inner layers depend on no adapter. An application service does not call a Kafka producer, an HTTP client or any other adapter directly; it calls a port its own layer defines, which the adapter implements.
 - A type two feature packages share lives in the package that owns its concept, not in whichever feature introduced it, so features do not depend on each other.
 - Inner layers are not named after transport. No domain or application package or type is named for how data travels (`grpc`, `kafka`, `http`). Name it for what the inner layer needs.
-- Define a port in the layer that needs it, expressed in that layer's vocabulary. A port only orchestration uses belongs to the application layer; a port domain services use belongs to the domain.
+- Define a port in the layer that needs it, expressed in that layer's vocabulary. A port only orchestration uses belongs to the application layer; a port domain services use belongs to the domain. A port that serves one use case's input or output (presentation, translation, notification) is an orchestration port, and a port nothing in its own layer calls is in the wrong layer.
+- Layers are not a call chain. Dependencies point inward; an inner layer's port, implemented by an outer adapter, is called at runtime by the inner layer directly, without passing through the layers in between.
+- Product policy lives inside. Fallbacks, defaults and what happens when a dependency fails are decided in the use case or the domain; the adapter translates and reports absence or failure.
+- Pass the context a port needs (locale, tenant, user) as explicit arguments from the caller. An adapter does not read it from ambient thread-local state.
 
 ## JavaScript
 
