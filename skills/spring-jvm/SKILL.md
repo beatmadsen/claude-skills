@@ -76,6 +76,9 @@ invent a rule; ask, or follow what the codebase already does.
 - There are usually several ways to get the behaviour you want out of Spring. Start by
   finding Spring's canonical solution for the problem, then tailor it with the hooks and
   configuration it already exposes. Reach for a bespoke mechanism only after that fails.
+  The same holds for libraries already on the classpath: before hand-writing a generic
+  runtime concern (retry, backoff, rate limiting, timing), check what the dependency tree
+  and sibling code already use.
 - When something behaves unexpectedly, read the autoconfiguration before working around
   it.
 - Be conservative about adding starters. Each one brings autoconfiguration that you now
@@ -122,6 +125,9 @@ invent a rule; ask, or follow what the codebase already does.
 - Prefer a transactional outbox to publishing events inside a transaction.
 - `@Scheduled` needs a locking story (ShedLock or equivalent) before the application runs
   on more than one instance.
+- Never swallow `InterruptedException` in scheduled or background work. A generic
+  `catch (e: Exception)` around code that sleeps or waits turns shutdown into a logged
+  failure and keeps the loop running. Catch it, restore the interrupt flag, and stop.
 
 ## Testing
 
@@ -137,6 +143,10 @@ invent a rule; ask, or follow what the codebase already does.
   instrumentation.
 - Existing applications: use the observability mechanism the framework intends for the
   version in use, rather than mixing paradigms.
+- `@Scheduled` runs are already timed: since Framework 6.1, with Boot auto-configuration,
+  each run is recorded as `tasks.scheduled.execution`, plus `.active` for a run in
+  progress. Don't add a hand-rolled duration timer. The built-in one also counts runs a
+  lock (ShedLock) skipped, so add your own only when you need that excluded.
 
 ## Concurrency model
 
