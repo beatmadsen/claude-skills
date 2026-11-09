@@ -26,6 +26,15 @@ For a single line, drop `start_line` and `start_side`.
 
 Standalone comments notify the author immediately and set no review state. If the user asks for a single notification instead, collect the approved drafts and submit them together through `POST repos/<owner>/<repo>/pulls/<n>/reviews` with `event: "COMMENT"` and a `comments` array.
 
+## Reply in an existing thread
+
+```bash
+jq -n --arg body "$body" '{body:$body}' \
+  | gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies --input - --jq .html_url
+```
+
+Prefer a reply when a bot or reviewer already raised the same concern and the author hasn't answered, so the concern stays in one thread.
+
 ## Edit a posted comment
 
 Replace an exact substring, failing loudly if it isn't found exactly once:

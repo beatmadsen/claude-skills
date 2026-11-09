@@ -77,6 +77,16 @@ gh search code "<Symbol>" --owner <org> --limit 50
 
 Code search covers default branches only, so treat it as a lower bound on consumers.
 
+## What the classpath already provides
+
+Check before suggesting a library, and before accepting hand-rolled infrastructure:
+
+```bash
+mvn -B -o -q dependency:tree -pl <module> -Dincludes=<groupId> -DoutputFile=/dev/stdout
+```
+
+Confirm the version supports the feature by reading the class in the local repository jar, not from memory.
+
 ## Running targeted tests
 
 Use the narrowest selection the build tool allows: one module, one test class or pattern, offline where possible. Repo-specific commands are in `local.md`. Run the command once on the unmutated code first and confirm it passes, so a broken build isn't mistaken for killed mutations.
