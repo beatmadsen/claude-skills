@@ -55,13 +55,15 @@ Mutation runs can take a long time, so test coverage comes last. The user reads 
 
    Then remove both worktrees.
 
+**Later passes.** When the author updates the PR, read the commits since the last pass, the replies and new bot comments, rerun the earlier mutation set against the new head, and re-check every claim in the PR description against the current head: authors update code and leave descriptions behind. Report what was addressed before what is new.
+
 ## Phase 2: Comments
 
 Raise categories in this order, each as its own round with the user: design changes that would move or remove code, then bugs and unsubstantiated claims, then test coverage, then remaining structure. Once a design change is raised, drop comments on code it would remove or reshape, and tell the user what was held for the author's next iteration.
 
 1. Before the first draft, read `external-writing` (PR comments are external writing) and [comment-voice.md](comment-voice.md).
 2. For each category, propose the plan first: which comments, on which lines, saying what.
-3. Draft one comment at a time. Show the exact text that would be posted, the target file and lines, and short notes on choices the user may want to change. Show the draft as blockquoted Markdown, not inside a code fence, so prose wraps without sideways scrolling, and keep code lines in sketches short.
+3. Draft one comment at a time. Show the exact text that would be posted, the target file and lines, one sentence on the risk it addresses (what breaks, and for whom) so the user can judge it after a context switch, and short notes on choices the user may want to change. Show the draft as blockquoted Markdown, not inside a code fence, so prose wraps without sideways scrolling, and keep code lines in sketches short.
 4. Post only after explicit approval of that comment ("post it", "go ahead", "good to go"). Approving one comment never approves the next.
 5. Post and edit following [posting.md](posting.md), verifying the head SHA and the target line content first.
 6. When the user adds a rule mid-review, apply it to the remaining drafts and check the comments already posted for the same problem. Propose edits; apply them on approval. Steering about voice or certainty applies to every later draft; steering about one comment's structure (headings, sections) applies to that comment only, unless the user says otherwise.

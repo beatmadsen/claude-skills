@@ -10,6 +10,8 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 - Acknowledge what the change makes possible, naming the concrete thing. No generic praise.
 - One concern per comment, anchored on the production line where the behaviour lives.
 - Coverage comments stay about coverage. Design suggestions get their own comments.
+- A coverage comment opens with the production failure the gap leaves open, not with the mutation that found it.
+- A finding outside the change, noticed along the way, goes in a PR-level comment that says it's unrelated, how we came across it, and what it causes. It doesn't ask for a fix in this PR.
 - Argue from concrete benefits. Don't cite the user's personal limits (4 instance variables, 7-line methods) to the author.
 - Open a comment longer than a few paragraphs with two or three sentences stating the point and the suggestion. The rest explains.
 - Cite only what the author can open: their code, the ticket, documents, library source. Describe local experiments by what was run and what was observed. When the author's code is cited next to a local experiment, mark it as theirs ("your `FooTest`").
@@ -49,6 +51,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 
 ## Test sketches
 
+- Sketches follow `test-writing`, and its ban on timing applies in full. Assert on the configured value where it takes effect (a recorded deadline, a captured setting), never on elapsed time. A timing test that passed twice locally is not evidence that it is safe.
 - A test either asserts on a returned value or verifies an interaction, never both. Stubbing inputs is fine in either kind.
 - Don't verify calls to queries (readers, lookups, checks that return a value). Assert on the output instead.
 - Expected values are literal, never built with the production factory under test.

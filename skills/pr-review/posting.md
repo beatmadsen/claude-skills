@@ -7,7 +7,7 @@ gh pr view <n> --repo <owner>/<repo> --json headRefOid --jq .headRefOid
 gh api "repos/<owner>/<repo>/contents/<path>?ref=<sha>" --jq .content | base64 -d | sed -n '<start>,<end>p'
 ```
 
-If the head SHA moved since the draft, re-check the line numbers. Target lines must be on the right-hand side of a diff hunk in the PR.
+If the head SHA moved since the draft, read the new commits, since they may already answer the comment or move its line, then re-check the line numbers. Target lines must be on the right-hand side of a diff hunk in the PR.
 
 ## Post an inline comment
 
@@ -25,6 +25,24 @@ jq -n --arg body "$body" '{body:$body, commit_id:"<sha>", path:"<path>", start_l
 For a single line, drop `start_line` and `start_side`.
 
 Standalone comments notify the author immediately and set no review state. If the user asks for a single notification instead, collect the approved drafts and submit them together through `POST repos/<owner>/<repo>/pulls/<n>/reviews` with `event: "COMMENT"` and a `comments` array.
+
+## Post a PR-level comment
+
+For a point that has no line, such as the description or a finding outside the change:
+
+```bash
+jq -n --arg body "$body" '{body:$body}' \
+  | gh api repos/<owner>/<repo>/issues/<n>/comments --input - --jq .html_url
+```
+
+## Approve
+
+```bash
+jq -n '{commit_id:"<sha>", event:"APPROVE"}' \
+  | gh api repos/<owner>/<repo>/pulls/<n>/reviews --input - --jq '"\(.state) \(.html_url)"'
+```
+
+When the user's conditions are implicit, leave the body empty. State conditions in the body only when the user asks for them.
 
 ## Reply in an existing thread
 
