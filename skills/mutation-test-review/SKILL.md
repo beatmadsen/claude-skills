@@ -100,6 +100,7 @@ These survive because the mutation produces identical behavior:
 - Mutations in logging, toString, or display-only code
 - Mutations in trivial getters/setters
 - Mutations in generated code
+- Mutations in a line that only hands a configured value to a library or JDK call (a timeout, a pool size). Kill one where the value takes effect, at the wiring level, or accept it. A unit test that captures the argument restates the line, protects nothing, and breaks on an equivalent refactor.
 
 ## Step 2: Prioritize
 
