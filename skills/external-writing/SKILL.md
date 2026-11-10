@@ -41,6 +41,9 @@ fake.
 - **No keyboard-foreign glyphs** in otherwise plain text: Unicode arrows (a literal
   arrow character), curly/smart quotes, ellipsis characters. Use straight quotes and
   plain ASCII.
+- **Capitalise a brand name that is an ordinary word** in prose for a general
+  reader, even when the brand styles itself in lower case: "customers of Box", not
+  "customers of box". Keep the exact casing in identifiers, code and quoted data.
 
 ## Word choice
 
