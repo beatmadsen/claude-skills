@@ -29,6 +29,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 | [ideation-mob](skills/ideation-mob/) | Divergent brainstorming mob that generates and clusters ideas for a problem |
 | [intent-record](skills/intent-record/) | Record why a change was made in an [intent-record](https://github.com/beatmadsen/intent-record) store, linked to the commit and the ticket that asked for it |
+| [issue-investigation](skills/issue-investigation/) | Investigate a reported defect in production: rival hypotheses, measured occurrence and harm, then tickets a team can groom |
 | [kotlin-coding-standards](skills/kotlin-coding-standards/) | Kotlin rules layered on top of coding-standards, from counting constructor properties to sealed types and MockK |
 | [legacy-test](skills/legacy-test/) | Add tests to untested legacy code safely using characterization tests |
 | [mock-audit](skills/mock-audit/) | Review test double usage for correctness |
