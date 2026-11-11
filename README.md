@@ -25,7 +25,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [document-hygiene](skills/document-hygiene/) | Keep rulebooks and working documents single-purpose, durable and consolidated |
 | [external-writing](skills/external-writing/) | Guardrails for external-facing prose: punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
-| [gate-design](skills/gate-design/) | Build CI jobs, hooks and lint rules that run what they guard and have been seen to bite |
+| [gate-design](skills/gate-design/) | Build CI jobs, hooks and lint rules that run what they guard, have been seen to bite, and keep each lane to what earns its place within its time budget |
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 | [ideation-mob](skills/ideation-mob/) | Divergent brainstorming mob that generates and clusters ideas for a problem |
 | [intent-record](skills/intent-record/) | Record why a change was made in an [intent-record](https://github.com/beatmadsen/intent-record) store, linked to the commit and the ticket that asked for it |

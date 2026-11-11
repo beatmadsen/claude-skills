@@ -1,6 +1,6 @@
 ---
 name: defect-fix
-description: "Fix a defect the way a feature is built: reproduce it under the reporter's conditions, find the real mechanism, pin it in a test watched going red for the defect's reason, then fix and see it gone. TRIGGER before explaining, diagnosing or fixing any failure: a bug report, a red test, gate or CI run, an error in a log, something wrong on a screen or a rig, a regression you tripped over, or a user saying something is broken. Also TRIGGER when you catch yourself about to call a failure flaky, a race, timing, a cold cache, or pre-existing."
+description: "Fix a defect the way a feature is built: reproduce it under the reporter's conditions, find the real mechanism, pin it in a test watched going red for the defect's reason, then fix and see it gone. TRIGGER before explaining, diagnosing or fixing any failure: a bug report, a red test, gate or CI run, an error in a log, something wrong on a screen or a rig, a regression you tripped over, or a user saying something is broken. Also TRIGGER when you catch yourself about to call a failure flaky, a race, timing, a cold cache, or pre-existing, and when a run is over its time budget or you are about to blame a busy machine."
 allowed-tools: Read Grep Glob Edit Write Bash
 ---
 
@@ -22,6 +22,7 @@ For an intermittent failure, also read the `flaky-test-fix` skill for its catalo
 The global CLAUDE.md's Empiricism rules apply throughout: measure rather than argue, and treat an inference as a hypothesis until a direct measurement backs it.
 
 - Never reach for "flaky", "timing", "a race", "cold cache" as a cause. That is the cosmic radiation class of explanation, and it is a recognisable shape rather than an answer.
+- A run that is too slow or over its time budget is a failure with a mechanism like any other. "The machine was busy" belongs to the same class: a shared machine is always busy, so it explains every overrun and therefore none. Before naming load, measure where the time went: the per-test durations against the run before, what the change added, and how close to the budget the run already was. If load really is the mechanism, show it with a controlled comparison, and report the missing headroom as the defect anyway.
 - A cause that contradicts a known capability is self-refuting. Discard it.
 - A reproducible failure is findable, so find it rather than narrating it away. A plausible story is where the search starts, not where it ends.
 - Concluding from what you do not know is the tell. When you catch yourself, design the measurement instead.

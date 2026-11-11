@@ -49,6 +49,10 @@ For the component, recommend which levels of test to write:
 - One test per exit point per scenario
 - Skip for trivial code (getters, simple delegation, config)
 
+### Tests of one-off steps
+- A schema migration or a data backfill runs once on each database, so its test proves it on representative rows in the commit that adds it, and teaches nothing after that
+- Plan its removal with it: it runs only on a commit that changes the step, and goes once every database is past the step (the `gate-design` skill, Step 6)
+
 ## Step 3: Identify pragmatic exceptions
 
 Not everything needs its own unit test, but the reason must be that the code has no behaviour of its own to verify. "Another test would notice if it broke" is not a reason: a unit test verifies that the code has the behaviour we believe it has. Flag cases where testing at a higher level is sufficient:
