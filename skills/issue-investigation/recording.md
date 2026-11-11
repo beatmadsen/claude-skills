@@ -6,7 +6,7 @@ What a finding contains, how to show the evidence, and how to write it for each 
 
 - Lead with what you found, in a sentence or two.
 - Give the junior-engineer explanation of each bug in a few bullets: what is stored, what should happen, what actually happens, and the result.
-- Say which parts are measured, which are read in code and which are inferred, and what is still open.
+- Keep facts and meaning visibly apart: what you measured or read in code, then what you infer from it, then what is still open.
 
 ## One entry per fix
 
@@ -19,35 +19,38 @@ Group findings by the fix each needs, not by what you observed. A typical split:
 
 ## The record
 
-Whatever the destination, each entry carries the same parts. Scale them to it: a commit body gets a few lines of each, a ticket about a page.
+Whatever the destination, each entry carries the chain from SKILL.md, after a summary. Scale it to the destination: a commit body gets a line or two of each part, a ticket about a page.
 
 ```markdown
 ## Summary
 
 <Two to four sentences someone who missed the investigation can follow:
-what goes wrong, for whom, how often, and what it has already caused.>
+what happens, for whom, how often, and what to do about it.>
 
-## Mechanism
-
-<The mechanism in two or three sentences, and the fix direction.>
+## Facts
 
 Expected behaviour, from the [<doc>](<url>) (<section>): "<exact quote>".
-
-## Evidence
 
 Code, `main` at [<short sha>](<commit url>). [<File> lines a to b](<permalink>) <does what>:
 
 <code block with the real lines, not a paraphrase>
 
-<Example rows: a table of three real cases joining the sources, with IDs but
-no user IDs.>
+<Example rows or output lines: three real cases, joining the sources where
+there are several, with IDs but no user IDs.>
 
 <One or two sentences with the population numbers, and which are lower bounds.>
 
-## Done when
+## Meaning
 
-* <Behaviour pinned by a test that fails on today's code.>
-* <Data repair verified by a named check.>
+<The mechanism in two or three sentences, citing the facts above. Which rival
+explanations the facts ruled out, and how. What is still open.>
+
+## Action
+
+<The fix direction.>
+
+* <Done when: behaviour pinned by a test that fails on today's code.>
+* <Done when: data repair verified by a named check.>
 ```
 
 Keep the queries, method notes, full breakdowns, caveats and rejected options next to the record but out of its body: in ticket comments, in the evidence backup, or in the tome capture.
@@ -65,7 +68,7 @@ Keep the queries, method notes, full breakdowns, caveats and rejected options ne
 The record splits across the places that outlive the session:
 
 - The regression test pins the mechanism (see `defect-fix`).
-- The commit message says what changed. The intent record carries the summary, mechanism, expected behaviour, the evidence in brief, and what was ruled out.
+- The commit message says what changed. The intent record carries the chain: the facts in brief, the meaning with what was ruled out, and the action taken.
 - Data repair and latent defects you do not fix in the same session still need a home that someone will see: the tracker, if the project has one.
 
 ## As tickets for your own team
@@ -80,13 +83,13 @@ Type, labels, parent and link names follow the team's conventions, which the org
 
 ## As a write-up for another team
 
-When the fix belongs to another team, write one markdown document for them in the evidence folder:
+When the fix belongs to another team, write one markdown document for them in the evidence folder. It follows the same chain at greater length:
 
 1. Opening: what was reported, by whom, and the example user.
 2. A short list that defines each system and ID type used, once.
-3. Facts: the reported case as a timeline table, then further recent cases with every ID the other team needs to look them up (trace IDs in full, their user IDs, any partner's IDs), then the volume table.
-4. Analysis: where the flow stops, what the other team's committed code shows (see "Another team's code" in SKILL.md), and why your own service behaves as it does.
-5. Conclusion: whose remit it is and why, then numbered suggestions for that team.
+3. Facts: the reported case as a timeline table, then further recent cases with every ID the other team needs to look them up (trace IDs in full, their user IDs, any partner's IDs), then the volume table, then what the other team's committed code does (see "Another team's code" in SKILL.md).
+4. Meaning: where the flow stops, how you read the other team's code in production, and why your own service behaves as it does.
+5. Action: whose remit it is and why, then numbered suggestions for that team.
 6. Open questions, sources, and the main query.
 
 Rules for this document:

@@ -1,6 +1,6 @@
 # Sources and their traps
 
-Each source answers one of the four questions in SKILL.md. Each trap below produced a wrong number at least once before it was caught.
+Traps in the sources a production investigation draws its facts from: code, logs, a warehouse, a primary data store, the tracker. Each one produced a wrong number at least once before it was caught. The general gathering rules in SKILL.md step 3 apply on top.
 
 ## Code
 
