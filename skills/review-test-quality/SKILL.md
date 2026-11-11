@@ -44,6 +44,7 @@ Read each changed test file once. Note the presence of these signals:
 | Signal observed | Sub-skill to load later |
 |---|---|
 | Any test file present | `test-smell` (always) |
+| The test stands the whole system up and drives it from outside: a full application context, an embedded broker or Testcontainers, a given/when/then DSL, an `acceptance` tag or directory | `acceptance-test-design`, and judge the file by [references/acceptance-level.md](references/acceptance-level.md) |
 | `mock`, `mockk`, `Mockito`, `jest.mock`, `MagicMock`, `@MockBean`, `every {`, `when(...)` | `mock-audit` (always when present) |
 | `Thread.sleep`, `delay(`, `setTimeout`, `await new Promise`, retry/poll loops, time-dependent assertions, `@Flaky` | `flaky-test-fix` |
 | Only one test level present (e.g. only unit tests for a clearly cross-component change), or production code clearly missing integration tests | `test-strategy` |
@@ -56,10 +57,11 @@ Read each changed test file once. Note the presence of these signals:
 Read the SKILL.md files identified in Step 2, in this order:
 
 1. `test-smell` (always)
-2. `mock-audit` (if mocks present)
-3. `flaky-test-fix` (if flakiness signals or explicit mention)
-4. `test-strategy` (if test-level concerns or explicit mention)
-5. `test-refactor` (if user asked about improvement)
+2. `acceptance-test-design` (if any file is acceptance-level)
+3. `mock-audit` (if mocks present)
+4. `flaky-test-fix` (if flakiness signals or explicit mention)
+5. `test-strategy` (if test-level concerns or explicit mention)
+6. `test-refactor` (if user asked about improvement)
 
 These live in `~/.claude/skills/<name>/SKILL.md`.
 
@@ -73,6 +75,8 @@ For each changed test file:
 3. Apply the loaded skills' diagnostics. Be specific — cite line numbers and quote test names.
 
 Before judging the files, read [references/trust-maintainability-readability.md](references/trust-maintainability-readability.md) in this skill's folder. Use it to rank findings by what they cost in trust, maintainability and readability, and to check that every exit point of the changed behaviour is verified, side effects included. It is distilled from Osherove and Khorikov's *The Art of Unit Testing*.
+
+That reference is written for unit tests. For an acceptance-level file, also read [references/acceptance-level.md](references/acceptance-level.md) and rank that file's findings by its order instead. Do not report a broken internal decision the acceptance test misses as a gap before checking whether a lower-level test owns it, and read the setup as closely as the assertions, which includes the support code (steps, drivers, seeded fixtures) the test calls.
 
 ## Step 5: Produce the review
 
@@ -99,6 +103,7 @@ What to avoid:
 - [ ] Did I load `test-smell` at minimum?
 - [ ] Did I load `mock-audit` if there are mocks?
 - [ ] Did I read `references/trust-maintainability-readability.md` and rank findings with it?
+- [ ] Did I classify each file's test level, and judge acceptance-level files by `references/acceptance-level.md`?
 - [ ] Are my critiques tied to specific test names / line numbers?
 - [ ] Did I lead with a verdict, not preamble?
 - [ ] Did I acknowledge what's good, not only what's wrong?
