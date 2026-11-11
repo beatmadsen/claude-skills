@@ -15,11 +15,11 @@ An organisation-specific skill can layer on top of this one. It names the concre
 
 ## The chain
 
-- **Facts:** what was observed, each with its source and the command or query that reproduces it. What the code says, quoted at the version that produced the evidence, is a fact.
-- **Meaning:** what the facts show. Every claim points at the facts it rests on. Hypotheses live here, and so does what the code implies about the run you are explaining.
-- **Action:** what must be done. Every item points at the meaning that requires it.
+- **Facts:** what was observed, each with its source and the command or query that reproduces it.
+- **Analysis:** what the facts mean. Every claim points at the facts it rests on. Hypotheses live here, and so does what the code implies about the run you are explaining.
+- **Conclusion:** what must be done, and by whom. Every item points at the analysis that requires it.
 
-A claim that cannot point back down the chain is either a fact still to fetch or a guess to label as one. Keep the three apart in chat and in every record, so a reader can check each link without redoing the investigation.
+A claim that cannot point back down the chain is either a fact still to fetch or a guess to label as one. Label every statement, in chat and in every record, as measured, read in code, or inferred, so a reader can check each link without redoing the investigation. What the committed code does is a fact, but it reads best quoted where the analysis uses it, labelled as read in code.
 
 ## Workflow
 
@@ -28,10 +28,10 @@ A claim that cannot point back down the chain is either a fact still to fetch or
 - [ ] 2. Write competing hypotheses, each with what would disprove it
 - [ ] 3. Facts: gather the evidence
 - [ ] 4. Facts: cross-check the sources
-- [ ] 5. Meaning: test the hypotheses, trace the mechanism, size the harm
+- [ ] 5. Analysis: test the hypotheses, trace the mechanism, size the harm
 - [ ] 6. Back up the evidence
 - [ ] 7. Record the chain
-- [ ] 8. Action: fix now, or hand over
+- [ ] 8. Act on the conclusion: fix now, or hand over
 ```
 
 Hypotheses come before the facts because they decide which facts are worth gathering and what would rule each one out. They are judged only in step 5, and only against facts.
@@ -75,7 +75,7 @@ Rules for gathering:
 
 With several sources, join them by a shared ID, not by matching totals, and explain every record that is missing on either side; that is how ingest gaps and retention limits surface. With a single output, check it against the code: the lines the code would emit on the path you claim should all be there, in order.
 
-### 5. Meaning
+### 5. Analysis
 
 - Take each hypothesis to its disproving observation and say which facts ruled it out. A hypothesis survives only when a fact that could have killed it did not.
 - Trace the surviving mechanism through the code, citing lines at the version that produced the evidence.
@@ -89,7 +89,7 @@ With several sources, join them by a shared ID, not by matching totals, and expl
 When the failure sits in another team's service, read its code at a pinned commit; other teams' repositories are often readable inside the organisation. A short time box is enough to confirm the mechanism behind the output.
 
 - What the committed code does is a fact; state it with permalinks.
-- How it behaves in production is meaning; state it as your reading, for that team to confirm. Name what the code cannot show: deployed versions, production config, other writers of the same records, manual or scheduled repairs, the contract with any external partner.
+- How it behaves in production is analysis; state it as your reading, for that team to confirm. Name what the code cannot show: deployed versions, production config, other writers of the same records, manual or scheduled repairs, the contract with any external partner.
 - Offer a fix direction as an option, with the reason it might be unsafe.
 
 ### 6. Back up the evidence
@@ -98,7 +98,7 @@ Evidence that will not come back (logs past retention, a one-off run, a scan you
 
 ### 7. Record the chain
 
-Lead the chat summary with the finding, then follow [recording.md](recording.md): facts, meaning and action, one entry per fix needed (not per observation).
+Lead the chat summary with the finding, then follow [recording.md](recording.md): facts, analysis and conclusion, one entry per fix needed (not per observation).
 
 Where the record goes depends on what happens next, never into a findings document in the repository (see `document-hygiene`):
 
@@ -108,7 +108,7 @@ Where the record goes depends on what happens next, never into a findings docume
 
 In every case, run `tome-capture`, where available, with the mechanism, the measured numbers and the source pitfalls you hit. A new trap that will recur also goes into the source notes: its general form into this skill's [sources.md](sources.md), the concrete table, index or field into the organisation-specific skill. If the investigation started from a ticket, close it pointing to where the findings went, naming any loose end nothing tracks.
 
-### 8. Action
+### 8. Act on the conclusion
 
 The default is to fix now, while you still hold the context: each fix in code you own goes through `defect-fix`. The investigation has already done that skill's first two steps, so it starts from the failing test.
 
