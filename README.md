@@ -23,7 +23,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [contract-test](skills/contract-test/) | Design contract tests between services or components |
 | [defect-fix](skills/defect-fix/) | Reproduce a failure, find its real mechanism, pin it in a failing test, then fix it |
 | [document-hygiene](skills/document-hygiene/) | Keep rulebooks and working documents single-purpose, durable and consolidated |
-| [external-writing](skills/external-writing/) | Guardrails for external-facing prose — punctuation rules and AI tells to avoid |
+| [external-writing](skills/external-writing/) | Guardrails for external-facing prose: punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
 | [gate-design](skills/gate-design/) | Build CI jobs, hooks and lint rules that run what they guard and have been seen to bite |
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
@@ -48,7 +48,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [test-refactor](skills/test-refactor/) | Refactor tests for readability and maintainability |
 | [test-smell](skills/test-smell/) | Diagnose test quality problems in a test file |
 | [test-strategy](skills/test-strategy/) | Recommend a testing approach for a feature or component |
-| [test-writing](skills/test-writing/) | Gateway skill for writing any test well — routes to the right kind of test |
+| [test-writing](skills/test-writing/) | Gateway skill for writing any test well, routing to the right kind of test |
 | [tome-capture](skills/tome-capture/) | Save research findings to an [agent-tome](https://github.com/beatmadsen/agent-tome) knowledge base |
 | [tome-lookup](skills/tome-lookup/) | Search an [agent-tome](https://github.com/beatmadsen/agent-tome) knowledge base before researching a topic |
 | [unit-test-design](skills/unit-test-design/) | Design unit tests by identifying exit points and choosing test doubles |
@@ -69,7 +69,7 @@ cp agents/craftsman.md ~/.claude/agents/craftsman.md
 
 The agent files reference a per-agent memory directory at `~/.claude/agent-memory/<name>/`; it's created on first write, and starts empty.
 
-### Skills — for all your projects (personal)
+### Skills for all your projects (personal)
 
 Copy a skill into your personal skills directory:
 
