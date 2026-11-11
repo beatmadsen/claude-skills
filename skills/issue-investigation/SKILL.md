@@ -1,17 +1,17 @@
 ---
 name: issue-investigation
-description: "Investigate a reported defect or data problem in a running service, from hypothesis to tickets a team can groom or a write-up for the team that owns the fix: read the ticket, docs and deployed code, state competing hypotheses with what would disprove each, measure mechanism, occurrence, current state and customer harm in the source that answers each, cross-check sources record by record, size the harm, back up the evidence, then write tickets with linked evidence. TRIGGER when picking up an investigation or spike ticket, when asked whether a reported bug still happens, how many customers it affects, what the ground truth is in production data, or to split findings into tickets. Not for live outages, where restoring service comes first. When the outcome is a code change you make now, defect-fix governs the fix."
+description: "Investigate a reported defect or data problem in a running service: read the report, docs and deployed code, state competing hypotheses with what would disprove each, measure mechanism, occurrence, current state and user harm in the source that answers each, cross-check sources record by record, size the harm, back up the evidence, and record the findings where the next person will find them. Then act on them: fix now while the context is fresh, or hand over as tickets or a write-up when the setting calls for it. TRIGGER when picking up an investigation or spike, when asked whether a reported bug still happens, how many users it affects, or what the ground truth is in production data. Not for live outages, where restoring service comes first."
 ---
 
 # Issue Investigation
 
-Turn a reported problem into measured findings and tickets someone can groom. The report's own explanation is a hypothesis, not a fact. In practice the trigger it names, the classes it blames and the scope it claims are often out of date by the time anyone looks.
+Turn a reported problem into measured findings, record them, and act on them. The report's own explanation is a hypothesis, not a fact. In practice the trigger it names, the classes it blames and the scope it claims are often out of date by the time anyone looks.
 
-The global CLAUDE.md's Grounding, Empiricism and "Distrust of the green" rules apply throughout. This skill is how they play out when the evidence sits in production logs, a data warehouse and a primary data store rather than in a test suite.
+The global CLAUDE.md's Grounding, Empiricism and "Distrust of the green" rules apply throughout. This skill is how they play out when the evidence sits in production logs, a data warehouse and a primary data store rather than in a test suite. It pays off where there is a running system with data; for a defect with no production evidence to gather, `defect-fix` alone covers it.
 
-Read [sources.md](sources.md) before the first query. Read [presentation.md](presentation.md) before writing anything that goes to a tracker or a chat channel, together with the `external-writing` skill.
+Read [sources.md](sources.md) before the first query. Read [recording.md](recording.md) before writing up findings, together with the `external-writing` skill for anything that leaves the conversation.
 
-An organisation-specific skill can layer on top of this one. It names the concrete log indexes, tables, roles and ticket fields; this skill supplies the method.
+An organisation-specific skill can layer on top of this one. It names the concrete log indexes, tables, roles, and whether findings become tickets for a team; this skill supplies the method.
 
 ## Workflow
 
@@ -22,20 +22,20 @@ An organisation-specific skill can layer on top of this one. It names the concre
 - [ ] 4. Cross-check sources record by record
 - [ ] 5. Size severity and harm
 - [ ] 6. Back up the evidence
-- [ ] 7. Present: chat summary, then tickets, then close the original
-- [ ] 8. Capture the findings
+- [ ] 7. Record the findings
+- [ ] 8. Act on them: fix now, or hand over
 ```
 
 ### 1. Read before measuring
 
-- The ticket, the tickets it clones or links, and their comments. Use `ticket-briefing`, where available, when the domain is unfamiliar.
-- The document that states expected behaviour. Keep the exact quote: it becomes the "expected behaviour" line in every ticket.
-- The code **at the version running in production**, not your branch. Check that the classes the ticket names still exist, and read `git log` for fixes made since the ticket was filed.
-- Search the tracker for existing tickets on the same mechanism before calling anything new. Earlier cleanup tickets often fixed the data without fixing the cause, and remediation tickets get closed without the run happening.
+- The report, anything it links, and the discussion on it. Use `ticket-briefing`, where available, when the domain is unfamiliar.
+- The document that states expected behaviour. Keep the exact quote: it becomes the "expected behaviour" line in the findings.
+- The code **at the version running in production**, not your branch. Check that the classes the report names still exist, and read `git log` for fixes made since it was filed.
+- Look for earlier work on the same mechanism (tracker, git history, `tome-lookup`) before calling anything new. Earlier cleanups often fixed the data without fixing the cause, and remediation work gets marked done without the run happening.
 
 ### 2. Hypotheses
 
-Write the ticket's claim plus at least one rival. For each, note the mechanism (code path), the observable signature (log line, row shape, audit action), the source that can measure it, and **the observation that would disprove it**. A check that both readings predict the same way confirms nothing.
+Write the report's claim plus at least one rival. For each, note the mechanism (code path), the observable signature (log line, row shape, audit action), the source that can measure it, and **the observation that would disprove it**. A check that both readings predict the same way confirms nothing.
 
 Keep these four questions separate. Each has its own source:
 
@@ -44,7 +44,7 @@ Keep these four questions separate. Each has its own source:
 | Mechanism: can it happen? | Code at the production version |
 | Occurrence: does it happen, how often, on which flow? | Logs (recent days), warehouse (history) |
 | State: is the bad data there now? | The primary data store |
-| Harm: did a customer or partner receive something wrong? | Audit events, outbound messages, customer records |
+| Harm: did a user or partner receive something wrong? | Audit events, outbound messages, user records |
 
 ### 3. Measure
 
@@ -74,32 +74,42 @@ Join sources by a shared ID, not by matching daily totals. Before trusting a war
 ### 5. Severity and harm
 
 - How often, starting when, and growing or not.
-- Who is harmed now, how badly, and for how long. A paying customer who has lost access outranks a large but inert data backlog.
-- A path with zero production hits is still a defect if its outcome is severe. Say so in the ticket rather than inflating it.
+- Who is harmed now, how badly, and for how long. A paying user who has lost access outranks a large but inert data backlog.
+- A path with zero production hits is still a defect if its outcome is severe. Say so rather than inflating it.
 - State lower bounds and why they are lower bounds (single region, retention window, data gap).
-- Follow the harm to the repair tooling: a bug that breaks the remediation endpoint is a prerequisite for the remediation ticket.
+- Follow the harm to the repair tooling: a bug that breaks the remediation endpoint has to be fixed before the remediation can run.
 
 ### 6. Back up the evidence
 
-Logs are often kept for only days, and large scans are worth not repeating. Copy queries, scripts and exports to a folder per ticket, outside any git repository and readable only by you (`chmod 700`), with a `MANIFEST.txt` that says where each file came from, when, and which files contain personal data. Rerun the analysis from the backup once to prove it works.
+Logs are often kept for only days, and large scans are worth not repeating. Copy queries, scripts and exports to a folder per investigation, outside any git repository and readable only by you (`chmod 700`), with a `MANIFEST.txt` that says where each file came from, when, and which files contain personal data. Rerun the analysis from the backup once to prove it works.
 
-### 7. Present
+### 7. Record the findings
 
-Follow [presentation.md](presentation.md). In order:
+Lead the chat summary with the finding, then follow [recording.md](recording.md): the finding, the evidence, what is measured versus inferred, what is still open, and one entry per fix needed (not per observation).
 
-1. Chat: lead with the finding, then a junior-engineer explanation, then what is measured versus inferred and what is still open.
-2. One ticket per fix (not per finding), with formal links.
-3. Close the original ticket with a comment pointing to the successors and naming any loose ends no ticket tracks.
+Where the record goes depends on what happens next, never into a findings document in the repository (see `document-hygiene`):
 
-When the fix belongs to another team, the output is a cross-team write-up plus a short handover for whoever raises the request with that team, instead of tickets. Both are described in [presentation.md](presentation.md).
+- Fixed now: the regression test is the standing proof, and the commit message and intent record carry the mechanism and the evidence.
+- Handed to your own team: tickets, one per fix.
+- Handed to another team: a cross-team write-up.
 
-### 8. Capture
+In every case, run `tome-capture`, where available, with the mechanism, the measured numbers and the source pitfalls you hit. A new trap that will recur also goes into the source notes: its general form into this skill's [sources.md](sources.md), the concrete table, index or field into the organisation-specific skill. If the investigation started from a ticket, close it pointing to where the findings went, naming any loose end nothing tracks.
 
-Run `tome-capture`, where available, with the mechanism, the measured numbers and the source pitfalls you hit, so the next investigation starts from them. A new trap that will recur also goes into the source notes: its general form into this skill's [sources.md](sources.md), the concrete table, index or field into the organisation-specific skill.
+### 8. Act on them
+
+The default is to fix now, while you still hold the context: each fix in code you own goes through `defect-fix`. The investigation has already done that skill's first two steps against the real system, so it starts from the failing test.
+
+Hand over instead when:
+
+- the team grooms work before scheduling it (the organisation-specific skill says so),
+- the fix belongs to another team, or
+- the request asked for findings only.
+
+Repairing data that is already wrong is a write to production. It is never done under this skill; it needs its own plan and the owner's approval.
 
 ## Safety
 
 - Never write to production data stores. Use only their read operations (describe, query, get, and a rate-limited scan).
 - Use the warehouse's read-only query path where it has one. Never put the raw request or response payloads of audit events in shared output: they carry personal data and sometimes credentials.
-- Keep user IDs out of tickets, chat and knowledge bases by default. Business IDs (order, subscription, fulfillment) are fine. Log exports contain real user IDs: they stay local. An internal write-up handed to another team for debugging includes the user IDs it needs, marked as internal (see [presentation.md](presentation.md)).
+- Keep user IDs out of tickets, commits, chat and knowledge bases by default. Business IDs (order, subscription, fulfillment) are fine. Log exports contain real user IDs: they stay local. An internal write-up handed to another team for debugging includes the user IDs it needs, marked as internal (see [recording.md](recording.md)).
 - Never print cookies, tokens or auth headers.
