@@ -40,6 +40,7 @@ current formatting happens to use.
 - No more than 2 levels of nesting in any method.
 - No more than 2 levels of inheritance in any class hierarchy.
 - Object methods should assume non-null inputs and never return null. Only data structures should work with null.
+- Resolve absence once. When a lookup can miss, drop or default the miss at the first step and carry only present values on, keyed by identity rather than by position. A null threaded through several steps of business logic, each handling it, is a smell; so are nulls kept as placeholders to preserve positions.
 - Construction should have no side effects; a constructor only sets instance variables. Put any side effects in a separate method called after construction, so an object can be built without being used immediately. A static factory method may do the construction and the side effects together, but the constructor itself stays side-effect-free.
 - Give values that share a type but differ in role their own value types. When a method takes, or a class holds, two values of the same type that could be swapped (two ids of the same kind, two lists of the same element type), wrap at least one in a value type named for its role, so swapping them fails to compile.
 - Move behaviour to the type whose data it uses. A method that reads several fields of one object and little else belongs on that object.

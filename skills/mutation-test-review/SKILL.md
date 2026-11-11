@@ -101,6 +101,7 @@ These survive because the mutation produces identical behavior:
 - Mutations in trivial getters/setters
 - Mutations in generated code
 - Mutations in a line that only hands a configured value to a library or JDK call (a timeout, a pool size). Kill one where the value takes effect, at the wiring level, or accept it. A unit test that captures the argument restates the line, protects nothing, and breaks on an equivalent refactor.
+- Mutants that model a future edit rather than a plausible defect (re-indexing, a filter moved a line). If the survivor exposes an untested behaviour case, test that case and argue from it. If the hazard exists only because of how the code is written (lists kept aligned by index, placeholder nulls), look first for a design that removes it.
 
 ## Step 2: Prioritize
 

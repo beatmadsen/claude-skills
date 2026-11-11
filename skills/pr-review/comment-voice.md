@@ -9,7 +9,8 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 - Suggestions come with code sketches. Sketches reuse the author's fixtures, helpers and names so they drop straight in. Call invented names placeholders.
 - Acknowledge what the change makes possible, naming the concrete thing. No generic praise.
 - One concern per comment, anchored on the production line where the behaviour lives.
-- Coverage comments stay about coverage. Design suggestions get their own comments.
+- Coverage comments stay about coverage, and design suggestions get their own comments, except when the test is the evidence that a structural rewrite keeps the behaviour; then they share one comment.
+- Argue coverage from the untested behaviour case (several items, one of them missing a lookup), not from a refactor someone might make.
 - A coverage comment opens with the production failure the gap leaves open, not with the mutation that found it.
 - A finding outside the change, noticed along the way, goes in a PR-level comment that says it's unrelated, how we came across it, and what it causes. It doesn't ask for a fix in this PR.
 - Argue from concrete benefits. Don't cite the user's personal limits (4 instance variables, 7-line methods) to the author.
@@ -21,7 +22,7 @@ Audience: the author, plus a junior engineer with limited domain knowledge readi
 
 - State verified facts plainly: "Locally I removed this call, and the tests still passed."
 - Hedge only on what we don't know: intent ("may well be intentional"), the effect on a consumer we haven't checked, future plans. Say what wasn't checked: "That's my guess, but I haven't checked the consumer."
-- Unsourced claims about plans become questions to the author.
+- Unsourced claims about plans become questions to the author only when the author owns the design. When the author implements a ticket as written, a doubt backed by a source (the ticket, a design record, the contract, the code) is stated as a finding with a recommendation from that source; a doubt with no source is dropped.
 - Softeners that tell the author how to respond are fine: "If order is irrelevant, feel free to resolve this", "this is a question more than a request".
 - When raising a defect, say what the code does and why it was easy to miss (a library that hides it, a fake that fails the way you'd expect). Never frame it as the author's error. The gentler tone comes from that context, never from hedging: a verified fact stays stated as fact.
 
