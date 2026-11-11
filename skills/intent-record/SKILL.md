@@ -1,18 +1,24 @@
 ---
 name: intent-record
-description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues...), and read it back before touching code. TRIGGER immediately after every git commit you make, after amending or rebasing a commit that already has an intent, before editing a file whose history you do not know (blame it first), when the user asks why a commit or a line exists or what was built for a ticket, and when adopting the tool on a repository whose history predates it."
+description: "Record the intent behind a code change in the local intent-record store, linked to the commit hash and to stakeholder systems (Jira, Confluence, Linear, GitHub issues, articles...), and read it back before touching code. TRIGGER after a commit that carries something its message does not (a rejected alternative, something deliberately left undone, an assumption made without asking, an instruction for whoever works there next, or tickets, pages and articles worth linking), after amending or rebasing a commit that already has an intent, before editing a file whose history you do not know when the read hook has not shown its intents, when the user asks why a commit or a line exists or what was built for a ticket, and when adopting the tool on a repository whose history predates it. Not for bookkeeping or mechanical commits."
 allowed-tools: Bash Read
 ---
 
 # Intent Record
 
-You are recording *why* a change was made, so that a later agent or person reading `git blame` can find the reasoning, the ticket that asked for it, and the earlier changes it builds on. The commit message says what changed; the intent record says why, and what was ruled out.
+You are recording *why* a change was made, so that a later agent or person reading `git blame` can find the reasoning, the ticket that asked for it, and the earlier changes it builds on. The commit message says what changed and why. The intent record holds what the message does not: what was ruled out, what was left undone on purpose, the assumptions, the instruction for whoever comes next, and structured links to the tickets, pages and articles behind the change. In a repository other people work in, the message is all they see, so the reasoning they need goes there first; the record supplements it.
 
 ## When to trigger
 
-- Before editing a file or a region you do not know the history of: `blame` it first, as described below, and read the intents it returns. This is what the records are for.
-- Right after `git commit` succeeds, before starting the next piece of work. One record per commit unless the commit is a pure mechanical step (formatting, version bump, generated files), which gets a one-line record.
-- After `git commit --amend`, a rebase or a squash: the hash changed, so `attach` the new hash to the existing record instead of writing a new one.
+- Before editing a file or a region you do not know the history of, read its intents. The read hook below shows them after you read the file; where it is not installed, or Cursor has shown only part of a long history, `blame` by hand as described below. This is what the records are for.
+- Right after a commit that carries something its message does not, before starting the next piece of work:
+  - an alternative considered and rejected, with the reason;
+  - something deliberately left undone that a reader would otherwise "fix";
+  - an assumption made without asking;
+  - an instruction for whoever works on this next;
+  - references worth linking in structured form: a ticket, a design page, an article, a PR, an earlier intent. A ticket key already in the message is not enough on its own, because `backfill` recovers those.
+- Write no record for a commit that has none of these, such as bookkeeping (status or task records), formatting, a version bump or generated files. A record that only restates the message is noise in every later blame.
+- After `git commit --amend`, a rebase or a squash of a commit that has a record: the hash changed, so `attach` the new hash to the existing record instead of writing a new one.
 - When the user asks "why is this line here", "why was this done", "what did we build for ACME-42", or similar: use the reading commands below before answering from memory.
 - When the tool is new to a repository that already has history, or `lookup` answers nothing for commits older than the store: run `backfill` once, as described below.
 
@@ -77,9 +83,24 @@ echo '{"commits": ["<new full hash>"]}' | intent-record attach <intent_id>
 
 The old hash stays attached, which is correct: it existed. Use `attach` also to add a ticket you learn about later.
 
+## The read hook
+
+`hooks/read-intents` runs after each `Read`, blames the lines read, and adds the hand-written intents behind them to the agent's context, so nobody has to remember to look. It skips backfilled records, shows each intent once per session, shows at most six at a time with a count of the rest, and stays silent outside git or on any error. Claude Code passes it the range read; Cursor passes only the file, and also reports its edits as reads, so there the hook covers the whole file and also fires after an edit to a file not yet read. Install it in `~/.claude/settings.json`, which Cursor loads too (with its default third-party import setting), so one entry covers both:
+
+```json
+"hooks": {
+  "PostToolUse": [
+    { "matcher": "Read",
+      "hooks": [{ "type": "command", "command": "/usr/bin/ruby \"$HOME/.claude/skills/intent-record/hooks/read-intents\"", "timeout": 10 }] }
+  ]
+}
+```
+
+It runs under the system Ruby so a project's `.ruby-version` cannot break it, which is why its code stays compatible with Ruby 2.6. Its tests run in CI under 2.6: `ruby hooks/test/read_intents_test.rb` from this skill's folder.
+
 ## Before touching unfamiliar code
 
-Ask why the lines are there before changing them (intent-record 1.2.0 or later):
+When the read hook has shown nothing, or you need the full history behind a long file, ask why the lines are there before changing them (intent-record 1.2.0 or later):
 
 ```bash
 git blame --porcelain -L 40,60 lib/fetch.rb | intent-record blame --format git-porcelain

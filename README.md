@@ -117,6 +117,10 @@ ln -s ~/claude-skills/global/CLAUDE.md ~/.claude/CLAUDE.md
 
 Edits made through either path land in the repo, so they can be reviewed and pulled like any other change.
 
+### Hooks
+
+[skills/intent-record/hooks/read-intents](skills/intent-record/hooks/read-intents) shows the agent the intent records behind the lines of each file it reads, so it sees what was tried and rejected before it edits. The [intent-record skill](skills/intent-record/SKILL.md#the-read-hook) has the `PostToolUse` entry to add to `~/.claude/settings.json`. Cursor runs Claude Code hooks from that file as well, so one entry covers both.
+
 ## Prerequisites
 
 Some skills have external dependencies. Check the skill's `SKILL.md` for details.

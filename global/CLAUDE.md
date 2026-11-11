@@ -63,11 +63,21 @@ branch. Commit early and often at stable states without asking —
 each green test run, each working increment, each coherent change is a
 good commit point.
 
-After every commit you make, invoke the `intent-record` skill and record the
-intent against the new hash before starting the next piece of work. First
-confirm the commit landed (`git log -1` shows it): a pre-commit gate can refuse
-it, and HEAD then still names the previous commit. After an
-amend, rebase or squash, attach the new hash to the existing record. If
+The commit message says what changed and why. In a repository other people
+work in, it (and the PR description, when there is one) is the only record they
+see, so reasoning a reviewer or later maintainer needs goes there, never only
+into an intent record.
+
+After a commit, record an intent with the `intent-record` skill only when the
+commit carries something its message does not: an alternative you rejected and
+why, something deliberately left undone that a reader would otherwise "fix", an
+assumption you made without asking, an instruction for whoever works here next,
+or references worth linking in structured form (a ticket, design page, article,
+PR or earlier intent, beyond a ticket key already in the message). Bookkeeping
+and mechanical commits get none. Record before starting the next piece of work,
+after confirming the commit landed (`git log -1` shows it): a pre-commit gate
+can refuse it, and HEAD then still names the previous commit. After an amend,
+rebase or squash of a commit that has a record, attach the new hash to it. If
 `intent-record` is not installed on the machine, say so once in your summary
 and continue.
 

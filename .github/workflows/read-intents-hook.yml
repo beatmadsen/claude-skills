@@ -1,0 +1,30 @@
+name: read-intents hook
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - name: Install intent-record under a Ruby it supports
+        run: |
+          gem install intent-record --no-document --bindir "$HOME/intent-record-bin"
+          echo "$HOME/intent-record-bin" >> "$GITHUB_PATH"
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.6"
+      - name: Test the hook under the Ruby 2.6 that runs it on macOS
+        working-directory: skills/intent-record/hooks
+        run: |
+          ruby --version
+          intent-record --version
+          ruby test/read_intents_test.rb
