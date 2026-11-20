@@ -38,6 +38,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [mutation-test-review](skills/mutation-test-review/) | Interpret mutation testing results and improve test quality |
 | [pentsection](skills/pentsection/) | Settle a matter of taste by building and rendering five candidates per round, keeping one or two |
 | [pr-review](skills/pr-review/) | Review a colleague's pull request: context from tickets, soundness, structure, claims, mutation-tested coverage, then approved inline comments |
+| [preparatory-refactoring](skills/preparatory-refactoring/) | Make the change easy, then make the easy change: refactor only what removes friction for a behaviour change |
 | [property-test](skills/property-test/) | Design property-based tests for functions or data transformations |
 | [pyramid-rebalance](skills/pyramid-rebalance/) | Move a single test file to the right level of the test pyramid |
 | [ralphify](skills/ralphify/) | Background knowledge about Ralphify, an autonomous AI coding loop tool |
