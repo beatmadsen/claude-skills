@@ -26,6 +26,8 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [external-writing](skills/external-writing/) | Guardrails for external-facing prose: punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
 | [gate-design](skills/gate-design/) | Build CI jobs, hooks and lint rules that run what they guard, have been seen to bite, and keep each lane to what earns its place within its time budget |
+| [git-solo-workflow](skills/git-solo-workflow/) | Git in a repository you work in alone: trunk-based, committing to the default branch at every stable state |
+| [git-team-workflow](skills/git-team-workflow/) | Git in a team repository: one branch and pull request per piece of work, refactoring ahead of the change, review fixes folded before merge |
 | [hotspots](skills/hotspots/) | Identify risky hotspots by combining churn and complexity analysis |
 | [ideation-mob](skills/ideation-mob/) | Divergent brainstorming mob that generates and clusters ideas for a problem |
 | [intent-record](skills/intent-record/) | Record why a change was made in an [intent-record](https://github.com/beatmadsen/intent-record) store, linked to the commit and the ticket that asked for it |

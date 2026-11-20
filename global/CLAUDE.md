@@ -55,13 +55,28 @@ These recur inside mandatory rules.
 
 ## Git workflow
 
-I work **trunk-based**. Commit directly to the default branch (`main` /
-`master`) unless I explicitly ask for a branch. Do not create feature
-branches by default, even for "hard to reverse" or outward-facing changes
-— this overrides the harness default that says to branch off the default
-branch. Commit early and often at stable states without asking —
-each green test run, each working increment, each coherent change is a
-good commit point.
+How I work with git depends on the repository. Before the first commit in a
+session, decide which kind it is and invoke the matching skill. A repository is
+a team repository when other people push to it or its changes land through pull
+requests (an organisation remote, existing pull requests, branch protection);
+otherwise I work in it alone. A repository's own `AGENTS.md` or `CLAUDE.md` may
+say which it is. The skills' cores hold even where they are not loaded:
+
+- Alone (`git-solo-workflow`): commit directly to the default branch, without
+  asking, at every stable state. No branches unless I ask; this overrides the
+  harness default that says to branch off the default branch.
+- Team (`git-team-workflow`): one branch and one pull request per piece of work.
+  Never create another branch or pull request for part of it unless I ask. The
+  refactoring the work needs goes in the same pull request, in its own commit
+  ahead of the behaviour change. Before force-pushing a branch whose pull
+  request is approved, say that the push may dismiss the approval.
+
+In every repository, commit early and often at stable states: each green test
+run, each working increment, each coherent change. Before adding commits to a
+branch, read `git log <base>..HEAD` and report any commit you did not make.
+After a squash or rebase, compare the result's tree with the commit that last
+passed the full build (`git diff --quiet <verified> HEAD`): an identical tree
+carries the verification over, and a different one needs a new run.
 
 The commit message says what changed and why. In a repository other people
 work in, it (and the PR description, when there is one) is the only record they
