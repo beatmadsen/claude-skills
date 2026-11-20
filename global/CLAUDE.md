@@ -292,6 +292,10 @@ year's framework version is the cheap illustration of why.
   reaches the code path under test.
 - Fix the measurement before trusting the number. A test that never ran,
   or that hardcoded its input, measured nothing.
+- A rationale that cites code is checked on the call path actually used.
+  Trace from our call to the code cited before repeating it in a comment, a
+  document, a commit message or a pull request: that the cited line exists
+  proves nothing about whether our call reaches it.
 
 ### Failures and defects
 
