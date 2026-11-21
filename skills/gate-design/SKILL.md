@@ -33,6 +33,7 @@ Running a lane nobody runs is always right, and if it ought to run, wire it into
 
 - A time budget is part of the gate. An over-budget verdict is a red, not a run to repeat, and a lane that passes with little of its budget left is already failing slowly. Find where the time went (the `defect-fix` skill); never raise the budget or wait for a quieter machine.
 - A per-commit lane holds the checks worth most on every commit: the ones most likely to catch what a commit breaks, and costliest to learn of late. When the lane runs near its budget, rank its tests by that value and move the least valuable to a scheduled job (daily or weekly). The job still runs, still reports, and its failures are failures.
+- A check whose verdict hangs on a system outside the repository (a third-party API, a live data feed, anything reached over the network) runs on a schedule, never per commit. No commit can fix that system's outage, so on a per-commit lane the outage turns every commit red and teaches everyone to read red as noise. The scheduled job still runs it, still reports, and its failures are still failures, fixed or chased with the system's owner like any other.
 - Ask what a test's second run can learn. A test whose subject cannot change, such as the test of a schema migration or a one-off backfill, proves its subject once, in the commit that adds it. Run it on a commit that changes its subject and on no other, and delete it once the step it proves has run everywhere it will.
 
 ## Guardrails
