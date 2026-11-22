@@ -1,6 +1,6 @@
 ---
 name: pyramid-rebalance
-description: "Gateway skill for moving a single test file to the right level of the test pyramid. Read this BEFORE rebalancing test layers, splitting a misplaced test, or pushing acceptance coverage down. TRIGGER phrases: 'rebalance the test pyramid', 'this unit test hits the database', 'these tests are at the wrong level', 'push this acceptance test down', 'move tests off the DB', 'split this test into unit and integration', 'improve test pyramid', or when invoked inside a /loop that iterates over test files. Scope: one file per invocation. Applies decision rules: pure logic belongs in unit tests, behavior that genuinely needs the DB/HTTP belongs in integration, acceptance tests that only validate single-command input rejection or pure validation get pushed down, and end-to-end tests are replaced by overlapping integration tests. Also TRIGGER on 'replace the e2e tests', 'this end-to-end test is slow', or an end-to-end test directory. Does NOT commit or push — leaves staging to the user or the surrounding loop."
+description: "Gateway skill for moving a single test file to the right level of the test pyramid. Read this BEFORE rebalancing test layers, splitting a misplaced test, or pushing acceptance coverage down. TRIGGER phrases: 'rebalance the test pyramid', 'this unit test hits the database', 'these tests are at the wrong level', 'push this acceptance test down', 'move tests off the DB', 'split this test into unit and integration', 'improve test pyramid', or when invoked inside a /loop that iterates over test files. Scope: one file per invocation. Applies decision rules: pure logic belongs in unit tests, behavior that genuinely needs the DB/HTTP belongs in integration, acceptance tests that only validate single-command input rejection or pure validation get pushed down, and end-to-end tests are replaced by overlapping integration tests. Also TRIGGER on 'replace the e2e tests', 'this end-to-end test is slow', or an end-to-end test directory."
 allowed-tools: Read Edit Write Bash Grep Glob
 ---
 
@@ -129,7 +129,6 @@ Hand back:
 
 ## What this skill does not do
 
-- **No commits, no pushes.** Staging is the user's call or the surrounding loop's call. If the user says "commit it" after seeing the report, then commit — but never as part of the skill's own work.
 - **No progress-log management.** If the project has a ledger (`progress.md`, etc.), the user or the loop appends to it. You can mention what entry would belong, but don't write it unless asked.
 - **No batch mode.** One file per invocation. The pyramid is built one honest decision at a time.
 
@@ -141,5 +140,4 @@ Hand back:
 - [ ] Did I classify each behavior, not the file as a whole?
 - [ ] For an end-to-end test: did I list the chain, cover each adjacent pair with an integration test, make them overlap on a shared artefact, and delete the end-to-end test?
 - [ ] Did I run the full test suite and confirm green?
-- [ ] Did I avoid committing or pushing?
 - [ ] Did I report what I moved, why, and what I left alone?
