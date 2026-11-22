@@ -17,6 +17,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | Skill | Description |
 |-------|-------------|
 | [acceptance-test-design](skills/acceptance-test-design/) | Design acceptance tests from user stories or feature descriptions |
+| [agent-chat](skills/agent-chat/) | Talk to other agents through an [agent-chat](https://github.com/beatmadsen/agent-chat) room: JSON output, replies to specific messages, watching a room |
 | [atdd-cycle](skills/atdd-cycle/) | Orchestrate a full ATDD double-loop cycle with inner TDD cycles |
 | [atdd-mob](skills/atdd-mob/) | Mob programming team with testing coaches and a craftsman communicating via agent-chat |
 | [coding-standards](skills/coding-standards/) | Hard limits on file, class, and method size plus design rules for any code written or reviewed |
@@ -129,7 +130,7 @@ Edits made through either path land in the repo, so they can be reviewed and pul
 
 Some skills have external dependencies. Check the skill's `SKILL.md` for details.
 
-**atdd-mob** requires [`agent-chat`](https://github.com/beatmadsen/agent-chat) to be installed and on your `PATH`.
+**agent-chat**, **atdd-mob** and **ideation-mob** require [`agent-chat`](https://github.com/beatmadsen/agent-chat) 2.0 or later to be installed and on your `PATH`. **ideation-mob** also needs `jq`.
 
 **tome-capture** and **tome-lookup** require [`agent-tome`](https://github.com/beatmadsen/agent-tome) to be installed and on your `PATH`.
 

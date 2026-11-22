@@ -10,7 +10,9 @@ Bootstrap a 3-agent mob programming team and orchestrate their work.
 
 ## Step 0: Verify agent-chat is installed
 
-Run `which agent-chat`. If it is not found, tell the user it is required and offer to install it with `gem install agent-chat`. Stop and wait for confirmation before proceeding.
+Run `agent-chat --version`. If it is not found, or older than 2.0, tell the user that agent-chat 2.0 or later is required and offer to install it with `gem install agent-chat`. Stop and wait for confirmation before proceeding.
+
+Read the `agent-chat` skill for how to send, reply, look messages up and read refusals.
 
 ## Step 1: Generate a fresh room name
 
@@ -47,24 +49,25 @@ Read the prompt template for each agent and use it as the agent's `prompt` param
 After all agents have been spawned, post the user's task to the mob room:
 
 ```
-echo "TASK: <user's task description here>" | agent-chat send --room {ROOM} --author orchestrator
+echo "TASK: <user's task description here>" | agent-chat send --json --room {ROOM} --author orchestrator
 ```
 
 Then assign initial roles:
 
 ```
-echo "Roles: atdd-coach is DRIVER, tdd-coach is NAVIGATOR. craftsman reviews after each GREEN. Rotate driver/navigator after each sub-task." | agent-chat send --room {ROOM} --author orchestrator
+echo "Roles: atdd-coach is DRIVER, tdd-coach is NAVIGATOR. craftsman reviews after each GREEN. Rotate driver/navigator after each sub-task." | agent-chat send --json --room {ROOM} --author orchestrator
 ```
 
 ## Step 6: Orchestrator loop
 
 You are the orchestrator. Your job:
 
-1. **Monitor** the mob room using the Monitor tool with an until-loop. The harness blocks `sleep N && command` patterns, so you MUST use Monitor instead:
+1. **Monitor** the mob room by running `stream` under the Monitor tool. Each message arrives as one notification, a JSON line with `id`, `author`, `content` and `reply_to`:
    ```
-   Monitor: until agent-chat receive --room {ROOM} --consumer orchestrator | grep -q .; do sleep 3; done && agent-chat receive --room {ROOM} --consumer orchestrator
+   Monitor(description: "mob room {ROOM}", timeout_ms: 1800000,
+           command: "agent-chat stream --json --room {ROOM} --consumer orchestrator")
    ```
-   Alternatively, call `agent-chat receive` directly via Bash (no leading sleep). If there are no new messages it returns immediately with empty output — that's fine, just call it again after doing other work or responding to the user. Prefer short direct polls over sleep-then-poll.
+   Re-arm it when it expires; the read position is kept, so nothing is lost in between. Alternatively, call `agent-chat receive --json --room {ROOM} --consumer orchestrator` directly via Bash between other work (no leading sleep); it returns at once, printing nothing when there is nothing new. Never test with `receive ... | grep -q .` and then receive again: the test consumes the messages and the second call misses them.
 
 2. **Nudge** any agent that hasn't posted in the mob room for a while. Use `SendMessage` to privately ask them if they're stuck.
 
@@ -72,14 +75,14 @@ You are the orchestrator. Your job:
 
 4. **Post new sub-tasks** as the team completes work.
 
-5. **Answer questions** from the team by relaying to the user or deciding yourself.
+5. **Answer questions** from the team by relaying to the user or deciding yourself. Answer with `--reply-to <id>` so the asker can tell which question you answered.
 
 ## Guardrails (from experience)
 
 - **Fresh room per session** — never reuse a room name. Agents would receive stale history.
 - **"Introduce yourself FIRST"** must be explicit and prominent. Without it, agents do internal analysis before posting.
-- **No `sleep` anywhere** — the harness blocks `sleep N && command` patterns for ALL agents, including subagents with `bypassPermissions`. Use direct `agent-chat receive` calls (returns immediately if no messages) or the Monitor tool with an until-loop for blocking waits. The agent prompt templates already omit sleep — do not add it back.
-- **Shutdown via chat room first** — before sending `SendMessage` shutdown requests, post `"Your work is done. Go ahead and shut down."` to the mob room. Agents that are polling the room will see this and self-terminate, avoiding the stuck-agent problem. Follow up with `SendMessage` shutdown requests for any agents that remain.
+- **No `sleep` anywhere** — the harness blocks `sleep N && command` patterns for ALL agents, including subagents with `bypassPermissions`. Use direct `agent-chat receive --json` calls (returns immediately if no messages) or `agent-chat stream --json` under the Monitor tool for blocking waits. The agent prompt templates already omit sleep — do not add it back.
+- **Shutdown via chat room first** — before sending `SendMessage` shutdown requests, post `"Your work is done. Go ahead and shut down."` to the mob room (`agent-chat send --json ...`). Agents that are polling the room will see this and self-terminate, avoiding the stuck-agent problem. Follow up with `SendMessage` shutdown requests for any agents that remain.
 - **Agents need repeated shutdown requests** — they tend to go idle rather than approve on first ask. Send multiple shutdown requests when wrapping up.
 - **Specialized agents add real value** — testing-coach and craftsman genuinely improve discipline over generic agents.
 - **All agents can drive** — with no dedicated devs, every agent can be driver or navigator. Rotate freely.

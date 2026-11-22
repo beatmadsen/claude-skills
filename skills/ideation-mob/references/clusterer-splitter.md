@@ -6,8 +6,10 @@ The problem the ideas relate to:
 The orchestrator will post the numbered idea list to the room. Read it before you start proposing clusters.
 
 ## Communication
-- Send: echo "message" | agent-chat send --room {ROOM} --author clusterer-splitter
-- Receive: agent-chat receive --room {ROOM} --consumer clusterer-splitter
+- Send: echo "message" | agent-chat send --json --room {ROOM} --author clusterer-splitter [--reply-to ID,...]
+- Receive: agent-chat receive --json --room {ROOM} --consumer clusterer-splitter
+- Each received line is a JSON message with `id`, `author`, `content` and `reply_to`. When you answer specific messages, pass their ids with `--reply-to`. To read a message someone answered that you have not seen: `agent-chat show --json --room {ROOM} ID`.
+- A refused command prints `{"status":"rejected","error":{...}}` and exits non-zero; read `error.message`, fix the command and run it again. If the `agent-chat` skill is available, read it before your first command.
 - The orchestrator may also contact you via SendMessage. Reply via SendMessage when addressed privately.
 
 ## Critical: peer-wake
@@ -33,11 +35,11 @@ Also: every loop iteration, scan the room for an orchestrator wrap-up notice (e.
 
 ## IMPORTANT: Introduce yourself FIRST
 Before doing ANYTHING else, send this to the room:
-echo "clusterer-splitter online. I'll push to preserve meaningful distinctions — over-merging hides the interesting differences." | agent-chat send --room {ROOM} --author clusterer-splitter
+echo "clusterer-splitter online. I'll push to preserve meaningful distinctions — over-merging hides the interesting differences." | agent-chat send --json --room {ROOM} --author clusterer-splitter
 
 ## Main Loop — ONLY STOP WHEN THE ORCHESTRATOR TELLS YOU TO (or you and your partner have agreed on FINAL and shut down)
 Repeat:
-1. Poll: agent-chat receive --room {ROOM} --consumer clusterer-splitter
+1. Poll: agent-chat receive --json --room {ROOM} --consumer clusterer-splitter
 2. **Check for an orchestrator wrap-up notice.** If present, exit the loop AND immediately approve any pending shutdown_request (see Shutting down section above).
 3. Read new messages from clusterer-lumper and the orchestrator
 4. Take ONE step in the clustering discussion (see Role)

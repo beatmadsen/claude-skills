@@ -17,7 +17,9 @@ A **team-lead invariant** constrains the structure: as orchestrator you can only
 
 ## Step 0: Verify agent-chat is installed
 
-Run `which agent-chat`. If it is not found, tell the user it is required and offer to install it with `gem install agent-chat`. Stop and wait for confirmation before proceeding.
+Run `agent-chat --version`. If it is not found, or older than 2.0, tell the user that agent-chat 2.0 or later is required and offer to install it with `gem install agent-chat`. Stop and wait for confirmation before proceeding. The recipes below also need `jq`.
+
+Read the `agent-chat` skill for how to send, reply, look messages up and read refusals.
 
 ## Step 1: Sharpen the problem statement
 
@@ -66,8 +68,8 @@ jq -r '.members | length' ~/.claude/teams/ideate/config.json
 If less than 3, you missed a spawn — fix before proceeding. Then post the ground rules:
 
 ```
-echo "PROBLEM: <PROBLEM>" | agent-chat send --room {ROOM} --author orchestrator
-echo "GROUND RULES: (1) Reserve judgment — every idea is valid, no filtering. (2) Pursue novelty. (3) Go for quantity — this is a fan-out exercise. (4) Read others' ideas for inspiration but do NOT wait your turn — post as soon as you have an idea. (5) Tag every idea with 'IDEA:' on its own line. Multi-line ideas are fine; a blank line ends the idea. Use plain chat (no IDEA: tag) for meta only." | agent-chat send --room {ROOM} --author orchestrator
+echo "PROBLEM: <PROBLEM>" | agent-chat send --json --room {ROOM} --author orchestrator
+echo "GROUND RULES: (1) Reserve judgment — every idea is valid, no filtering. (2) Pursue novelty. (3) Go for quantity — this is a fan-out exercise. (4) Read others' ideas for inspiration but do NOT wait your turn — post as soon as you have an idea. (5) Tag every idea with 'IDEA:' on its own line. Multi-line ideas are fine; a blank line ends the idea. Use plain chat (no IDEA: tag) for meta only." | agent-chat send --json --room {ROOM} --author orchestrator
 ```
 
 ## Step 6: Wait for seed ideas, then spawn the second wave
@@ -80,7 +82,7 @@ Wait for ~5-8 IDEA posts before spawning the second wave. They need prior materi
 Monitor with persistent=false, timeout_ms=180000, command:
   i=0
   while [ $i -lt 24 ]; do
-    ideas=$(agent-chat receive --room {ROOM} --consumer seedmon-$i --all 2>/dev/null | grep -c '^IDEA:')
+    ideas=$(agent-chat receive --json --room {ROOM} --all 2>/dev/null | jq -r 'select(.author | startswith("ideator-")) | .content' | grep -c '^IDEA:')
     echo "ideas=$ideas"
     if [ "$ideas" -ge 6 ]; then echo "READY"; exit 0; fi
     i=$((i+1)); sleep 8
@@ -103,7 +105,7 @@ jq -r '.members | length' ~/.claude/teams/ideate/config.json
 After spawning, post a short note to the room so existing agents see the new arrivals:
 
 ```
-echo "ideator-contrarian and ideator-combiner have joined. Same rules apply." | agent-chat send --room {ROOM} --author orchestrator
+echo "ideator-contrarian and ideator-combiner have joined. Same rules apply." | agent-chat send --json --room {ROOM} --author orchestrator
 ```
 
 ## Step 7: Orchestrator monitor loop
@@ -116,7 +118,7 @@ Monitor with persistent=false, timeout_ms=420000, command:
   prev=0
   stall=0
   while [ $i -lt 28 ]; do
-    ideas=$(agent-chat receive --room {ROOM} --consumer mainmon-$i --all 2>/dev/null | grep -c '^IDEA:')
+    ideas=$(agent-chat receive --json --room {ROOM} --all 2>/dev/null | jq -r 'select(.author | startswith("ideator-")) | .content' | grep -c '^IDEA:')
     echo "ideas=$ideas"
     if [ "$ideas" = "$prev" ]; then stall=$((stall+1)); else stall=0; fi
     prev=$ideas
@@ -139,7 +141,7 @@ Shutting down ideators is the single most fragile step in the skill — budget t
 
 1. Post the wrap-up to the room first. The reference prompts include a step that checks for this:
    ```
-   echo "Exercise complete. Thank you all. Go ahead and shut down." | agent-chat send --room {ROOM} --author orchestrator
+   echo "Exercise complete. Thank you all. Go ahead and shut down." | agent-chat send --json --room {ROOM} --author orchestrator
    ```
 
 2. Send a `shutdown_request` via SendMessage to each of the four ideators (in parallel — single message, four tool calls).
@@ -172,7 +174,7 @@ Shutting down ideators is the single most fragile step in the skill — budget t
 Read the full diverge transcript and extract IDEA blocks with this awk recipe (handles multi-line ideas, dedups exact duplicates, numbers the result):
 
 ```
-agent-chat receive --room {ROOM} --consumer orchestrator-harvest --all > /tmp/harvest.txt
+agent-chat receive --json --room {ROOM} --all | jq -r 'select(.author | startswith("ideator-")) | .content + "\n"' > /tmp/harvest.txt
 
 awk '
   /^IDEA:/{ if (acc) print acc; acc=substr($0, 7); sub(/^[[:space:]]+/, "", acc); next }
@@ -182,7 +184,7 @@ awk '
 ' /tmp/harvest.txt | awk '!seen[$0]++' | awk '{print NR". "$0}' > /tmp/ideas-numbered.txt
 ```
 
-The result is IDEA_LIST: lines like `1. <idea text>`, `2. <idea text>`, ….
+The jq step keeps only the ideators' messages and ends each with a blank line, so an idea never runs on into the next message. The result is IDEA_LIST: lines like `1. <idea text>`, `2. <idea text>`, ….
 
 Note: do NOT use `grep '^IDEA:'` for this — some shell-tool wrappers truncate grep output. Awk is robust.
 
@@ -221,12 +223,12 @@ The clusterer reference prompts include peer-wake instructions — each clustere
 Post the problem statement and the numbered idea list:
 
 ```
-echo "PROBLEM: <PROBLEM>" | agent-chat send --room {ROOM} --author orchestrator
+echo "PROBLEM: <PROBLEM>" | agent-chat send --json --room {ROOM} --author orchestrator
 echo "IDEAS:
 1. <idea 1>
 2. <idea 2>
 ...
-N. <idea N>" | agent-chat send --room {ROOM} --author orchestrator
+N. <idea N>" | agent-chat send --json --room {ROOM} --author orchestrator
 echo "TASK: Discuss and agree on clusters covering every idea. Lumper biases toward fewer/bigger themes; splitter biases toward preserving distinctions. Discussion is what produces good clusters — debate, don't rubber-stamp. When you both agree you are done, post a single message containing exactly the line 'FINAL CLUSTERS:' followed by Markdown:
 
 ## Cluster name
@@ -236,24 +238,20 @@ echo "TASK: Discuss and agree on clusters covering every idea. Lumper biases tow
 ## Cluster name
 - ...
 
-Every idea must appear in exactly one cluster." | agent-chat send --room {ROOM} --author orchestrator
+Every idea must appear in exactly one cluster." | agent-chat send --json --room {ROOM} --author orchestrator
 ```
 
 ## Step 12: Monitor clustering
 
-Stay silent unless intervention is needed. Use Monitor with an **author-aware filter** — the `FINAL CLUSTERS:` string appears literally in your own task instructions from Step 11, so a naive grep will false-positive immediately.
+Stay silent unless intervention is needed. Use Monitor with an **author filter** — the `FINAL CLUSTERS:` string appears literally in your own task instructions from Step 11, so a search that does not check the author will false-positive immediately.
 
 ```
 Monitor with persistent=false, timeout_ms=900000, command:
   i=0
   while [ $i -lt 60 ]; do
-    transcript=$(agent-chat receive --room {ROOM} --consumer clmon-$i --all 2>/dev/null)
-    cl_msgs=$(echo "$transcript" | grep -cE '^<<< clusterer-')
-    final=$(echo "$transcript" | awk '
-      /^<<< clusterer-/{a=1; next}
-      /^<<< /{a=0; next}
-      a && /^FINAL CLUSTERS:/{print "FOUND"; exit}
-    ')
+    clusterers=$(agent-chat receive --json --room {ROOM} --all 2>/dev/null | jq -c 'select(.author | startswith("clusterer-"))')
+    cl_msgs=$(printf '%s' "$clusterers" | grep -c .)
+    final=$(printf '%s' "$clusterers" | jq -r '.content' | awk '/^FINAL CLUSTERS:/{print "FOUND"; exit}')
     echo "cl_msgs=$cl_msgs final=$final"
     if [ "$final" = "FOUND" ]; then echo "FINAL_FOUND"; exit 0; fi
     i=$((i+1)); sleep 20
@@ -261,7 +259,7 @@ Monitor with persistent=false, timeout_ms=900000, command:
   echo "TIMEOUT"
 ```
 
-The awk turns the author tag into a state machine — only count FINAL CLUSTERS posts that appear under a `<<< clusterer-...` header.
+The jq filter keeps only messages whose `author` starts with `clusterer-`, so the sentinel in your own task post never counts.
 
 If 10 minutes pass without a FINAL block, post `"Time's up — please post your best current FINAL CLUSTERS: now, even if imperfect."` to the room and run the monitor for one more cycle.
 
@@ -275,7 +273,15 @@ TeamDelete (cleans up the cluster team)
 
 ## Step 13: Deliver
 
-Parse the `FINAL CLUSTERS:` Markdown block from the cluster room transcript. Write it to `./ideation-<hex>.md` in the user's working directory with this structure:
+Take the Markdown after the `FINAL CLUSTERS:` line in the last clusterer message that has one:
+
+```
+agent-chat receive --json --room {ROOM} --all \
+  | jq -rs '[.[] | select((.author | startswith("clusterer-")) and (.content | test("(^|\n)FINAL CLUSTERS:")))] | last | .content' \
+  | awk 'found {print} /^FINAL CLUSTERS:/ {found=1}' > /tmp/final-clusters.md
+```
+
+Write it to `./ideation-<hex>.md` in the user's working directory with this structure:
 
 ```markdown
 # Ideation results
@@ -316,7 +322,8 @@ Tell the user the file path and give a one-line summary (e.g. "87 ideas across 6
 ### Extraction and parsing
 - **Trust the IDEA: convention** — don't try to extract ideas from free-form chat. If it's not tagged, it's not an idea.
 - **Use awk, not grep, for IDEA extraction.** Some shell-tool wrappers truncate grep output for display, breaking pipelines. Awk is robust.
-- **`FINAL CLUSTERS:` collides with the task instructions.** Step 11's task post contains the literal sentinel. Any monitor must filter by author (`<<< clusterer-...`) to avoid false positives on the orchestrator's own message.
+- **`FINAL CLUSTERS:` collides with the task instructions.** Step 11's task post contains the literal sentinel. Any monitor must filter on the JSON `author` field (`clusterer-...`) to avoid false positives on the orchestrator's own message.
+- **Read the room with `--json --all` and filter with jq.** `--all` reads the whole history without moving any read position and needs no consumer name, so repeated monitor polls do not interfere with each other.
 
 ### Orchestration
 - **Don't over-orchestrate the content** — in this skill the orchestrator is mostly a facilitator for the agents' content. Resist the urge to participate in ideation or clustering.
