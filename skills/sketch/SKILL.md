@@ -63,6 +63,7 @@ The script exits 1 when the sketch is wider than the width. Check that nothing o
 - In Cursor, publish the fragment inline through the built-in `visualize` skill (`~/.cursor/skills-cursor/visualize/SKILL.md`): its store file, slug and content-reference tag. The sketch is a UI mockup there, so read its `references/mockups.md`, the carveout that allows the sketch's own palette, font and sizes.
 - Elsewhere, show the PNG at 736px as an image, and keep the HTML beside it.
 - Beside the sketch, write "In short" in three or four lines (before, after, who decides, the rule, as the sketch needs), then what is solid and what is not: invented wording, inferred placements, what was checked in code and what comes only from a document, each cited.
+- For an architecture, add "Boundaries": for each arrow between kinds of component, whether an interface holds it or the sides meet through a name, a shared table layout or each other's internals, read from the code. Draw a boundary no interface holds in red, with a word saying how they meet instead ("problem: by name", "problem: shared table"), since red already means a problem.
 
 To keep a sketch, save its HTML where the project keeps such things. To show a kept sketch in a later Cursor chat, copy it into that chat's store `visualizations/` under a fresh slug and emit its tag, because `visualize` never reuses a path.
 
