@@ -43,6 +43,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [pyramid-rebalance](skills/pyramid-rebalance/) | Move a single test file to the right level of the test pyramid |
 | [ralphify](skills/ralphify/) | Background knowledge about Ralphify, an autonomous AI coding loop tool |
 | [review-test-quality](skills/review-test-quality/) | Review the quality of tests in a git diff and suggest improvements |
+| [sketch](skills/sketch/) | Explain a feature, flow, architecture or change with a hand-drawn sketch: boxes, arrows, simple symbols, phone screens and the data passed between steps |
 | [spring-jvm](skills/spring-jvm/) | Preferences and lessons for Spring on the JVM, from injection and configuration to testing |
 | [tdd-green](skills/tdd-green/) | Write minimal code to make a failing test pass (TDD GREEN phase) |
 | [tdd-red](skills/tdd-red/) | Write a failing test for the next behavior (TDD RED phase) |

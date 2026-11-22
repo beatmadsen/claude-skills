@@ -1,0 +1,154 @@
+<div id="funci-sketch">
+<style>
+#funci-sketch{container-type:inline-size;color-scheme:light dark;--paper:light-dark(#fbf7ee,#262521);--ink:light-dark(#2a2a2a,#ece7db);--soft:light-dark(#5f5f5f,#b3ada2);--red:light-dark(#b8322a,#ff8a7c);--blue:light-dark(#1d5bb8,#8cb8ff);font-family:"Bradley Hand","Marker Felt","Segoe Print","Comic Sans MS",cursive;color:var(--ink);background:var(--paper);padding:20px;border-radius:6px;display:flex;flex-direction:column;gap:30px}
+#funci-sketch .vis-sr-only{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.5;color:var(--ink)}
+#funci-sketch .sk-head{display:flex;flex-direction:column;gap:2px}
+#funci-sketch .sk-title{font-size:21px;line-height:1.2}
+#funci-sketch .sk-sub{font-size:15px;color:var(--soft)}
+#funci-sketch .sk-sec{display:flex;flex-direction:column;gap:12px}
+#funci-sketch .sk-row{display:flex;align-items:center;gap:4px}
+#funci-sketch .sk-arrow{flex:0 0 42px;width:42px;height:24px;color:var(--ink)}
+#funci-sketch .sk-arrow.back{transform:scaleX(-1)}
+#funci-sketch .sk-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+#funci-sketch .cap{font-size:15px;text-align:center;max-width:160px;line-height:1.2}
+#funci-sketch .red{color:var(--red)}
+#funci-sketch .blue{color:var(--blue)}
+#funci-sketch .scrawl{font-size:16px;transform:rotate(-4deg);text-align:center;line-height:1.15}
+#funci-sketch .box{border:2px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;padding:8px 12px;text-align:center;font-size:15px;line-height:1.2;background:var(--paper);box-sizing:border-box}
+#funci-sketch .box small{display:block;font-size:13px;color:var(--soft)}
+#funci-sketch .box.hot{border-width:3px}
+#funci-sketch .box.q{border-style:dashed}
+#funci-sketch .box.new{border-color:var(--blue);color:var(--blue)}
+#funci-sketch .box.bad{border-color:var(--red);color:var(--red)}
+#funci-sketch .svc{flex:1 1 0;min-width:0}
+#funci-sketch .sym{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px}
+#funci-sketch .sym svg{display:block;color:var(--ink)}
+#funci-sketch .pipe{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+#funci-sketch .lane{display:flex;align-items:center}
+#funci-sketch .lane .sk-arrow{flex:none}
+#funci-sketch .tail{flex:none;width:16px;height:24px;color:var(--ink)}
+#funci-sketch .doc{position:relative;flex:none;font-size:12px;line-height:1.2;padding:4px 18px 5px 8px;border:1.5px solid var(--ink);border-radius:3px 2px 4px 3px;background:var(--paper);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);text-align:left;white-space:nowrap}
+#funci-sketch .doc::after{content:"";position:absolute;top:-1.5px;right:-1.5px;width:13.5px;height:13.5px;box-sizing:border-box;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);border-bottom-left-radius:2px;background:linear-gradient(to bottom left,transparent calc(50% - 1px),var(--ink) calc(50% - 1px),var(--ink) calc(50% + 0.5px),var(--paper) calc(50% + 0.5px))}
+#funci-sketch .doc .dt{font-size:13px;border-bottom:1px solid var(--soft);margin:0 -18px 3px -8px;padding:0 18px 2px 8px}
+#funci-sketch .doc .f{padding-left:2px}
+#funci-sketch .doc .f.new{color:var(--blue)}
+#funci-sketch .frame{border:2px solid var(--ink);border-radius:14px 24px 12px 22px/22px 12px 24px 14px;padding:10px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-width:0}
+#funci-sketch .frame-h{font-size:15px}
+#funci-sketch .stack{display:flex;flex-direction:column;gap:6px;flex:1 1 0;min-width:0}
+#funci-sketch .ledger{width:170px;box-sizing:border-box;border:2px solid var(--ink);border-left:6px double var(--ink);border-radius:4px 14px 6px 12px/12px 6px 14px 4px;background:var(--paper);display:flex;flex-direction:column}
+#funci-sketch .ledger .lh{font-size:15px;padding:5px 8px;border-bottom:2px solid currentColor}
+#funci-sketch .ledger .ln{font-size:14px;padding:4px 8px;border-bottom:1px dashed var(--soft)}
+#funci-sketch .ledger .ln:last-child{border-bottom:none}
+#funci-sketch .ledger.new{border-color:var(--blue);color:var(--blue)}
+#funci-sketch .ledger.old{color:var(--soft)}
+#funci-sketch .phone{width:150px;min-height:196px;box-sizing:border-box;border:2px solid var(--ink);border-radius:20px 14px 22px 12px/14px 22px 12px 20px;padding:20px 10px 12px;display:flex;flex-direction:column;gap:8px;position:relative;background:var(--paper)}
+#funci-sketch .phone::before{content:"";position:absolute;top:8px;left:50%;width:34px;height:3px;margin-left:-17px;border-radius:2px;background:var(--soft)}
+#funci-sketch .phone.gone{border-color:var(--red)}
+#funci-sketch .scr-h{font-size:16px;text-align:center;line-height:1.2}
+#funci-sketch .scr-t{font-size:14px;line-height:1.25;color:var(--soft);text-align:center}
+#funci-sketch .btn{border:2px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:3px 8px;text-align:center;font-size:14px}
+#funci-sketch .btn.solid{background:var(--ink);color:var(--paper)}
+#funci-sketch .spacer{flex:1}
+#funci-sketch .note{border:2px dashed var(--blue);color:var(--blue);border-radius:12px 18px 10px 16px/16px 10px 18px 12px;padding:6px;font-size:14px;line-height:1.25;text-align:center}
+#funci-sketch .env{width:120px;height:80px;box-sizing:border-box;border:2px solid var(--ink);border-radius:6px 10px 5px 9px;position:relative;background:var(--paper)}
+#funci-sketch .env svg{position:absolute;inset:0;width:100%;height:100%}
+#funci-sketch .env.new{border-color:var(--blue);color:var(--blue)}
+#funci-sketch .tree{display:flex;flex-direction:column;align-items:center;gap:4px}
+#funci-sketch .branches{display:flex;justify-content:center;gap:18px;width:100%}
+#funci-sketch .branch{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1 1 0;min-width:0}
+#funci-sketch .edge{display:flex;align-items:center;gap:4px;font-size:15px}
+#funci-sketch .down{width:24px;height:30px;color:var(--ink)}
+#funci-sketch .tag{font-size:14px;color:var(--soft);text-align:center}
+@container (max-width:600px){
+#funci-sketch .sk-row{flex-direction:column}
+#funci-sketch .sk-arrow{transform:rotate(90deg);margin:9px 0}
+#funci-sketch .sk-arrow.back{transform:rotate(-90deg)}
+#funci-sketch .svc,#funci-sketch .frame,#funci-sketch .stack{width:100%;flex:none}
+#funci-sketch .lane{flex-direction:column}
+#funci-sketch .tail{transform:rotate(90deg);margin:-4px 0}
+#funci-sketch .pipe{flex-direction:row;align-items:flex-start}
+}
+@container (max-width:420px){
+#funci-sketch .branches{flex-direction:column;align-items:center}
+}
+</style>
+<p class="vis-sr-only">Hand-drawn architecture sketch of fun-ci, a Ruby gem that runs CI on your own machine. A commit's run: you commit, the post-commit hook passes the commit and branch to fun-ci trigger and returns at once, and the run goes on in the background in a git worktree checked out at that commit. There lint and build run side by side within 30 seconds each, then the fast suite, within 10 seconds, and the slow suite, within 5 minutes, side by side; a stage over its budget is killed. Results go to one SQLite database shared by every project on the machine. Two readers: you watch fun-ci console on a second screen, and your agent runs fun-ci wait and fun-ci why. Who decides a push: the pre-push hook runs fun-ci wait --need fast for each commit pushed, which blocks until the run is decided; a pass lets the push go, a failure or an overrun stops it, and a project not set up for fun-ci pushes without CI.</p>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">A commit's run</div><div class="sk-sub">nothing waits for it</div></div>
+<div class="sk-row">
+<div class="sym"><svg width="40" height="64" viewBox="0 0 40 64" aria-hidden="true"><circle cx="20" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 18 C 19 26, 21 32, 20 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 29 C 12 26, 28 27, 35 25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40 L9 61 M20 40 L31 61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="cap">1 you commit</div></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="box svc">2 post-commit hook<small>returns at once</small></div>
+<div class="pipe"><div class="lane"><svg class="tail" viewBox="0 0 16 24" aria-hidden="true"><path d="M1 12 C 6 11, 11 13, 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="doc"><div class="dt">argv [ ]</div><div class="f">--background</div><div class="f">commit sha</div><div class="f">branch</div></div><svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div class="box svc">3 fun-ci trigger<small>forks to the background</small></div>
+</div>
+<div class="sk-row">
+<div class="frame">
+<div class="frame-h">4 worktree, checked out at the commit</div>
+<div class="sk-row">
+<div class="stack"><div class="box">lint<small>30 s</small></div><div class="box">build<small>30 s</small></div></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="stack"><div class="box">fast suite<small>10 s</small></div><div class="box">slow suite<small>5 min, blocks nothing</small></div></div>
+</div>
+<div class="cap scrawl">over budget: killed</div>
+</div>
+<div class="pipe"><div class="lane"><svg class="tail" viewBox="0 0 16 24" aria-hidden="true"><path d="M1 12 C 6 11, 11 13, 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="doc"><div class="dt">stage_jobs row</div><div class="f">stage</div><div class="f">status</div><div class="f">output_tail</div><div class="f">evidence</div></div><svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div class="sym"><svg width="70" height="84" viewBox="0 0 70 84" aria-hidden="true"><ellipse cx="35" cy="12" rx="30" ry="9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12 C 4 30, 6 52, 5 70 C 5 82, 65 82, 65 70 C 66 52, 64 30, 65 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 31 C 5 43, 65 43, 65 31 M5 50 C 5 62, 65 62, 65 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="cap">5 results<br>SQLite</div></div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">Two readers</div><div class="sk-sub">the same results, read two ways</div></div>
+<div class="tree">
+<div class="sym"><svg width="70" height="84" viewBox="0 0 70 84" aria-hidden="true"><ellipse cx="35" cy="12" rx="30" ry="9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12 C 4 30, 6 52, 5 70 C 5 82, 65 82, 65 70 C 66 52, 64 30, 65 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 31 C 5 43, 65 43, 65 31 M5 50 C 5 62, 65 62, 65 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="cap">results</div></div>
+<div class="branches">
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>watch</div>
+<div class="box">fun-ci console<small>colour and motion</small></div>
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="sk-row"><div class="sym"><svg width="40" height="64" viewBox="0 0 40 64" aria-hidden="true"><circle cx="20" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 18 C 19 26, 21 32, 20 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 29 C 12 26, 28 27, 35 25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40 L9 61 M20 40 L31 61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sym"><svg width="70" height="60" viewBox="0 0 70 60" aria-hidden="true"><path d="M5 5 C 25 3, 47 6, 65 4 C 66 18, 64 32, 66 44 C 46 46, 24 43, 4 45 C 5 31, 3 17, 5 5 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 45 L35 54 M22 56 C 30 54, 40 57, 48 55" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 25 L31 32 L46 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div class="cap">you glance at a second screen</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ask</div>
+<div class="box">fun-ci wait, fun-ci why<small>exit code and evidence</small></div>
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="sym"><svg width="40" height="64" viewBox="0 0 40 64" aria-hidden="true"><circle cx="20" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 18 C 19 26, 21 32, 20 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 29 C 12 26, 28 27, 35 25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40 L9 61 M20 40 L31 61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="cap">your agent asks</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">Who decides a push</div><div class="sk-sub">the hook asks, fun-ci wait decides</div></div>
+<div class="sk-row">
+<div class="box svc">You<small>git push</small></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="box svc">pre-push hook<small>each commit pushed</small></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="box svc hot">fun-ci wait --need fast<small>blocks until decided</small></div>
+</div>
+<div class="tree" role="group" aria-label="What happens to a push">
+<div class="box q">How did lint, build and the fast suite do?</div>
+<div class="branches">
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>passed</div>
+<div class="box">push goes</div>
+<div class="tag">exit 0</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>failed, over budget</div>
+<div class="box bad">push stops</div>
+<div class="tag">exit 1, 2</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>no fun-ci setup</div>
+<div class="box">push goes, no CI</div>
+<div class="tag">exit 5</div>
+</div>
+</div>
+</div>
+</div>
+</div>

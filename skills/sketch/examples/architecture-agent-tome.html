@@ -1,0 +1,145 @@
+<div id="tome-sketch">
+<style>
+#tome-sketch{container-type:inline-size;color-scheme:light dark;--paper:light-dark(#fbf7ee,#262521);--ink:light-dark(#2a2a2a,#ece7db);--soft:light-dark(#5f5f5f,#b3ada2);--red:light-dark(#b8322a,#ff8a7c);--blue:light-dark(#1d5bb8,#8cb8ff);font-family:"Bradley Hand","Marker Felt","Segoe Print","Comic Sans MS",cursive;color:var(--ink);background:var(--paper);padding:20px;border-radius:6px;display:flex;flex-direction:column;gap:30px}
+#tome-sketch .vis-sr-only{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.5;color:var(--ink)}
+#tome-sketch .sk-head{display:flex;flex-direction:column;gap:2px}
+#tome-sketch .sk-title{font-size:21px;line-height:1.2}
+#tome-sketch .sk-sub{font-size:15px;color:var(--soft)}
+#tome-sketch .sk-sec{display:flex;flex-direction:column;gap:12px}
+#tome-sketch .sk-row{display:flex;align-items:center;gap:4px}
+#tome-sketch .sk-arrow{flex:0 0 42px;width:42px;height:24px;color:var(--ink)}
+#tome-sketch .sk-arrow.back{transform:scaleX(-1)}
+#tome-sketch .sk-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+#tome-sketch .cap{font-size:15px;text-align:center;max-width:160px;line-height:1.2}
+#tome-sketch .red{color:var(--red)}
+#tome-sketch .blue{color:var(--blue)}
+#tome-sketch .scrawl{font-size:16px;transform:rotate(-4deg);text-align:center;line-height:1.15}
+#tome-sketch .box{border:2px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;padding:8px 12px;text-align:center;font-size:15px;line-height:1.2;background:var(--paper);box-sizing:border-box}
+#tome-sketch .box small{display:block;font-size:13px;color:var(--soft)}
+#tome-sketch .box.hot{border-width:3px}
+#tome-sketch .box.q{border-style:dashed}
+#tome-sketch .box.new{border-color:var(--blue);color:var(--blue)}
+#tome-sketch .box.bad{border-color:var(--red);color:var(--red)}
+#tome-sketch .svc{flex:1 1 0;min-width:0}
+#tome-sketch .sym{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px}
+#tome-sketch .sym svg{display:block;color:var(--ink)}
+#tome-sketch .pipe{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+#tome-sketch .lane{display:flex;align-items:center}
+#tome-sketch .lane .sk-arrow{flex:none}
+#tome-sketch .tail{flex:none;width:16px;height:24px;color:var(--ink)}
+#tome-sketch .doc{position:relative;flex:none;font-size:12px;line-height:1.2;padding:4px 18px 5px 8px;border:1.5px solid var(--ink);border-radius:3px 2px 4px 3px;background:var(--paper);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);text-align:left;white-space:nowrap}
+#tome-sketch .doc::after{content:"";position:absolute;top:-1.5px;right:-1.5px;width:13.5px;height:13.5px;box-sizing:border-box;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);border-bottom-left-radius:2px;background:linear-gradient(to bottom left,transparent calc(50% - 1px),var(--ink) calc(50% - 1px),var(--ink) calc(50% + 0.5px),var(--paper) calc(50% + 0.5px))}
+#tome-sketch .doc .dt{font-size:13px;border-bottom:1px solid var(--soft);margin:0 -18px 3px -8px;padding:0 18px 2px 8px}
+#tome-sketch .doc .f{padding-left:2px}
+#tome-sketch .doc .f.new{color:var(--blue)}
+#tome-sketch .frame{border:2px solid var(--ink);border-radius:14px 24px 12px 22px/22px 12px 24px 14px;padding:10px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-width:0}
+#tome-sketch .frame-h{font-size:15px}
+#tome-sketch .stack{display:flex;flex-direction:column;gap:6px;flex:1 1 0;min-width:0}
+#tome-sketch .ledger{width:170px;box-sizing:border-box;border:2px solid var(--ink);border-left:6px double var(--ink);border-radius:4px 14px 6px 12px/12px 6px 14px 4px;background:var(--paper);display:flex;flex-direction:column}
+#tome-sketch .ledger .lh{font-size:15px;padding:5px 8px;border-bottom:2px solid currentColor}
+#tome-sketch .ledger .ln{font-size:14px;padding:4px 8px;border-bottom:1px dashed var(--soft)}
+#tome-sketch .ledger .ln:last-child{border-bottom:none}
+#tome-sketch .ledger.new{border-color:var(--blue);color:var(--blue)}
+#tome-sketch .ledger.old{color:var(--soft)}
+#tome-sketch .phone{width:150px;min-height:196px;box-sizing:border-box;border:2px solid var(--ink);border-radius:20px 14px 22px 12px/14px 22px 12px 20px;padding:20px 10px 12px;display:flex;flex-direction:column;gap:8px;position:relative;background:var(--paper)}
+#tome-sketch .phone::before{content:"";position:absolute;top:8px;left:50%;width:34px;height:3px;margin-left:-17px;border-radius:2px;background:var(--soft)}
+#tome-sketch .phone.gone{border-color:var(--red)}
+#tome-sketch .scr-h{font-size:16px;text-align:center;line-height:1.2}
+#tome-sketch .scr-t{font-size:14px;line-height:1.25;color:var(--soft);text-align:center}
+#tome-sketch .btn{border:2px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:3px 8px;text-align:center;font-size:14px}
+#tome-sketch .btn.solid{background:var(--ink);color:var(--paper)}
+#tome-sketch .spacer{flex:1}
+#tome-sketch .note{border:2px dashed var(--blue);color:var(--blue);border-radius:12px 18px 10px 16px/16px 10px 18px 12px;padding:6px;font-size:14px;line-height:1.25;text-align:center}
+#tome-sketch .env{width:120px;height:80px;box-sizing:border-box;border:2px solid var(--ink);border-radius:6px 10px 5px 9px;position:relative;background:var(--paper)}
+#tome-sketch .env svg{position:absolute;inset:0;width:100%;height:100%}
+#tome-sketch .env.new{border-color:var(--blue);color:var(--blue)}
+#tome-sketch .tree{display:flex;flex-direction:column;align-items:center;gap:4px}
+#tome-sketch .branches{display:flex;justify-content:center;gap:18px;width:100%}
+#tome-sketch .branch{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1 1 0;min-width:0}
+#tome-sketch .edge{display:flex;align-items:center;gap:4px;font-size:15px}
+#tome-sketch .down{width:24px;height:30px;color:var(--ink)}
+#tome-sketch .tag{font-size:14px;color:var(--soft);text-align:center}
+@container (max-width:600px){
+#tome-sketch .sk-row{flex-direction:column}
+#tome-sketch .sk-arrow{transform:rotate(90deg);margin:9px 0}
+#tome-sketch .sk-arrow.back{transform:rotate(-90deg)}
+#tome-sketch .svc,#tome-sketch .frame,#tome-sketch .stack{width:100%;flex:none}
+#tome-sketch .lane{flex-direction:column}
+#tome-sketch .tail{transform:rotate(90deg);margin:-4px 0}
+#tome-sketch .pipe{flex-direction:row;align-items:flex-start}
+}
+@container (max-width:420px){
+#tome-sketch .branches{flex-direction:column;align-items:center}
+}
+</style>
+<p class="vis-sr-only">Hand-drawn architecture sketch of agent-tome, a Ruby gem where an AI agent keeps what it finds out. One call: the agent pipes JSON into the agent-tome command, which checks it, runs one command in one transaction against a SQLite file and prints JSON back; there is no server. How an article grows: create writes the first entry and addend adds more; nothing is ever updated or deleted. Consolidate writes a new article with one merged entry that takes over the old id, so the id still works, while the old article keeps its entries under a fresh id, linked to the new one. Who decides what a search finds: the Search command keeps only the keywords the tome knows, after lower-casing them and making the last word singular, then returns articles with any of them, most matches first, or with --match all the articles that have all of them; because unknown words were dropped first, --match all does not really require every word. Field names are from the code; the example ids and words are illustrative.</p>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">One call</div><div class="sk-sub">JSON in, JSON out, no server</div></div>
+<div class="sk-row">
+<div class="sym"><svg width="40" height="64" viewBox="0 0 40 64" aria-hidden="true"><circle cx="20" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 18 C 19 26, 21 32, 20 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 29 C 12 26, 28 27, 35 25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40 L9 61 M20 40 L31 61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="cap">1 agent</div></div>
+<div class="pipe">
+<div class="lane"><svg class="tail" viewBox="0 0 16 24" aria-hidden="true"><path d="M1 12 C 6 11, 11 13, 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="doc"><div class="dt">create</div><div class="f">description</div><div class="f">body</div><div class="f">keywords [ ]</div><div class="f">web_sources [ {url} ]</div></div><svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="lane"><svg class="sk-arrow back" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="doc"><div class="dt">result</div><div class="f">article_global_id</div><div class="f">entry_global_id</div></div><svg class="tail" viewBox="0 0 16 24" aria-hidden="true"><path d="M0 12 C 5 13, 10 11, 15 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</div>
+<div class="sk-col svc"><div class="box">2 agent-tome<small>checks the JSON, runs one command in one transaction</small></div><div class="cap scrawl">a CLI, nothing running in between</div></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="sym"><svg width="70" height="84" viewBox="0 0 70 84" aria-hidden="true"><ellipse cx="35" cy="12" rx="30" ry="9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12 C 4 30, 6 52, 5 70 C 5 82, 65 82, 65 70 C 66 52, 64 30, 65 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 31 C 5 43, 65 43, 65 31 M5 50 C 5 62, 65 62, 65 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="cap">3 tome.db<br>SQLite</div></div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">An article grows</div><div class="sk-sub">append-only: nothing is updated or deleted</div></div>
+<div class="sk-row">
+<div class="sk-col">
+<div class="ledger"><div class="lh">article 3xK9mWp</div><div class="ln">entry 1 &middot; create</div><div class="ln">entry 2 &middot; addend</div><div class="ln">entry 3 &middot; addend</div></div>
+<div class="cap">entries pile up over weeks</div>
+</div>
+<div class="sk-col"><div class="cap">consolidate</div><svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="sk-col">
+<div class="ledger new"><div class="lh">article 3xK9mWp</div><div class="ln">one merged entry</div></div>
+<div class="tag blue">new: takes over the id</div>
+<div class="cap scrawl">linked, new &rarr; old</div>
+<div class="ledger old"><div class="lh">article, fresh id</div><div class="ln">entry 1</div><div class="ln">entry 2</div><div class="ln">entry 3</div></div>
+<div class="tag">old: kept as it was</div>
+</div>
+<div class="sk-col"><div class="cap scrawl">the id still works; keywords and sources come along</div></div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">Who decides what a search finds</div><div class="sk-sub">the CLI only parses, Search decides</div></div>
+<div class="sk-row">
+<div class="box svc">Agent<small>search ruby gcs</small></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="box svc">agent-tome CLI<small>reads --match, default any</small></div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="box svc hot">Search<small>decides and ranks</small></div>
+</div>
+<div class="tree" role="group" aria-label="How Search picks articles">
+<div class="box q">Which words does the tome know?<small>lower case, last word singular: gcs &rarr; gc</small></div>
+<div class="branches">
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>none</div>
+<div class="box">no results</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>some</div>
+<div class="box q">--match all?</div>
+<div class="branches">
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>no</div>
+<div class="box">any of them, most matches first</div>
+<div class="tag">default</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>yes</div>
+<div class="box">all of the known ones</div>
+<div class="cap scrawl red">problem: unknown words already dropped</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
