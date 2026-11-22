@@ -38,8 +38,8 @@ Then:
 
 Copy the `<style>` block and the markup patterns from one of the examples and rename the root id:
 
-- [examples/architecture-agent-tome.html](examples/architecture-agent-tome.html): stick figure, data both ways on one link, database, ledgers, a who-decides tree with a red problem.
-- [examples/architecture-fun-ci.html](examples/architecture-fun-ci.html): a frame around parallel steps, data sheets on two arrows, a branching tree of readers, screen symbol, a who-decides tree with three leaves.
+- [examples/architecture-agent-tome.html](examples/architecture-agent-tome.html): stick figure, data both ways on one link, database, ledgers, a nested who-decides tree.
+- [examples/architecture-fun-ci.html](examples/architecture-fun-ci.html): a frame around parallel steps, data sheets on two arrows, a branching tree of readers, screen symbol, a who-decides tree whose red leaf is a problem.
 
 Both carry the same style block, which also holds the classes for phone screens, buttons, new notes and envelopes that neither example uses. Their content is drawn from the two gems' code and is not a source for anything else. [references/construction.md](references/construction.md) has the measurements, the markup for each element, and the narrow-width and encoding rules.
 

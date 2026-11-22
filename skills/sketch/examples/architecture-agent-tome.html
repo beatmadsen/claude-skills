@@ -72,7 +72,7 @@
 #tome-sketch .branches{flex-direction:column;align-items:center}
 }
 </style>
-<p class="vis-sr-only">Hand-drawn architecture sketch of agent-tome, a Ruby gem where an AI agent keeps what it finds out. One call: the agent pipes JSON into the agent-tome command, which checks it, runs one command in one transaction against a SQLite file and prints JSON back; there is no server. How an article grows: create writes the first entry and addend adds more; nothing is ever updated or deleted. Consolidate writes a new article with one merged entry that takes over the old id, so the id still works, while the old article keeps its entries under a fresh id, linked to the new one. Who decides what a search finds: the Search command keeps only the keywords the tome knows, after lower-casing them and making the last word singular, then returns articles with any of them, most matches first, or with --match all the articles that have all of them; because unknown words were dropped first, --match all does not really require every word. Field names are from the code; the example ids and words are illustrative.</p>
+<p class="vis-sr-only">Hand-drawn architecture sketch of agent-tome, a Ruby gem where an AI agent keeps what it finds out. One call: the agent pipes JSON into the agent-tome command, which checks it, runs one command in one transaction against a SQLite file and prints JSON back; there is no server. How an article grows: create writes the first entry and addend adds more; nothing is ever updated or deleted. Consolidate writes a new article with one merged entry that takes over the old id, so the id still works, while the old article keeps its entries under a fresh id, linked to the new one. Who decides what a search finds: the Search command keeps only the keywords the tome knows, after lower-casing them and making the last word singular, then returns articles with any of them, most matches first, or with --match all only articles that have every word asked for, so one word the tome has never seen gives no results. Field names are from the code; the example ids and words are illustrative.</p>
 
 <div class="sk-sec">
 <div class="sk-head"><div class="sk-title">One call</div><div class="sk-sub">JSON in, JSON out, no server</div></div>
@@ -134,8 +134,8 @@
 </div>
 <div class="branch">
 <div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>yes</div>
-<div class="box">all of the known ones</div>
-<div class="cap scrawl red">problem: unknown words already dropped</div>
+<div class="box">every word asked for</div>
+<div class="tag">one unknown word: nothing</div>
 </div>
 </div>
 </div>
