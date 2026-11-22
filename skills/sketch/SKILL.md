@@ -10,7 +10,7 @@ Draw like a colleague explaining something at a desk with pen and paper. The ske
 ## Before drawing
 
 - Draw from the source, not from memory. Service names, field names, budgets, exit codes and outcomes in a sketch are claims: read each one in the code, the design or the document first. In a repository, read the main branch, not a stale working copy.
-- Words you make up, such as screen copy or example ids, are illustrative. Say so in the description and in the text beside the sketch.
+- Words you make up, such as screen copy or example ids, are illustrative. Say so in the description and in the text beside the sketch. Copy quoted from a design is not; cite the design in the text beside the sketch.
 - Choose the sections the question needs from the list below, usually two or three, each with a title and a one-line subtitle.
 
 ## What to draw
@@ -38,10 +38,11 @@ Then:
 
 Copy the `<style>` block and the markup patterns from one of the examples and rename the root id:
 
+- [examples/change-notes-app.html](examples/change-notes-app.html): a change to a user flow, before and after in phone frames, a screen that goes, a new button and a new email, a data sheet with a new field, and a who-decides tree tagged "same as today" and "new". Its app and rules are invented.
 - [examples/architecture-agent-tome.html](examples/architecture-agent-tome.html): stick figure, data both ways on one link, database, ledgers, a nested who-decides tree.
 - [examples/architecture-fun-ci.html](examples/architecture-fun-ci.html): a frame around parallel steps, data sheets on two arrows, a branching tree of readers, screen symbol, a who-decides tree whose red leaf is a problem.
 
-Both carry the same style block, which also holds the classes for phone screens, buttons, new notes and envelopes that neither example uses. Their content is drawn from the two gems' code and is not a source for anything else. [references/construction.md](references/construction.md) has the measurements, the markup for each element, and the narrow-width and encoding rules.
+All three carry the same style block, so copying any one of them gives every class. The two architecture sketches are drawn from the gems' code; no example is a source for anything else. [references/construction.md](references/construction.md) has the measurements, the markup for each element, and the narrow-width and encoding rules.
 
 Start the fragment with one `vis-sr-only` paragraph that describes the whole sketch in plain sentences, including what is illustrative. It is what a screen reader reads, and what shows as text when the file is opened outside the chat.
 
@@ -59,8 +60,10 @@ The script exits 1 when the sketch is wider than the width. Check that nothing o
 
 ## Show it
 
-- Where the host renders HTML fragments inline, as Cursor does through its built-in `visualize` skill, publish the fragment that way; the sketch counts as a mockup there, which is what allows its own palette, font and sizes.
+- In Cursor, publish the fragment inline through the built-in `visualize` skill (`~/.cursor/skills-cursor/visualize/SKILL.md`): its store file, slug and content-reference tag. The sketch is a UI mockup there, so read its `references/mockups.md`, the carveout that allows the sketch's own palette, font and sizes.
 - Elsewhere, show the PNG at 736px as an image, and keep the HTML beside it.
 - Beside the sketch, write "In short" in three or four lines (before, after, who decides, the rule, as the sketch needs), then what is solid and what is not: invented wording, inferred placements, what was checked in code and what comes only from a document, each cited.
 
-A drawing kept for sharing need not fit a chat column. Lay a pipeline or a long flow out in one row, as wide as it needs, rather than wrapping it into a tall drawing: give its root `width:max-content` and no container queries, render it at that width, and show the PNG. To check a very wide image with a fresh reader, hand over slices about 1400px wide; given one image several thousand pixels wide, a reader invents labels.
+To keep a sketch, save its HTML where the project keeps such things. To show a kept sketch in a later Cursor chat, copy it into that chat's store `visualizations/` under a fresh slug and emit its tag, because `visualize` never reuses a path.
+
+A drawing kept for sharing need not fit a chat column. Lay a pipeline or a long flow out in one row, as wide as it needs, rather than wrapping it into a tall drawing: give its root `width:max-content` and no container queries, render it at that width, save the PNG beside the HTML, and show the PNG (in Cursor, as a Markdown image rather than a visualization tag). To check a very wide image with a fresh reader, hand over slices about 1400px wide; given one image several thousand pixels wide, a reader invents labels.

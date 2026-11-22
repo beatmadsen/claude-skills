@@ -26,12 +26,12 @@ One HTML fragment of plain HTML boxes, so text wraps at narrow widths. SVG only 
 |---|---|---|
 | Service, step, question, answer | `box` (`hot` thicker, `q` dashed, `new` blue, `bad` red) | `255px 18px 225px 18px/18px 225px 18px 255px` |
 | Phone: 150px wide, at least 196px tall, a grey notch bar | `phone` (`gone` red) | `20px 14px 22px 12px/14px 22px 12px 20px` |
-| Button: `solid` is an ink fill with paper text | `btn` | `255px 15px 225px 15px/15px 225px 15px 255px` |
+| Button: `solid` is an ink fill with paper text | `btn` (`new` blue) | `255px 15px 225px 15px/15px 225px 15px 255px` |
 | New note on a screen, 2px dashed blue | `note` | `12px 18px 10px 16px/16px 10px 18px 12px` |
 | Frame around steps that run together | `frame` | `14px 24px 12px 22px/22px 12px 24px 14px` |
 | Ledger: double left border for the spine, ruled rows | `ledger` (`new` blue, `old` grey text) | `4px 14px 6px 12px/12px 6px 14px 4px` |
 
-Scrawled notes (`scrawl`) are rotated -4 degrees.
+Scrawled notes (`scrawl`) are rotated -4 degrees. The colour classes `red` and `blue` come last in the style block, so they win over the grey of `tag` and `sk-sub`.
 
 ## Arrows
 

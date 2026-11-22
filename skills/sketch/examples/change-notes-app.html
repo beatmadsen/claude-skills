@@ -1,0 +1,152 @@
+<div id="notes-sketch">
+<style>
+#notes-sketch{container-type:inline-size;color-scheme:light dark;--paper:light-dark(#fbf7ee,#262521);--ink:light-dark(#2a2a2a,#ece7db);--soft:light-dark(#5f5f5f,#b3ada2);--red:light-dark(#b8322a,#ff8a7c);--blue:light-dark(#1d5bb8,#8cb8ff);font-family:"Bradley Hand","Marker Felt","Segoe Print","Comic Sans MS",cursive;color:var(--ink);background:var(--paper);padding:20px;border-radius:6px;display:flex;flex-direction:column;gap:30px}
+#notes-sketch .vis-sr-only{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.5;color:var(--ink)}
+#notes-sketch .sk-head{display:flex;flex-direction:column;gap:2px}
+#notes-sketch .sk-title{font-size:21px;line-height:1.2}
+#notes-sketch .sk-sub{font-size:15px;color:var(--soft)}
+#notes-sketch .sk-sec{display:flex;flex-direction:column;gap:12px}
+#notes-sketch .sk-row{display:flex;align-items:center;gap:4px}
+#notes-sketch .sk-arrow{flex:0 0 42px;width:42px;height:24px;color:var(--ink)}
+#notes-sketch .sk-arrow.back{transform:scaleX(-1)}
+#notes-sketch .sk-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+#notes-sketch .cap{font-size:15px;text-align:center;max-width:160px;line-height:1.2}
+#notes-sketch .scrawl{font-size:16px;transform:rotate(-4deg);text-align:center;line-height:1.15}
+#notes-sketch .box{border:2px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;padding:8px 12px;text-align:center;font-size:15px;line-height:1.2;background:var(--paper);box-sizing:border-box}
+#notes-sketch .box small{display:block;font-size:13px;color:var(--soft)}
+#notes-sketch .box.hot{border-width:3px}
+#notes-sketch .box.q{border-style:dashed}
+#notes-sketch .box.new{border-color:var(--blue);color:var(--blue)}
+#notes-sketch .box.bad{border-color:var(--red);color:var(--red)}
+#notes-sketch .svc{flex:1 1 0;min-width:0}
+#notes-sketch .sym{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px}
+#notes-sketch .sym svg{display:block;color:var(--ink)}
+#notes-sketch .pipe{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+#notes-sketch .lane{display:flex;align-items:center}
+#notes-sketch .lane .sk-arrow{flex:none}
+#notes-sketch .tail{flex:none;width:16px;height:24px;color:var(--ink)}
+#notes-sketch .doc{position:relative;flex:none;font-size:12px;line-height:1.2;padding:4px 18px 5px 8px;border:1.5px solid var(--ink);border-radius:3px 2px 4px 3px;background:var(--paper);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);text-align:left;white-space:nowrap}
+#notes-sketch .doc::after{content:"";position:absolute;top:-1.5px;right:-1.5px;width:13.5px;height:13.5px;box-sizing:border-box;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);border-bottom-left-radius:2px;background:linear-gradient(to bottom left,transparent calc(50% - 1px),var(--ink) calc(50% - 1px),var(--ink) calc(50% + 0.5px),var(--paper) calc(50% + 0.5px))}
+#notes-sketch .doc .dt{font-size:13px;border-bottom:1px solid var(--soft);margin:0 -18px 3px -8px;padding:0 18px 2px 8px}
+#notes-sketch .doc .f{padding-left:2px}
+#notes-sketch .doc .f.new{color:var(--blue)}
+#notes-sketch .frame{border:2px solid var(--ink);border-radius:14px 24px 12px 22px/22px 12px 24px 14px;padding:10px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1 1 0;min-width:0}
+#notes-sketch .frame-h{font-size:15px}
+#notes-sketch .stack{display:flex;flex-direction:column;gap:6px;flex:1 1 0;min-width:0}
+#notes-sketch .ledger{width:170px;box-sizing:border-box;border:2px solid var(--ink);border-left:6px double var(--ink);border-radius:4px 14px 6px 12px/12px 6px 14px 4px;background:var(--paper);display:flex;flex-direction:column}
+#notes-sketch .ledger .lh{font-size:15px;padding:5px 8px;border-bottom:2px solid currentColor}
+#notes-sketch .ledger .ln{font-size:14px;padding:4px 8px;border-bottom:1px dashed var(--soft)}
+#notes-sketch .ledger .ln:last-child{border-bottom:none}
+#notes-sketch .ledger.new{border-color:var(--blue);color:var(--blue)}
+#notes-sketch .ledger.old{color:var(--soft)}
+#notes-sketch .phone{width:150px;min-height:196px;box-sizing:border-box;border:2px solid var(--ink);border-radius:20px 14px 22px 12px/14px 22px 12px 20px;padding:20px 10px 12px;display:flex;flex-direction:column;gap:8px;position:relative;background:var(--paper)}
+#notes-sketch .phone::before{content:"";position:absolute;top:8px;left:50%;width:34px;height:3px;margin-left:-17px;border-radius:2px;background:var(--soft)}
+#notes-sketch .phone.gone{border-color:var(--red)}
+#notes-sketch .scr-h{font-size:16px;text-align:center;line-height:1.2}
+#notes-sketch .scr-t{font-size:14px;line-height:1.25;color:var(--soft);text-align:center}
+#notes-sketch .btn{border:2px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:3px 8px;text-align:center;font-size:14px}
+#notes-sketch .btn.solid{background:var(--ink);color:var(--paper)}
+#notes-sketch .btn.new{border-color:var(--blue);color:var(--blue)}
+#notes-sketch .spacer{flex:1}
+#notes-sketch .note{border:2px dashed var(--blue);color:var(--blue);border-radius:12px 18px 10px 16px/16px 10px 18px 12px;padding:6px;font-size:14px;line-height:1.25;text-align:center}
+#notes-sketch .env{width:120px;height:80px;box-sizing:border-box;border:2px solid var(--ink);border-radius:6px 10px 5px 9px;position:relative;background:var(--paper)}
+#notes-sketch .env svg{position:absolute;inset:0;width:100%;height:100%}
+#notes-sketch .env.new{border-color:var(--blue);color:var(--blue)}
+#notes-sketch .tree{display:flex;flex-direction:column;align-items:center;gap:4px}
+#notes-sketch .branches{display:flex;justify-content:center;gap:18px;width:100%}
+#notes-sketch .branch{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1 1 0;min-width:0}
+#notes-sketch .edge{display:flex;align-items:center;gap:4px;font-size:15px}
+#notes-sketch .down{width:24px;height:30px;color:var(--ink)}
+#notes-sketch .tag{font-size:14px;color:var(--soft);text-align:center}
+#notes-sketch .red{color:var(--red)}
+#notes-sketch .blue{color:var(--blue)}
+@container (max-width:600px){
+#notes-sketch .sk-row{flex-direction:column}
+#notes-sketch .sk-arrow{transform:rotate(90deg);margin:9px 0}
+#notes-sketch .sk-arrow.back{transform:rotate(-90deg)}
+#notes-sketch .svc,#notes-sketch .frame,#notes-sketch .stack{width:100%;flex:none}
+#notes-sketch .lane{flex-direction:column}
+#notes-sketch .tail{transform:rotate(90deg);margin:-4px 0}
+#notes-sketch .pipe{flex-direction:row;align-items:flex-start}
+}
+@container (max-width:420px){
+#notes-sketch .branches{flex-direction:column;align-items:center}
+}
+</style>
+<p class="vis-sr-only">Hand-drawn sketch of a change to sharing a note, in an invented notes app; the app, its screens, its copy and its rules are all made up to show the sketch style. Today: from the note, the user taps Share, a confirmation screen asks whether they are sure, and many cancel there; then the note is shared. After the change: the confirmation screen goes, the note is shared at once with an Undo button on the screen, and the person it was shared with gets an email. Who decides: the app sends a share request, which now carries an undo deadline, to the share service, which decides. If the person is already on the note, nothing is sent, as today. If not, an undo within the deadline withdraws the share and sends nothing, and otherwise the person gets the email; both of those are new.</p>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">Sharing a note today</div><div class="sk-sub">an invented notes app</div></div>
+<div class="sk-row">
+<div class="sk-col">
+<div class="phone"><div class="scr-h">Shopping list</div><div class="scr-t">milk, eggs, coffee</div><div class="spacer"></div><div class="btn solid">Share with Sam</div></div>
+<div class="cap">1 note</div>
+</div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="sk-col">
+<div class="phone gone"><div class="scr-h">Are you sure?</div><div class="scr-t">Sam will be able to edit this note.</div><div class="spacer"></div><div class="btn solid">Share</div><div class="btn">Cancel</div></div>
+<div class="cap red scrawl">confirm: many cancel here</div>
+</div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="sk-col">
+<div class="phone"><div class="scr-h">Shared</div><div class="scr-t">Sam can edit</div><div class="spacer"></div><div class="btn">Done</div></div>
+<div class="cap">3 shared</div>
+</div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">After the change</div><div class="sk-sub blue">no confirm, undo instead</div></div>
+<div class="sk-row">
+<div class="sk-col">
+<div class="phone"><div class="scr-h">Shopping list</div><div class="scr-t">milk, eggs, coffee</div><div class="spacer"></div><div class="btn solid">Share with Sam</div></div>
+<div class="cap">1 note</div>
+</div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="sk-col">
+<div class="phone"><div class="scr-h">Shared</div><div class="scr-t">Sam can edit</div><div class="btn new">Undo</div><div class="spacer"></div><div class="btn">Done</div></div>
+<div class="cap">2 shared <span class="blue">+ undo</span></div>
+</div>
+<svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="sk-col">
+<div class="env new"><svg viewBox="0 0 120 80" aria-hidden="true"><path d="M4 6 L60 46 L116 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+<div class="cap blue">3 new: email to Sam</div>
+</div>
+</div>
+</div>
+
+<div class="sk-sec">
+<div class="sk-head"><div class="sk-title">Who decides</div><div class="sk-sub">the app asks, the share service decides</div></div>
+<div class="sk-row">
+<div class="box svc">Notes app<small>user taps Share</small></div>
+<div class="pipe"><div class="lane"><svg class="tail" viewBox="0 0 16 24" aria-hidden="true"><path d="M1 12 C 6 11, 11 13, 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="doc"><div class="dt">share request</div><div class="f">note_id</div><div class="f">recipient</div><div class="f new">undo_until &middot; new</div></div><svg class="sk-arrow" viewBox="0 0 42 24" aria-hidden="true"><path d="M3 13 C 13 9, 24 15, 36 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6 L37 12 L29 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div class="box svc hot">share service<small>decides, sends the email</small></div>
+</div>
+<div class="tree" role="group" aria-label="What the share service does">
+<div class="box q">Is Sam already on the note?</div>
+<div class="branches">
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>yes</div>
+<div class="box">nothing to send</div>
+<div class="tag">same as today</div>
+</div>
+<div class="branch">
+<div class="edge"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>no</div>
+<div class="box q">Undo before undo_until?</div>
+<div class="branches">
+<div class="branch">
+<div class="edge blue"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>yes</div>
+<div class="box new">withdraw, no email</div>
+<div class="tag blue">new</div>
+</div>
+<div class="branch">
+<div class="edge blue"><svg class="down" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2 C 10 10, 14 18, 12 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 20 L12 27 L18 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>no</div>
+<div class="box new">email Sam</div>
+<div class="tag blue">new</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
