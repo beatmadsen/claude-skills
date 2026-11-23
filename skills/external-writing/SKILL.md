@@ -216,6 +216,12 @@ was never given, and can barely be decoded by an initiated one.
   note that," "it's worth noting that," "needless to say." These imply the
   unflagged sentences are less important, and the reader can't tell if that's true.
   State the thing directly; let its placement and content carry the weight.
+- **Write as the person, not as the tool.** Prose written on the user's behalf
+  speaks in their voice, so it never mentions the agent's own limits: no access,
+  an expired session, a tool that failed. The reader's immediate question is why
+  the user didn't just check. Close the gap before the text goes out (run the
+  check, or ask the user to sign in so it can run), or leave the claim out. Name
+  something as unverified only when the user could not have verified it either.
 - **Don't hedge uniformly.** Match certainty to the actual strength of the evidence;
   don't present "on one hand / on the other" balance when it points one way.
 - **Avoid corporate flatness:** the neutral, emotionally detached documentation
