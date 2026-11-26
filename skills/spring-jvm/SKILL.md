@@ -141,6 +141,46 @@ invent a rule; ask, or follow what the codebase already does.
   objects. When another suite needs setup that lives in a base class, move it out into one
   of those rather than extending the class.
 
+### Tests that start the whole application
+
+- Never bind fixed ports. Use `@SpringBootTest(webEnvironment = RANDOM_PORT)` and set any
+  other server to port 0, such as `spring.grpc.server.port`. With a random server port, a
+  `management.server.port` that follows `server.port` gives actuator a server of its own;
+  list that as a deviation from production.
+- `@SpringBootTest` scans the application's packages, and that includes `@Component`,
+  `@Configuration` and `@GrpcService` classes compiled from other tests' sources. When a
+  suite must run production's beans, exclude them with `@TypeExcludeFilters`, judged by
+  where the class file lives rather than by a package list, so future test helpers cannot
+  slip in. Measure what a test context contains rather than assuming it.
+- A test profile overrides production values (consumer groups, feature lists, defaults)
+  for every suite that uses it. Prefer activating a real production profile, such as a
+  region, over copying its values; read what each active profile changes, and list what
+  remains different.
+- `@ConditionalOnProperty` is evaluated before `DynamicPropertyRegistrar` beans run. A
+  property a condition checks must exist before the context refreshes; if a registrar
+  supplies its value, give the placeholder an empty default and say why next to it.
+- Errors at shutdown are a resource-ownership defect. Spring closes cached test contexts
+  from a JVM shutdown hook, the JVM runs all hooks concurrently, and libraries register
+  hooks of their own that clean up the same resources. Find every owner and leave exactly
+  one, rather than `@DirtiesContext`, which hides the race at the cost of a context per
+  test class.
+
+### Test clients for real infrastructure
+
+- Set up producers, consumers and admin clients in a test configuration, built with the
+  framework's test utilities (`KafkaTestUtils.producerProps` and `consumerProps`, a
+  `KafkaTemplate` with a default topic and a producer interceptor for headers,
+  `ContainerTestUtils`), not hand-built in drivers.
+- Type test beans narrowly: a `KafkaTemplate<String, SubscriptionUserEvent>` cannot
+  satisfy a production injection point typed `KafkaTemplate<String, MessageLite>`.
+- Look test beans up by type, with `getBeanProvider` and generics, not by name strings. A
+  name is a link no compiler checks.
+- With `auto.offset.reset=latest`, spring-kafka records a listener's partition assignment
+  before it commits the starting position, so `ContainerTestUtils.waitForAssignment` alone
+  can return before an event is safe to send. Wait until the listener's group has a
+  committed offset on every assigned partition, and treat a commit past an input as done
+  with it, whether it was processed or handed to error handling.
+
 ## Observability
 
 - Greenfield: OpenTelemetry, using the canonical integrations rather than hand-rolled
