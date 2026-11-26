@@ -136,6 +136,10 @@ invent a rule; ask, or follow what the codebase already does.
 - When Spring is genuinely needed, use slices (`@WebMvcTest`, `@DataJpaTest`) rather than
   `@SpringBootTest`.
 - Testcontainers over H2 and other embedded stand-ins for database tests.
+- Share JUnit test setup by composition, not test base classes: extensions (`@ExtendWith`,
+  a `ParameterResolver`), composed meta-annotations, test configurations and plain shared
+  objects. When another suite needs setup that lives in a base class, move it out into one
+  of those rather than extending the class.
 
 ## Observability
 
