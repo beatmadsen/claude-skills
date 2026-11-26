@@ -65,6 +65,9 @@ A green test proves the decisions matched. It says nothing about whether the inp
 - That the input is actually loaded: remove it and watch something go red. If nothing changes, nothing was reading it.
 - That it is the right one, identified by a value that could not match by coincidence.
 
+### Deliberate breaks stay out of the working tree
+To see a test fail for the right reason you sometimes break production code on purpose: a mutation, a removed branch, a wrong value. Make that break in a throwaway git worktree (`git worktree add --detach <dir> HEAD`, then `git worktree remove --force <dir>`), never in your working tree. A cancelled, killed or timed-out command skips any cleanup trap and leaves the break in code you are about to commit. Commit the code under test first, so the worktree contains it.
+
 ## Step 3: Write the test
 
 After determining the level and reviewing the rules above, read the appropriate skill:
