@@ -96,6 +96,9 @@ file are that method.
 - A choice that follows from a decision already made, and that is
   reversible or backed up, is not a question. Act and report it. Ask only
   where the human's own taste or a new direction decides the outcome.
+- Tell a settled question from a judgment call. A rule or a principle I have
+  stated settles it: apply it. Where none does, decide, and say in your
+  summary that it was a judgment call, so I can overrule it.
 
 ## Execution
 
