@@ -38,8 +38,6 @@ These recur inside mandatory rules.
 - **baseline problem**: a defect in the measuring apparatus itself, such as
   a red signal, a gate that does not check what it claims, or a lane nobody
   runs. It invalidates everything measured on top of it.
-- **work in flight**: the task you are on now, as opposed to discoveries
-  made along the way.
 
 ## Git workflow
 
@@ -56,19 +54,10 @@ say which it is. The skills' cores hold even where they are not loaded:
 - Team (`git-team-workflow`): one branch and one pull request per piece of work.
   Never create another branch or pull request for part of it unless I ask.
 
-In every repository, commit early and often at stable states. The commit
-message says what changed and why. In a repository other people work in, it
-(and the PR description, when there is one) is the only record they see, so
-reasoning a reviewer or later maintainer needs goes there, never only into an
-intent record.
-
-After a commit, record an intent with the `intent-record` skill only when the
-commit carries something its message does not: an alternative you rejected and
-why, something deliberately left undone that a reader would otherwise "fix", an
-assumption you made without asking, an instruction for whoever works here next,
-or references worth linking in structured form. Bookkeeping and mechanical
-commits get none. Confirm the commit landed (`git log -1` shows it) before
-recording.
+In every repository, commit early and often at stable states, and invoke the
+`committing` skill before each commit: it holds what the message must say, when
+a commit also needs an `intent-record`, and what to check after a squash or
+rebase.
 
 ## Authority and autonomy
 
@@ -142,7 +131,7 @@ recording.
   risk.
 - The order is: any baseline problem first (a red signal, or a gate that
   does not check what it claims), because a lying baseline invalidates
-  everything measured on top of it; then the work in flight; then boy-scout
+  everything measured on top of it; then the task you are on; then boy-scout
   fixes you hit on the way.
 - A newly found baseline problem preempts current work. Every other
   discovery queues.

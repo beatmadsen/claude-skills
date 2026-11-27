@@ -22,6 +22,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [atdd-mob](skills/atdd-mob/) | Mob programming team with testing coaches and a craftsman communicating via agent-chat |
 | [coding-standards](skills/coding-standards/) | Hard limits on file, class, and method size plus design rules for any code written or reviewed |
 | [contract-test](skills/contract-test/) | Design contract tests between services or components |
+| [committing](skills/committing/) | How each commit is made in any repository: when, what the message says, when it needs an intent record, what to check after a rebase |
 | [defect-fix](skills/defect-fix/) | Reproduce a failure, find its real mechanism, pin it in a failing test, then fix it |
 | [delegated-judgment](skills/delegated-judgment/) | When you hand a decision back in the session: decide, act, write the rule text, flag it for veto |
 | [document-hygiene](skills/document-hygiene/) | Keep rulebooks and working documents single-purpose, durable and consolidated |

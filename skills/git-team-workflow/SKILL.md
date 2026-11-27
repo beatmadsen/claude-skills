@@ -12,15 +12,13 @@ In a team repository, the pull request is how a change gets reviewed and the rec
 
 - Each piece of work (usually one ticket) gets one branch, cut from the up-to-date default branch, and one pull request.
 - Never create another branch or pull request for part of that work, such as a refactoring it needs or a follow-up step, unless the user asks. Refactoring the work needs belongs in the same pull request, in its own commit.
-- Commit at stable states on the branch, as in any repository.
-- Before adding commits to a branch, read `git log <base>..HEAD` and report any commit you did not make.
+- Commit at stable states on the branch, as in any repository. The `committing` skill says how each commit is made.
 
 ## Commits a reviewer can read
 
 - For a behaviour change, put the refactoring that prepares it in its own commit, which changes no behaviour, ahead of the commit that changes behaviour. A reviewer can then read the restructuring and the intended change apart. The `preparatory-refactoring` skill says how to find that refactoring and when to stop.
 - The refactoring commit's message names, for each refactoring, the friction it removes for the coming change. The behaviour commit's message describes the change and its rules as the code now has them.
 - Working commits made along the way are folded into those commits before review. When folding, write the combined message afresh from the final code; do not concatenate the old messages.
-- After a squash or rebase, compare the result's tree with the commit that last passed the full build (`git diff --quiet <verified> HEAD`): an identical tree carries the verification over, and a different one needs a new run.
 
 ## During review
 
