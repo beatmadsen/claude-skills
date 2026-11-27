@@ -17,4 +17,5 @@ The user works alone in these repositories, so nobody else's work can conflict w
 ## History
 
 - Commits that have not been pushed may be amended, squashed or reordered freely to make the history read well.
+- After a squash or rebase, compare the result's tree with the commit that last passed the full build (`git diff --quiet <verified> HEAD`): an identical tree carries the verification over, and a different one needs a new run.
 - Never force-push the default branch once it has been pushed. Undo a pushed commit with `git revert`.

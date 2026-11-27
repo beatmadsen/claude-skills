@@ -11,7 +11,7 @@ You are recording *why* a change was made, so that a later agent or person readi
 ## When to trigger
 
 - Before editing a file or a region you do not know the history of, read its intents. The read hook below shows them after you read the file; where it is not installed, or Cursor has shown only part of a long history, `blame` by hand as described below. This is what the records are for.
-- Right after a commit that carries something its message does not, before starting the next piece of work:
+- Right after a commit that carries something its message does not, before starting the next piece of work, and after confirming the commit landed (`git log -1` shows it): a pre-commit gate can refuse the commit, and HEAD then still names the previous one:
   - an alternative considered and rejected, with the reason;
   - something deliberately left undone that a reader would otherwise "fix";
   - an assumption made without asking;

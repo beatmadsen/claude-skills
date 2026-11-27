@@ -23,6 +23,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [coding-standards](skills/coding-standards/) | Hard limits on file, class, and method size plus design rules for any code written or reviewed |
 | [contract-test](skills/contract-test/) | Design contract tests between services or components |
 | [defect-fix](skills/defect-fix/) | Reproduce a failure, find its real mechanism, pin it in a failing test, then fix it |
+| [delegated-judgment](skills/delegated-judgment/) | When you hand a decision back in the session: decide, act, write the rule text, flag it for veto |
 | [document-hygiene](skills/document-hygiene/) | Keep rulebooks and working documents single-purpose, durable and consolidated |
 | [external-writing](skills/external-writing/) | Guardrails for external-facing prose: punctuation rules and AI tells to avoid |
 | [flaky-test-fix](skills/flaky-test-fix/) | Diagnose and fix intermittently failing tests |
@@ -46,6 +47,7 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [review-test-quality](skills/review-test-quality/) | Review the quality of tests in a git diff and suggest improvements |
 | [sketch](skills/sketch/) | Explain a feature, flow, architecture or change with a hand-drawn sketch: boxes, arrows, simple symbols, phone screens and the data passed between steps |
 | [spring-jvm](skills/spring-jvm/) | Preferences and lessons for Spring on the JVM, from injection and configuration to testing |
+| [stop-time](skills/stop-time/) | Treat a stated stop time as gating new work, not finishing work already started |
 | [tdd-green](skills/tdd-green/) | Write minimal code to make a failing test pass (TDD GREEN phase) |
 | [tdd-red](skills/tdd-red/) | Write a failing test for the next behavior (TDD RED phase) |
 | [tdd-refactor](skills/tdd-refactor/) | Improve design while keeping tests green (TDD REFACTOR phase) |

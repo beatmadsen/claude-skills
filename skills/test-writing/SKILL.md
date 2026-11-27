@@ -60,6 +60,9 @@ If unsure, read the `test-strategy` skill for a full analysis.
 - Pattern: `should [expected outcome] when [condition]`
 - Name the rule, not the example
 
+### A passing test can measure nothing
+A test that hardcodes its input, or asserts on a value it computed the same way the production code does, is green and worthless. Assert on an expected value worked out independently of the code under test, and see every new test fail first, for the right reason: a test written after the code is a test you have never seen bite.
+
 ### New inputs are proven, not assumed
 A green test proves the decisions matched. It says nothing about whether the input it consumed was the right one, and a wrong value that flips no assertion is invisible to every check you own. When you add or change an input a test reads (a fixture, a migration, a config property), the green is worth nothing until you have separately shown two things:
 - That the input is actually loaded: remove it and watch something go red. If nothing changes, nothing was reading it.
