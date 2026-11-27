@@ -194,6 +194,8 @@ year's framework version is the cheap illustration of why.
   than arguing.
 - An inference or elimination argument is a hypothesis. Build the direct
   measurement.
+- Feeling sure is not evidence. Read the code or source in this turn before
+  saying what it does, what it says, or why it fails.
 - Verify that the input or configuration value you changed actually
   reaches the code path under test.
 - Fix the measurement before trusting the number. A test that never ran,
