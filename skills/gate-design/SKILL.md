@@ -39,4 +39,4 @@ Running a lane nobody runs is always right, and if it ought to run, wire it into
 ## Guardrails
 
 - Never weaken a gate to get a green: no added `|| true`, no widened matcher, no excluded lane, no lowered threshold, no raised time budget.
-- A gate that does not check what it claims is a baseline problem and preempts the work in flight.
+- A gate that does not check what it claims is a baseline problem and preempts the task you are on.
