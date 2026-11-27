@@ -12,6 +12,14 @@ Subagents you can delegate focused work to. Each is a single Markdown file with 
 | [testing-coach](agents/testing-coach.md) | Writing and reviewing tests and driving TDD/BDD/ATDD, backed by the testing skills below |
 | [ux-advocate](agents/ux-advocate.md) | Evaluating and improving the user experience of what you build |
 
+## Hooks
+
+Scripts wired in through `~/.claude/settings.json`, with tests beside them (`python3 -m unittest hooks/test_*.py`).
+
+| Hook | Description |
+|------|-------------|
+| [no-chained-delete](hooks/no-chained-delete.py) | `PreToolUse` on Bash: block one command that both inspects something and deletes it, so the output is read before the delete |
+
 ## Skills
 
 | Skill | Description |
